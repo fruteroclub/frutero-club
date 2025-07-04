@@ -79,10 +79,11 @@ export default function Footer({
               >
                 <span className="sr-only">{item.name}</span>
                 <item.icon
-                  className={`${item.name === 'Telegram'
-                    ? '-mr-1 mb-0.5 h-7 w-7'
-                    : 'h-6 w-6'
-                    } text-foreground hover:text-primary`}
+                  className={`${
+                    item.name === 'Telegram'
+                      ? '-mr-1 mb-0.5 h-7 w-7'
+                      : 'h-6 w-6'
+                  } text-foreground hover:text-primary`}
                   aria-hidden="true"
                 />
               </a>
@@ -90,7 +91,7 @@ export default function Footer({
           ))}
         </div>
         {!isHomePage && (
-          <div className="md:min-w-1/3 flex items-center justify-center gap-x-3 md:order-1">
+          <div className="flex items-center justify-center gap-x-3 md:order-1 md:min-w-1/3">
             <div className="flex items-center gap-x-1">
               <Image
                 src="/images/logos/kukulcan-logo-color.png"
@@ -102,11 +103,11 @@ export default function Footer({
             </div>
             <div className="flex items-center gap-x-1">
               <Image
-                src="/images/logos/frutero-club-logo.png"
-                alt="Frutero Club logo"
+                src="/images/logos/frutero-logo.svg"
+                alt="Frutero logo"
                 width={512}
                 height={512}
-                className="w-24 transition duration-300 ease-in-out hover:scale-90"
+                className="w-28 transition duration-300 ease-in-out hover:scale-90"
               />
             </div>
 

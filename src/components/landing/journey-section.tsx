@@ -5,31 +5,31 @@ const phases = [
     phase: 'Fase 1',
     title: 'Sembrando semillas',
     duration: '2 - 3 Meses',
-    mascot: '/images/mascots/journey-leaf.svg',
+    mascot: '/images/fruits/avocado.svg',
   },
   {
     phase: 'Fase 2',
     title: 'Cultivando',
     duration: '3 - 6 Meses',
-    mascot: '/images/mascots/journey-cherry.svg',
+    mascot: '/images/fruits/cherries.svg',
   },
   {
     phase: 'Fase 3',
     title: 'Incubando',
     duration: '6 - 12 Meses',
-    mascot: '/images/mascots/journey-banana.svg',
+    mascot: '/images/fruits/platano.svg',
   },
   {
     phase: 'Fase 4',
     title: 'Floreciendo',
     duration: 'Ongoing',
-    mascot: '/images/mascots/journey-apple.svg',
+    mascot: '/images/fruits/manzana.svg',
   },
 ]
 
 export default function JourneyPage() {
   return (
-    <section className="w-full bg-white py-32">
+    <section className="w-full py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
@@ -43,7 +43,7 @@ export default function JourneyPage() {
 
         <div className="relative mx-auto mt-20 max-w-2xl">
           {/* Línea vertical */}
-          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gray-200" />
+          <div className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-gray-200" />
 
           {/* Fases */}
           <div className="space-y-16">
@@ -53,7 +53,7 @@ export default function JourneyPage() {
                 className="relative flex items-center gap-8 md:gap-12"
               >
                 {/* Línea y punto */}
-                <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+                <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
                   <div className="h-4 w-4 rounded-full bg-primary" />
                 </div>
 

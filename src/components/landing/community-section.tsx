@@ -1,0 +1,119 @@
+export default function CommunitySection() {
+  const benefits = [
+    {
+      title: 'Networking Exclusivo',
+      description:
+        'Conecta con founders, inversionistas y expertos de la industria',
+      icon: '🤝',
+      color: 'green',
+    },
+    {
+      title: 'Mentorías Personalizadas',
+      description:
+        'Recibe guidance de fundadores exitosos que ya pasaron por tu proceso',
+      icon: '🧭',
+      color: 'orange',
+    },
+    {
+      title: 'Recursos Premium',
+      description:
+        'Acceso a herramientas, templates y recursos exclusivos para startups',
+      icon: '🛠️',
+      color: 'pink',
+    },
+    {
+      title: 'Eventos Privados',
+      description:
+        'Participa en eventos exclusivos, pitch sessions y demo days',
+      icon: '🎪',
+      color: 'green',
+    },
+    {
+      title: 'Funding Opportunities',
+      description:
+        'Acceso directo a inversionistas y oportunidades de financiamiento',
+      icon: '💰',
+      color: 'orange',
+    },
+    {
+      title: 'Community Support',
+      description:
+        'Una comunidad activa que te apoya en cada paso de tu journey',
+      icon: '💚',
+      color: 'pink',
+    },
+  ]
+
+  return (
+    <section className="bg-gradient-to-br from-frutero-light to-frutero-green/10 py-20">
+      <div className="container mx-auto px-4">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+            ¿Qué hace especial a{' '}
+            <span className="text-frutero-orange">Frutero Club</span>?
+          </h2>
+          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+            Más que una comunidad, somos un ecosistema completo para tu
+            crecimiento
+          </p>
+        </div>
+
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {benefits.map((benefit, index) => (
+            <div
+              key={index}
+              className="rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <div
+                className={`mb-6 flex h-16 w-16 items-center justify-center rounded-full ${
+                  benefit.color === 'green'
+                    ? 'bg-frutero-green/20'
+                    : benefit.color === 'orange'
+                      ? 'bg-frutero-orange/20'
+                      : 'bg-frutero-pink/20'
+                }`}
+              >
+                <span className="text-2xl">{benefit.icon}</span>
+              </div>
+
+              <h3 className="mb-3 text-xl font-bold text-frutero-dark">
+                {benefit.title}
+              </h3>
+
+              <p className="leading-relaxed text-frutero-dark/70">
+                {benefit.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Testimonio */}
+        <div className="mt-20 text-center">
+          <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-lg md:p-12">
+            <div className="mb-6 flex justify-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-frutero-orange">
+                <span className="text-2xl">🥑</span>
+              </div>
+            </div>
+
+            <blockquote className="mb-6 text-xl text-frutero-dark italic md:text-2xl">
+              &quot;Frutero Club no solo me conectó con los recursos que
+              necesitaba, sino que me dio la comunidad y mentoría que transformó
+              mi idea en una startup exitosa&quot;
+            </blockquote>
+
+            <div className="flex items-center justify-center space-x-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-frutero-green">
+                <span className="text-sm font-bold text-white">JP</span>
+              </div>
+              <div className="text-left">
+                <p className="font-bold text-frutero-dark">Juan Pérez</p>
+                <p className="text-frutero-dark/70">CEO @ TechStartup</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
