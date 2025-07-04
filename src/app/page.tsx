@@ -1,31 +1,30 @@
-import AuthButton from '@/components/buttons/auth-button-dummy'
 import PageWrapper from '@/components/layout/page-wrapper'
+import HeroSection from '@/components/sections/hero-section'
+import StatsSection from '@/components/sections/stats-section'
+import JourneySection from '@/components/sections/journey-section'
+import TestimonialsSection from '@/components/sections/testimonials-section'
+import NetworkSection from '@/components/sections/network-section'
+import BenefitsSection from '@/components/sections/benefits-section'
+import EventsSection from '@/components/sections/events-section'
+import PulpaSection from '@/components/sections/pulpa-section'
+import ApplicationSection from '@/components/sections/application-section'
+import FAQSection from '@/components/sections/faq-section'
+import FooterSection from '@/components/sections/footer-section'
 
 export default function Home() {
   return (
     <PageWrapper>
-      <div className="page container space-y-16 text-center md:pt-24 xl:pt-20">
-        <h1>
-          somos la comunidad
-          <br />
-          para{' '}
-          <span className="underline decoration-primary underline-offset-8">
-            hackers
-          </span>
-        </h1>
-        <div className="flex-col px-12 text-left md:max-w-lg">
-          <p className="font-ledger text-4xl">hackear:</p>
-          <p className="text-base">
-            Del inglés <span className="mr-0.5 italic">to hack</span> y -ear.
-          </p>
-          <p className="mt-2 font-serif text-2xl">
-            rechazar las limitaciones impuestas y crear nuestras propias reglas
-          </p>
-        </div>
-        <AuthButton size="lg" className="font-grotesk">
-          unirme al club
-        </AuthButton>
-      </div>
+      <HeroSection />
+      <StatsSection />
+      <JourneySection />
+      <TestimonialsSection />
+      <NetworkSection />
+      <BenefitsSection />
+      <EventsSection />
+      <PulpaSection />
+      <ApplicationSection />
+      <FAQSection />
+      <FooterSection />
     </PageWrapper>
   )
 }
