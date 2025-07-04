@@ -140,7 +140,7 @@
   }
 
   button {
-    @apply rounded-lg;
+    @apply rounded-full;
   }
 
   .page {

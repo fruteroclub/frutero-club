@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 
 import MobileMenu from './mobile-menu'
 import AuthButton from '../buttons/auth-button-dummy'
+import { SparkleIcon } from 'lucide-react'
 
 export type MenuItemType = {
   displayText: string
@@ -41,7 +42,7 @@ export default function Navbar() {
             alt="Frutero logo"
             width={128}
             height={128}
-            className="w-full transition duration-300 ease-in-out hover:scale-90"
+            className="w-full transition duration-300 ease-in-out hover:scale-105"
           />
           <span className="sr-only">Frutero Club</span>
         </Link>
@@ -65,7 +66,9 @@ export default function Navbar() {
           </nav>
         </div>
         <div className="hidden lg:flex lg:justify-end">
-          <AuthButton />
+          <AuthButton className="transition duration-300 ease-in-out hover:scale-105">
+            <SparkleIcon className="mr-2 -ml-2 h-4 w-4" /> Únete
+          </AuthButton>
         </div>
         <MobileMenu menuItems={MENU_ITEMS} pathname={pathname} />
       </div>
