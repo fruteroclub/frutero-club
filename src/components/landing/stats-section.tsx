@@ -1,11 +1,13 @@
 import { JSX, SVGProps } from 'react'
 import StatCard from '@/components/stats/stat-card'
 import { CoinsIcon, GlobeIcon, HandshakeIcon, RocketIcon, TestTubeDiagonalIcon, TrophyIcon } from 'lucide-react'
+import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
 
 export default function StatsSection() {
 
   return (
-    <section className="page py-12">
+    <section className="page py-12 lg:py-16">
       <div className="container gap-y-8">
         <div className="text-center flex flex-col gap-y-4">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
@@ -25,6 +27,13 @@ export default function StatsSection() {
               description={stat.description}
             />
           ))}
+        </div>
+        <div className="flex justify-center w-full py-6 lg:py-4">
+          <Button variant='secondary' size='xl'
+            className={cn(
+              'lg:px-14 lg:py-6 text-2xl font-medium transition duration-300 ease-in-out hover:scale-105',
+              'w-2/3 md:w-auto')}
+          >¡Quiero unirme!</Button>
         </div>
       </div>
     </section>

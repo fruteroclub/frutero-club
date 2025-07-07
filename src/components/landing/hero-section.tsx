@@ -28,7 +28,7 @@ export default function HeroSection() {
         <div className="flex justify-center">
           <Button
             size="xl"
-            className="transform rounded-full bg-primary lg:px-14 lg:py-6 text-2xl font-medium text-white shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:bg-primary/90"
+            className="lg:px-14 lg:py-6 text-2xl font-medium transition duration-300 ease-in-out hover:scale-105"
           >
             Quiero unirme <SparklesIcon className="ml-2 h-6 w-6" />
           </Button>
