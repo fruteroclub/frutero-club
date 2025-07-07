@@ -83,7 +83,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 <div className="rounded-lg bg-background p-3 border-2 border-foreground">
-                  <p className="text-base font-medium text-primary">
+                  <p className="font-semibold text-primary text-center">
                     {testimonial.achievement}
                   </p>
                 </div>
