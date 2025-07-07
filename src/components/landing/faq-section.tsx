@@ -45,17 +45,19 @@ const faqs = [
 export default function FAQSection() {
 
   return (
-    <section className="page">
-      <div className="container gap-y-6">
+    <div className="page">
+      <div className="container gap-y-6 lg:gap-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">
             Preguntas frecuentes
           </h2>
         </div>
 
-        <FaqAccordion />
+        <div className="section">
+          <FaqAccordion />
+        </div>
       </div>
-    </section >
+    </div >
   )
 }
 
