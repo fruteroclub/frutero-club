@@ -45,14 +45,14 @@ export default function CommunitySection() {
   ]
 
   return (
-    <section className="bg-gradient-to-br from-frutero-light to-frutero-green/10 py-20">
+    <section className="bg-gradient-to-br from-background to-frutero-green/10 py-20">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             ¿Qué hace especial a{' '}
             <span className="text-frutero-orange">Frutero Club</span>?
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Más que una comunidad, somos un ecosistema completo para tu
             crecimiento
           </p>
@@ -65,22 +65,21 @@ export default function CommunitySection() {
               className="rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div
-                className={`mb-6 flex h-16 w-16 items-center justify-center rounded-full ${
-                  benefit.color === 'green'
-                    ? 'bg-frutero-green/20'
-                    : benefit.color === 'orange'
-                      ? 'bg-frutero-orange/20'
-                      : 'bg-frutero-pink/20'
-                }`}
+                className={`mb-6 flex h-16 w-16 items-center justify-center rounded-full ${benefit.color === 'green'
+                  ? 'bg-frutero-green/20'
+                  : benefit.color === 'orange'
+                    ? 'bg-frutero-orange/20'
+                    : 'bg-frutero-pink/20'
+                  }`}
               >
                 <span className="text-2xl">{benefit.icon}</span>
               </div>
 
-              <h3 className="mb-3 text-xl font-bold text-frutero-dark">
+              <h3 className="mb-3 text-xl font-bold text-foreground">
                 {benefit.title}
               </h3>
 
-              <p className="leading-relaxed text-frutero-dark/70">
+              <p className="leading-relaxed text-foreground/70">
                 {benefit.description}
               </p>
             </div>
@@ -96,7 +95,7 @@ export default function CommunitySection() {
               </div>
             </div>
 
-            <blockquote className="mb-6 text-xl text-frutero-dark italic md:text-2xl">
+            <blockquote className="mb-6 text-xl text-foreground italic md:text-2xl">
               &quot;Frutero Club no solo me conectó con los recursos que
               necesitaba, sino que me dio la comunidad y mentoría que transformó
               mi idea en una startup exitosa&quot;
@@ -107,8 +106,8 @@ export default function CommunitySection() {
                 <span className="text-sm font-bold text-white">JP</span>
               </div>
               <div className="text-left">
-                <p className="font-bold text-frutero-dark">Juan Pérez</p>
-                <p className="text-frutero-dark/70">CEO @ TechStartup</p>
+                <p className="font-bold text-foreground">Juan Pérez</p>
+                <p className="text-foreground/70">CEO @ TechStartup</p>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { SparkleIcon } from 'lucide-react'
 
 export default function ValueProposition() {
   return (
-    <section className="page container w-full gap-y-6 lg:grid lg:grid-cols-12 lg:px-20 xl:max-w-screen-lg">
+    <section className="page container w-full gap-y-6 lg:grid lg:grid-cols-12 lg:px-20 xl:max-w-screen-lg py-12">
       <div className="py-4 md:flex md:flex-col md:items-center lg:col-span-7">
         <Card className='bg-transparent border-none shadow-none gap-y-2 py-2 md:pb-4 md:max-w-md'>
           <CardHeader>

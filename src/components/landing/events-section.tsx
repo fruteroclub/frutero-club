@@ -34,14 +34,14 @@ export default function EventsSection() {
   ]
 
   return (
-    <section className="bg-frutero-light/50 py-20">
+    <section className="bg-background/50 py-20">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             Eventos que <span className="text-frutero-orange">transforman</span>{' '}
             carreras
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Donde nacen las ideas y se forjan las conexiones
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function EventsSection() {
 
         {/* Upcoming Events */}
         <div>
-          <h3 className="mb-8 text-center text-2xl font-bold text-frutero-dark md:text-3xl">
+          <h3 className="mb-8 text-center text-2xl font-bold text-foreground md:text-3xl">
             Próximos <span className="text-frutero-orange">eventos</span>
           </h3>
 
@@ -106,23 +106,22 @@ export default function EventsSection() {
               >
                 <div className="mb-6 text-center">
                   <div
-                    className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${
-                      event.color === 'dark'
-                        ? 'bg-frutero-dark'
-                        : event.color === 'blue'
-                          ? 'bg-blue-500'
-                          : 'bg-purple-500'
-                    }`}
+                    className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${event.color === 'dark'
+                      ? 'bg-frutero-dark'
+                      : event.color === 'blue'
+                        ? 'bg-blue-500'
+                        : 'bg-purple-500'
+                      }`}
                   >
                     <span className="text-2xl">{event.icon}</span>
                   </div>
-                  <h4 className="mb-2 text-xl font-bold text-frutero-dark">
+                  <h4 className="mb-2 text-xl font-bold text-foreground">
                     {event.title}
                   </h4>
                   <p className="mb-3 text-sm font-bold tracking-wide text-frutero-orange uppercase">
                     {event.subtitle}
                   </p>
-                  <p className="mb-4 text-sm text-frutero-dark/70">
+                  <p className="mb-4 text-sm text-foreground/70">
                     {event.description}
                   </p>
                 </div>
@@ -130,7 +129,7 @@ export default function EventsSection() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <span className="text-frutero-orange">📅</span>
-                    <span className="text-sm font-medium text-frutero-dark">
+                    <span className="text-sm font-medium text-foreground">
                       {event.date}
                     </span>
                   </div>
@@ -138,7 +137,7 @@ export default function EventsSection() {
                   {event.duration && (
                     <div className="flex items-center gap-2">
                       <span className="text-frutero-orange">⏱️</span>
-                      <span className="text-sm font-medium text-frutero-dark">
+                      <span className="text-sm font-medium text-foreground">
                         {event.duration}
                       </span>
                     </div>
@@ -147,7 +146,7 @@ export default function EventsSection() {
                   {event.prize && (
                     <div className="flex items-center gap-2">
                       <span className="text-frutero-orange">💰</span>
-                      <span className="text-sm font-medium text-frutero-dark">
+                      <span className="text-sm font-medium text-foreground">
                         {event.prize}
                       </span>
                     </div>
@@ -156,20 +155,19 @@ export default function EventsSection() {
                   {event.topic && (
                     <div className="flex items-center gap-2">
                       <span className="text-frutero-orange">🎯</span>
-                      <span className="text-sm font-medium text-frutero-dark">
+                      <span className="text-sm font-medium text-foreground">
                         {event.topic}
                       </span>
                     </div>
                   )}
 
                   <div
-                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                      event.availability === 'Cupo limitado'
-                        ? 'bg-frutero-orange/20 text-frutero-orange'
-                        : event.availability === 'Registro abierto'
-                          ? 'bg-frutero-green/20 text-frutero-green'
-                          : 'bg-frutero-pink/20 text-frutero-pink'
-                    }`}
+                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${event.availability === 'Cupo limitado'
+                      ? 'bg-frutero-orange/20 text-frutero-orange'
+                      : event.availability === 'Registro abierto'
+                        ? 'bg-frutero-green/20 text-frutero-green'
+                        : 'bg-frutero-pink/20 text-frutero-pink'
+                      }`}
                   >
                     {event.availability}
                   </div>
@@ -182,10 +180,10 @@ export default function EventsSection() {
         {/* CTA */}
         <div className="mt-16 text-center">
           <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow-lg">
-            <h3 className="mb-4 text-2xl font-bold text-frutero-dark">
+            <h3 className="mb-4 text-2xl font-bold text-foreground">
               ¿Listo para tu próximo evento?
             </h3>
-            <p className="mb-6 text-frutero-dark/70">
+            <p className="mb-6 text-foreground/70">
               Regístrate y no te pierdas las mejores oportunidades
             </p>
             <button className="transform rounded-full bg-frutero-orange px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-frutero-orange/90">

@@ -1,69 +1,77 @@
+import { JSX, SVGProps } from 'react'
 import StatCard from '@/components/stats/stat-card'
+import { CoinsIcon, GlobeIcon, HandshakeIcon, RocketIcon, TestTubeDiagonalIcon, TrophyIcon } from 'lucide-react'
 
 export default function StatsSection() {
-  const stats = [
-    {
-      icon: '👥',
-      number: '200+',
-      description: 'miembros',
-      color: 'orange' as const
-    },
-    {
-      icon: '💰',
-      number: '$2M+',
-      description: 'recaudado',
-      color: 'green' as const
-    },
-    {
-      icon: '🚀',
-      number: '25+',
-      description: 'startups',
-      color: 'pink' as const
-    },
-    {
-      icon: '🏆',
-      number: '40+',
-      description: 'exits exitosos',
-      color: 'orange' as const
-    },
-    {
-      icon: '🎯',
-      number: '15+',
-      description: 'inversores',
-      color: 'green' as const
-    },
-    {
-      icon: '🌟',
-      number: '150+',
-      description: 'mentores',
-      color: 'pink' as const
-    }
-  ]
 
   return (
-    <section className="py-20 bg-frutero-light/50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-frutero-dark mb-4">
-            Nuestro <span className="text-frutero-orange">impacto</span> en números
+    <section className="page py-12">
+      <div className="container gap-y-8">
+        <div className="text-center flex flex-col gap-y-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+            Nuestro <span className="text-primary">impacto</span> en números
           </h2>
-          <p className="text-xl text-frutero-dark/70 max-w-2xl mx-auto">
-            Una comunidad que transforma hackers en founders exitosos
+          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+            No son promesas, son <span className='text-foreground underline underline-offset-2 decoration-primary decoration-2 font-semibold'>resultados</span> de nuestra comunidad
           </p>
         </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
               icon={stat.icon}
               number={stat.number}
               description={stat.description}
-              color={stat.color}
             />
           ))}
         </div>
       </div>
     </section>
   )
-} 
+}
+
+const stats = [
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <HandshakeIcon {...props} />
+    ),
+    number: '100+',
+    description: 'Profesionales conectados',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <CoinsIcon {...props} />
+    ),
+    number: '$100k+',
+    description: 'USD en premios y grants',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <TrophyIcon {...props} />
+    ),
+    number: '25+',
+    description: 'Finalistas de Hackatones',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <RocketIcon {...props} />
+    ),
+    number: '30+',
+    description: 'Startups lanzadas',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <GlobeIcon {...props} />
+    ),
+    number: '15+',
+    description: 'Países alcanzados',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <TestTubeDiagonalIcon {...props} />
+    ),
+    number: '150+',
+    description: 'Proyectos construidos',
+  }
+]

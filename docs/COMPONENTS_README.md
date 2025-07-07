@@ -40,11 +40,10 @@ src/components/stats/
 La landing page utiliza una paleta de colores personalizada:
 
 ```css
---frutero-orange: oklch(0.75 0.18 45)   /* Naranja vibrante */
---frutero-green: oklch(0.75 0.15 130)   /* Verde aguacate */
---frutero-pink: oklch(0.70 0.20 350)    /* Rosa coral */
---frutero-dark: oklch(0.15 0.02 0)      /* Negro/gris oscuro */
---frutero-light: oklch(0.98 0.005 85)   /* Crema/blanco */
+--frutero-orange: oklch(0.75 0.18 45) /* Naranja vibrante */ --frutero-green: oklch(0.75 0.15 130)
+  /* Verde aguacate */ --frutero-pink: oklch(0.7 0.2 350) /* Rosa coral */
+  --frutero-dark: oklch(0.15 0.02 0) /* Negro/gris oscuro */ --background: oklch(0.98 0.005 85)
+  /* Crema/blanco */;
 ```
 
 ## 📄 Páginas Individuales
@@ -84,66 +83,77 @@ src/app/sections/
 ## 🎯 Características de Cada Sección
 
 ### 1. **HeroSection**
+
 - Mascota aguacate animada
 - Título con palabras destacadas ("Builders", "Founders")
 - CTA principal
 - Responsive design
 
 ### 2. **StatsSection**
+
 - 6 tarjetas de estadísticas
 - Iconos emotivos
 - Animaciones hover
 - Grid responsive
 
 ### 3. **JourneySection**
+
 - 4 fases del journey (Plantando semillas, Cultivando, Incubando, Floreciendo)
 - Mascotas para cada fase (🥑🍒🍌🍎)
 - Layout alternado
 - Duración de cada fase
 
 ### 4. **TestimonialsSection**
+
 - 3 testimonios reales
 - Avatares personalizados
 - Logros destacados
 - Cards con hover effects
 
 ### 5. **NetworkSection**
+
 - Tabs interactivos
 - Builders destacados
 - Comunidades aliadas
 - Partnerships estratégicos
 
 ### 6. **BenefitsSection**
+
 - 6 beneficios exclusivos
 - Iconos representativos
 - Colores diferenciados
 - CTA adicional
 
 ### 7. **EventsSection**
+
 - Evento featured "Coworking Frutal"
 - Grid de próximos eventos
 - Información detallada (fechas, premios, disponibilidad)
 - Mascotas de frutas
 
 ### 8. **PulpaSection**
+
 - Sistema de tokens $PULPA explicado
 - 4 beneficios principales
 - Token central con mascotas (🍉🍍)
 - Información adicional (rangos, misiones, leaderboard)
 
 ### 9. **ApplicationSection**
+
 - Dos columnas: requisitos y proceso
 - Eligibilidad claramente definida
 - Pasos del proceso de aplicación
 - Estadísticas del proceso
 
 ### 10. **FAQSection**
+
 - Acordeón interactivo
 - 7 preguntas frecuentes
 - Animaciones smooth
 - Sección de ayuda adicional
 
 ### 11. **FooterSection**
+
 - CTA final "Hackea tu destino"
 - Links organizados por categorías
 - Botón "Volver al inicio"
@@ -152,11 +162,13 @@ src/app/sections/
 ## 🛠️ Uso de Componentes
 
 ### Importar una sección:
+
 ```tsx
 import HeroSection from '@/components/sections/hero-section'
 ```
 
 ### Usar en una página:
+
 ```tsx
 export default function MyPage() {
   return (
@@ -170,6 +182,7 @@ export default function MyPage() {
 ## 🎨 Personalización
 
 ### Cambiar colores:
+
 Modificar las variables CSS en `src/styles/globals.css`:
 
 ```css
@@ -181,6 +194,7 @@ Modificar las variables CSS en `src/styles/globals.css`:
 ```
 
 ### Agregar nueva sección:
+
 1. Crear componente en `src/components/sections/`
 2. Crear página en `src/app/sections/`
 3. Importar en `src/app/page.tsx`
@@ -201,6 +215,7 @@ bun build
 ## 📱 Responsive Design
 
 Todos los componentes están optimizados para:
+
 - **Mobile**: 320px+
 - **Tablet**: 768px+
 - **Desktop**: 1024px+
@@ -217,21 +232,24 @@ Todos los componentes están optimizados para:
 ## 🎪 Características Avanzadas
 
 ### ⚡ Interactividad
+
 - **Tabs dinámicos** en NetworkSection
 - **Acordeón expandible** en FAQSection
 - **Animaciones hover** en todas las tarjetas
 - **Scroll suave** al inicio desde footer
 
 ### 🎨 Diseño Visual
-- **Gradientes personalizados** 
+
+- **Gradientes personalizados**
 - **Mascotas de frutas** como elementos decorativos
 - **Micro-animaciones** para mejor UX
 - **Sistema de colores** consistente
 
 ### 📊 Datos Dinámicos
+
 - **Estadísticas actualizables**
 - **Eventos con fechas dinámicas**
-- **Testimonios reales** 
+- **Testimonios reales**
 - **Información de aplicación** actualizable
 
 ---
@@ -241,11 +259,11 @@ Todos los componentes están optimizados para:
 ### 🎯 Estructura Completa de la Landing Page
 
 ```
-1. Hero → 2. Stats → 3. Journey → 4. Testimonials 
+1. Hero → 2. Stats → 3. Journey → 4. Testimonials
     ↓
-5. Network → 6. Benefits → 7. Events → 8. Pulpa 
-    ↓  
+5. Network → 6. Benefits → 7. Events → 8. Pulpa
+    ↓
 9. Application → 10. FAQ → 11. Footer
 ```
 
-**Total**: 11 secciones modulares, 100% responsive, completamente funcional. 
+**Total**: 11 secciones modulares, 100% responsive, completamente funcional.

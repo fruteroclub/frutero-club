@@ -33,11 +33,11 @@ export default function TestimonialsSection() {
     <section className="page container">
       <div className="section">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             Historias <span className="text-frutero-orange">reales</span> de{' '}
             <span className="text-frutero-orange">transformación</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             De hackers con potencial a founders con éxito
           </p>
         </div>
@@ -49,20 +49,19 @@ export default function TestimonialsSection() {
               className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div className="mb-6">
-                <blockquote className="text-lg leading-relaxed text-frutero-dark italic">
+                <blockquote className="text-lg leading-relaxed text-foreground italic">
                   &quot;{testimonial.quote}&quot;
                 </blockquote>
               </div>
 
               <div className="mb-4 flex items-center space-x-4">
                 <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                    testimonial.color === 'green'
+                  className={`flex h-12 w-12 items-center justify-center rounded-full ${testimonial.color === 'green'
                       ? 'bg-frutero-green'
                       : testimonial.color === 'blue'
                         ? 'bg-blue-500'
                         : 'bg-frutero-pink'
-                  }`}
+                    }`}
                 >
                   <span className="text-sm font-bold text-white">
                     {testimonial.name
@@ -72,10 +71,10 @@ export default function TestimonialsSection() {
                   </span>
                 </div>
                 <div>
-                  <p className="font-bold text-frutero-dark">
+                  <p className="font-bold text-foreground">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm text-frutero-dark/70">
+                  <p className="text-sm text-foreground/70">
                     {testimonial.role}
                   </p>
                 </div>
