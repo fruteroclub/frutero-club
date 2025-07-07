@@ -5,8 +5,8 @@ import { SparkleIcon } from 'lucide-react'
 
 export default function ValueProposition() {
   return (
-    <section className="page container w-full gap-y-6">
-      <div className="py-4 md:flex md:flex-col md:items-center">
+    <section className="page container w-full gap-y-6 lg:grid lg:grid-cols-12 lg:px-20 xl:max-w-screen-lg">
+      <div className="py-4 md:flex md:flex-col md:items-center lg:col-span-7">
         <Card className='bg-transparent border-none shadow-none gap-y-2 py-2 md:pb-4 md:max-w-md'>
           <CardHeader>
             <CardTitle className="text-3xl md:text-4xl font-funnel font-semibold">
@@ -27,14 +27,14 @@ export default function ValueProposition() {
             <Button variant='secondary' size='lg'>El Manifiesto Frutero</Button>
           </CardFooter>
         </Card>
-        <div className='px-4 md:max-w-lg md:text-justify md:px-6'>
+        <div className='px-4 md:text-justify md:max-w-md md:px-0 lg:px-6'>
           <p className="text-xl">
             Somos una comunidad unida por una convicción poderosa: transformar el talento excepcional en profesionales de élite que darán forma al futuro
           </p>
         </div>
       </div>
-      <div className='w-full px-4 md:flex md:flex-col md:items-center'>
-        <Card className='bg-muted text-background md:max-w-md md:w-full'>
+      <div className='w-full px-4 md:flex md:flex-col md:items-center lg:col-span-5 lg:px-0'>
+        <Card className='bg-muted text-background md:max-w-md md:w-full py-8'>
           <CardHeader className='text-center'>
             <CardTitle className="font-funnel text-2xl font-normal">
               ¿Quieres dar el<br /><span className='underline underline-offset-8 decoration-primary'>siguiente</span> paso?
