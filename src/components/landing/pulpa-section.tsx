@@ -133,7 +133,7 @@ export default function PulpaSection() {
           </div>
         </div>
 
-        <div className="flex justify-center pt-12 md:pt-6 lg:pt-8">
+        <div className="flex justify-center pt-6 lg:pt-8">
           <Button size="lg" variant="secondary">
             ¡Quiero $PULPA!
           </Button>
