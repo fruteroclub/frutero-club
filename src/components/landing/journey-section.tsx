@@ -34,18 +34,18 @@ const phases = [
 
 export default function JourneyPage() {
   return (
-    <section className="page py-12 lg:py-16">
-      <div className="container gap-y-12 items-start">
-        <div className="text-center space-y-4">
+    <section className="page py-12">
+      <div className="container gap-y-12 items-center md:max-w-lg lg:max-w-xl">
+        <div className="text-center space-y-4 md:max-w-lg lg:max-w-md">
           <h2 className="text-4xl font-bold md:text-5xl">
-            Tu camino de <span className="text-primary">Hacker</span> a{' '}
+            Tu camino de <br /><span className="text-primary">Hacker</span> a{' '}
             <span className="text-secondary">Founder</span>
           </h2>
           <p className="text-lg text-muted">
             Una metodología probada que transforma talento en éxito en solo <span className="font-semibold underline underline-offset-4 decoration-secondary decoration-2">4 meses</span>
           </p>
         </div>
-        <div className="w-full flex justify-start px-4">
+        <div className="w-full flex justify-start px-4 lg:-ml-12">
           <div className="relative">
             {/* Línea vertical */}
             <div className="absolute top-0 left-1/3 h-full -translate-x-1/3 bg-foreground w-[2px]" />
@@ -84,7 +84,7 @@ export default function JourneyPage() {
                         {phase.duration}
                       </div>
                     </div>
-                    <div className="text-xl font-bold">{phase.title}</div>
+                    <div className="text-xl font-bold font-funnel">{phase.title}</div>
                     <div className="text-sm text-muted">
                       {phase.description}
                     </div>

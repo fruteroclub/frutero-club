@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils'
 export default function StatsSection() {
 
   return (
-    <section className="page py-12 lg:py-16">
+    <section className="page py-12">
       <div className="container gap-y-8">
         <div className="text-center flex flex-col gap-y-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
             Nuestro <span className="text-primary">impacto</span> en números
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
