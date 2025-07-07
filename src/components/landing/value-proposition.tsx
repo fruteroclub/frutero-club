@@ -6,8 +6,8 @@ import { SparkleIcon } from 'lucide-react'
 export default function ValueProposition() {
   return (
     <section className="page container w-full gap-y-6">
-      <div className="py-4">
-        <Card className='bg-transparent border-none shadow-none gap-y-2 py-2'>
+      <div className="py-4 md:flex md:flex-col md:items-center">
+        <Card className='bg-transparent border-none shadow-none gap-y-2 py-2 md:pb-4 md:max-w-md'>
           <CardHeader>
             <CardTitle className="text-3xl md:text-4xl font-funnel font-semibold">
               Hackear:
@@ -27,20 +27,20 @@ export default function ValueProposition() {
             <Button variant='secondary' size='lg'>El Manifiesto Frutero</Button>
           </CardFooter>
         </Card>
-        <div className='px-4'>
+        <div className='px-4 md:max-w-lg md:text-justify md:px-6'>
           <p className="text-xl">
             Somos una comunidad unida por una convicción poderosa: transformar el talento excepcional en profesionales de élite que darán forma al futuro
           </p>
         </div>
       </div>
-      <div className='w-full px-4'>
-        <Card className='bg-muted text-background'>
+      <div className='w-full px-4 md:flex md:flex-col md:items-center'>
+        <Card className='bg-muted text-background md:max-w-md md:w-full'>
           <CardHeader className='text-center'>
-            <CardTitle className="font-funnel text-2xl md:text-3xl font-normal">
+            <CardTitle className="font-funnel text-2xl font-normal">
               ¿Quieres dar el<br /><span className='underline underline-offset-8 decoration-primary'>siguiente</span> paso?
             </CardTitle>
           </CardHeader>
-          <CardContent className="w-full flex justify-center">
+          <CardContent className="w-full flex justify-center md:py-2">
             <ul className="list-disc list-inside marker:text-muted space-y-2 text-lg">
               <li className="px-2 flex items-center">
                 <SparkleIcon className='text-secondary mr-2 h-4 w-4' /> Conseguir trabajo
