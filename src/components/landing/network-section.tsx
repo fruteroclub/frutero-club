@@ -13,14 +13,14 @@ export default function NetworkSection() {
       specialty: "Web3 & DeFi"
     },
     {
-      name: "René Hdz", 
+      name: "René Hdz",
       role: "Mod at @OctantApp",
       image: "/images/avatars/avatar-2.jpg",
       specialty: "Blockchain"
     },
     {
       name: "René Hdz",
-      role: "Mod at @OctantApp", 
+      role: "Mod at @OctantApp",
       image: "/images/avatars/avatar-3.jpg",
       specialty: "Smart Contracts"
     }
@@ -47,13 +47,13 @@ export default function NetworkSection() {
   ]
 
   return (
-    <section className="py-20 bg-frutero-light/30">
+    <section className="py-20 bg-background/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-frutero-dark mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Nuestra <span className="text-frutero-orange">red</span> te abre puertas
           </h2>
-          <p className="text-xl text-frutero-dark/70 max-w-2xl mx-auto">
+          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
             Conectamos talento excepcional con oportunidades únicas
           </p>
         </div>
@@ -64,11 +64,10 @@ export default function NetworkSection() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-200 ${
-                activeTab === tab.id
-                  ? `${tab.color} text-white shadow-lg`
-                  : 'bg-white text-frutero-dark hover:bg-gray-50'
-              }`}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-200 ${activeTab === tab.id
+                ? `${tab.color} text-white shadow-lg`
+                : 'bg-white text-foreground hover:bg-gray-50'
+                }`}
             >
               {tab.label}
             </button>
@@ -87,7 +86,7 @@ export default function NetworkSection() {
                   200+ builders activos, representando 15+ países
                 </p>
               </div>
-              
+
               <div className="grid md:grid-cols-3 gap-6">
                 {builders.map((builder, index) => (
                   <div key={index} className="bg-white rounded-2xl p-6 text-center">
@@ -96,10 +95,10 @@ export default function NetworkSection() {
                         <span className="text-2xl">👤</span>
                       </div>
                     </div>
-                    <h4 className="text-xl font-bold text-frutero-dark mb-1">
+                    <h4 className="text-xl font-bold text-foreground mb-1">
                       {builder.name}
                     </h4>
-                    <p className="text-frutero-dark/70 text-sm mb-3">
+                    <p className="text-foreground/70 text-sm mb-3">
                       {builder.role}
                     </p>
                     <div className="bg-frutero-orange/10 rounded-lg p-2">
@@ -117,21 +116,20 @@ export default function NetworkSection() {
             <div className="grid md:grid-cols-2 gap-6">
               {communities.map((community, index) => (
                 <div key={index} className="bg-white rounded-2xl p-8 flex items-center space-x-4">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    community.color === 'orange' ? 'bg-frutero-orange' :
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${community.color === 'orange' ? 'bg-frutero-orange' :
                     community.color === 'blue' ? 'bg-blue-500' :
-                    community.color === 'green' ? 'bg-frutero-green' :
-                    'bg-frutero-pink'
-                  }`}>
+                      community.color === 'green' ? 'bg-frutero-green' :
+                        'bg-frutero-pink'
+                    }`}>
                     <span className="text-white font-bold text-xl">
                       {community.name[0]}
                     </span>
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-frutero-dark">
+                    <h4 className="text-xl font-bold text-foreground">
                       {community.name}
                     </h4>
-                    <p className="text-frutero-dark/70">
+                    <p className="text-foreground/70">
                       {community.members} miembros conectados
                     </p>
                   </div>
@@ -148,10 +146,10 @@ export default function NetworkSection() {
                     <span className="text-2xl">{partnership.logo}</span>
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-frutero-dark">
+                    <h4 className="text-xl font-bold text-foreground">
                       {partnership.name}
                     </h4>
-                    <p className="text-frutero-dark/70">
+                    <p className="text-foreground/70">
                       {partnership.type}
                     </p>
                   </div>

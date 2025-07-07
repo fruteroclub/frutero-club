@@ -42,11 +42,11 @@ export default function BenefitsSection() {
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             Beneficios <span className="text-frutero-orange">exclusivos</span>{' '}
             para miembros
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Acceso a oportunidades que no encontrarás en ningún otro lugar
           </p>
         </div>
@@ -58,30 +58,28 @@ export default function BenefitsSection() {
               className="rounded-2xl border-2 border-gray-100 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div
-                className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${
-                  benefit.color === 'orange'
+                className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${benefit.color === 'orange'
                     ? 'bg-frutero-orange/20'
                     : benefit.color === 'green'
                       ? 'bg-frutero-green/20'
                       : 'bg-frutero-pink/20'
-                }`}
+                  }`}
               >
                 <span className="text-3xl">{benefit.icon}</span>
               </div>
 
               <h3
-                className={`mb-3 text-xl font-bold ${
-                  benefit.color === 'orange'
+                className={`mb-3 text-xl font-bold ${benefit.color === 'orange'
                     ? 'text-frutero-orange'
                     : benefit.color === 'green'
                       ? 'text-frutero-green'
                       : 'text-frutero-pink'
-                }`}
+                  }`}
               >
                 {benefit.title}
               </h3>
 
-              <p className="leading-relaxed text-frutero-dark/70">
+              <p className="leading-relaxed text-foreground/70">
                 {benefit.description}
               </p>
             </div>
@@ -91,10 +89,10 @@ export default function BenefitsSection() {
         {/* CTA adicional */}
         <div className="mt-16 text-center">
           <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-frutero-orange/10 to-frutero-pink/10 p-8">
-            <h3 className="mb-4 text-2xl font-bold text-frutero-dark md:text-3xl">
+            <h3 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">
               ¿Listo para acceder a todos estos beneficios?
             </h3>
-            <p className="mx-auto mb-6 max-w-2xl text-frutero-dark/70">
+            <p className="mx-auto mb-6 max-w-2xl text-foreground/70">
               Únete a la comunidad más exclusiva de builders y founders en LATAM
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">

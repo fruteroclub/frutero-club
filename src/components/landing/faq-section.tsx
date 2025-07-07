@@ -51,10 +51,10 @@ export default function FAQSection() {
     <section className="page container">
       <div className="section">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-frutero-dark md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             Preguntas <span className="text-frutero-orange">frecuentes</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-frutero-dark/70">
+          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Todo lo que necesitas saber antes de aplicar
           </p>
         </div>
@@ -70,13 +70,12 @@ export default function FAQSection() {
                   onClick={() => toggleFAQ(index)}
                   className="flex w-full items-center justify-between px-8 py-6 text-left focus:outline-none"
                 >
-                  <h3 className="pr-4 text-lg font-bold text-frutero-dark">
+                  <h3 className="pr-4 text-lg font-bold text-foreground">
                     {faq.question}
                   </h3>
                   <div
-                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-frutero-orange/20 transition-transform duration-200 ${
-                      openIndex === index ? 'rotate-45' : ''
-                    }`}
+                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-frutero-orange/20 transition-transform duration-200 ${openIndex === index ? 'rotate-45' : ''
+                      }`}
                   >
                     <span className="text-xl font-bold text-frutero-orange">
                       +
@@ -87,7 +86,7 @@ export default function FAQSection() {
                 {openIndex === index && (
                   <div className="px-8 pb-6">
                     <div className="border-t border-gray-100 pt-4">
-                      <p className="leading-relaxed text-frutero-dark/70">
+                      <p className="leading-relaxed text-foreground/70">
                         {faq.answer}
                       </p>
                     </div>
