@@ -26,6 +26,11 @@ const MENU_ITEMS: MenuItemType[] = [
     href: '/ecosistema',
     isMobileOnly: false,
   },
+  {
+    displayText: 'programa',
+    href: '/programa',
+    isMobileOnly: false,
+  },
   { displayText: 'recursos', href: '/recursos', isMobileOnly: false },
   { displayText: '$PULPA', href: '/pulpa', isMobileOnly: false },
 ]
@@ -47,7 +52,7 @@ export default function Navbar() {
           <span className="sr-only">Frutero Club</span>
         </Link>
         <div className="z-10 col-span-3 flex items-center justify-center">
-          <nav className="hidden gap-6 lg:flex">
+          <nav className="hidden gap-4 lg:flex">
             {MENU_ITEMS.filter((menuItem) => !menuItem.isMobileOnly).map(
               (menuItem, index) => (
                 <Link

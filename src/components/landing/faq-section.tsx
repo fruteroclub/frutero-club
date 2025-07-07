@@ -54,7 +54,7 @@ export default function FAQSection() {
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             Preguntas <span className="text-primary">frecuentes</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
+          <p className="mx-auto max-w-2xl text-xl text-muted">
             Todo lo que necesitas saber antes de aplicar
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function FAQSection() {
                 {openIndex === index && (
                   <div className="px-8 pb-6">
                     <div className="border-t border-gray-100 pt-4">
-                      <p className="leading-relaxed text-foreground/70">
+                      <p className="leading-relaxed text-muted">
                         {faq.answer}
                       </p>
                     </div>

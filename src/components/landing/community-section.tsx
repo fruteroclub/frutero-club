@@ -45,14 +45,14 @@ export default function CommunitySection() {
   ]
 
   return (
-    <section className="bg-gradient-to-br from-background to-frutero-green/10 py-20">
+    <section className="bg-gradient-to-br from-background to-accent/10 py-20">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             ¿Qué hace especial a{' '}
             <span className="text-primary">Frutero Club</span>?
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
+          <p className="mx-auto max-w-2xl text-xl text-muted">
             Más que una comunidad, somos un ecosistema completo para tu
             crecimiento
           </p>
@@ -66,10 +66,10 @@ export default function CommunitySection() {
             >
               <div
                 className={`mb-6 flex h-16 w-16 items-center justify-center rounded-full ${benefit.color === 'green'
-                  ? 'bg-frutero-green/20'
+                  ? 'bg-accent/20'
                   : benefit.color === 'orange'
                     ? 'bg-primary/20'
-                    : 'bg-frutero-pink/20'
+                    : 'bg-secondary/20'
                   }`}
               >
                 <span className="text-2xl">{benefit.icon}</span>
@@ -79,7 +79,7 @@ export default function CommunitySection() {
                 {benefit.title}
               </h3>
 
-              <p className="leading-relaxed text-foreground/70">
+              <p className="leading-relaxed text-muted">
                 {benefit.description}
               </p>
             </div>
@@ -102,12 +102,12 @@ export default function CommunitySection() {
             </blockquote>
 
             <div className="flex items-center justify-center space-x-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-frutero-green">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent">
                 <span className="text-sm font-bold text-white">JP</span>
               </div>
               <div className="text-left">
                 <p className="font-bold text-foreground">Juan Pérez</p>
-                <p className="text-foreground/70">CEO @ TechStartup</p>
+                <p className="text-muted">CEO @ TechStartup</p>
               </div>
             </div>
           </div>

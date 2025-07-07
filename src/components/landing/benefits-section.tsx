@@ -46,7 +46,7 @@ export default function BenefitsSection() {
             Beneficios <span className="text-primary">exclusivos</span>{' '}
             para miembros
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
+          <p className="mx-auto max-w-2xl text-xl text-muted">
             Acceso a oportunidades que no encontrarás en ningún otro lugar
           </p>
         </div>
@@ -61,8 +61,8 @@ export default function BenefitsSection() {
                 className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${benefit.color === 'orange'
                   ? 'bg-primary/20'
                   : benefit.color === 'green'
-                    ? 'bg-frutero-green/20'
-                    : 'bg-frutero-pink/20'
+                    ? 'bg-accent/20'
+                    : 'bg-secondary/20'
                   }`}
               >
                 <span className="text-3xl">{benefit.icon}</span>
@@ -72,14 +72,14 @@ export default function BenefitsSection() {
                 className={`mb-3 text-xl font-bold ${benefit.color === 'orange'
                   ? 'text-primary'
                   : benefit.color === 'green'
-                    ? 'text-frutero-green'
-                    : 'text-frutero-pink'
+                    ? 'text-accent'
+                    : 'text-secondary'
                   }`}
               >
                 {benefit.title}
               </h3>
 
-              <p className="leading-relaxed text-foreground/70">
+              <p className="leading-relaxed text-muted">
                 {benefit.description}
               </p>
             </div>
@@ -88,11 +88,11 @@ export default function BenefitsSection() {
 
         {/* CTA adicional */}
         <div className="mt-16 text-center">
-          <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-primary/10 to-frutero-pink/10 p-8">
+          <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 p-8">
             <h3 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">
               ¿Listo para acceder a todos estos beneficios?
             </h3>
-            <p className="mx-auto mb-6 max-w-2xl text-foreground/70">
+            <p className="mx-auto mb-6 max-w-2xl text-muted">
               Únete a la comunidad más exclusiva de builders y founders en LATAM
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">

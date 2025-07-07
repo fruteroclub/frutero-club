@@ -20,9 +20,6 @@ export default function Home() {
       <StatsSection />
       <JourneySection />
       <TestimonialsSection />
-      <NetworkSection />
-      <BenefitsSection />
-      <EventsSection />
       <PulpaSection />
       <ApplicationSection />
       <FAQSection />
