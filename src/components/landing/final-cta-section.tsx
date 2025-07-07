@@ -4,7 +4,7 @@ export default function FooterSection() {
   return (
     <section className="page container">
       <div className="section">
-        <div className="relative overflow-hidden rounded-3xl bg-frutero-orange p-8 text-center text-white md:p-16">
+        <div className="relative overflow-hidden rounded-3xl bg-primary p-8 text-center text-white md:p-16">
           {/* Decorative elements */}
           <div className="absolute top-8 left-8 h-6 w-6 rounded-full bg-white/20"></div>
           <div className="absolute top-16 right-12 h-4 w-4 rounded-full bg-white/30"></div>
@@ -41,7 +41,7 @@ export default function FooterSection() {
               abiertas hasta el 31 de Enero.
             </p>
 
-            <button className="inline-flex transform items-center gap-3 rounded-full bg-white px-12 py-4 text-xl font-bold text-frutero-orange shadow-2xl transition-all duration-200 hover:scale-105 hover:bg-gray-100">
+            <button className="inline-flex transform items-center gap-3 rounded-full bg-white px-12 py-4 text-xl font-bold text-primary shadow-2xl transition-all duration-200 hover:scale-105 hover:bg-gray-100">
               <span>✨</span>
               Aplica Ahora
             </button>

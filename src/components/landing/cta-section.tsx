@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 
 export default function CTASection() {
   return (
-    <section className="py-20 bg-gradient-to-r from-frutero-orange via-frutero-pink to-frutero-green">
+    <section className="py-20 bg-gradient-to-r from-primary via-frutero-pink to-frutero-green">
       <div className="container mx-auto px-4">
         <div className="text-center text-white">
           <div className="mb-8">

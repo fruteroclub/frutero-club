@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+
 export default function TestimonialsSection() {
   const testimonials = [
     {
@@ -30,65 +33,70 @@ export default function TestimonialsSection() {
   ]
 
   return (
-    <section className="page container">
-      <div className="section">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Historias <span className="text-frutero-orange">reales</span> de{' '}
-            <span className="text-frutero-orange">transformación</span>
+    <section className="page py-12">
+      <div className="container gap-y-6">
+        <div className="text-center space-y-2 px-8">
+          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
+            Historias reales de{' '}
+            <span className="text-secondary">transformación</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
-            De hackers con potencial a founders con éxito
+          <p className="max-w-2xl text-xl text-foreground/70">
+            De hackers con potencial a profesionales exitosos
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3 max-w-xs md:max-w-sm lg:max-w-screen-md">
           {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <div className="mb-6">
-                <blockquote className="text-lg leading-relaxed text-foreground italic">
-                  &quot;{testimonial.quote}&quot;
-                </blockquote>
-              </div>
+            <Card
+              key={index}>
+              <CardContent>
+                <div className="mb-6">
+                  <blockquote className="text-lg leading-relaxed text-foreground">
+                    &quot;{testimonial.quote}&quot;
+                  </blockquote>
+                </div>
 
-              <div className="mb-4 flex items-center space-x-4">
-                <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-full ${testimonial.color === 'green'
+                <div className="mb-4 flex items-center space-x-4">
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-full ${testimonial.color === 'green'
                       ? 'bg-frutero-green'
                       : testimonial.color === 'blue'
                         ? 'bg-blue-500'
                         : 'bg-frutero-pink'
-                    }`}
-                >
-                  <span className="text-sm font-bold text-white">
-                    {testimonial.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')}
-                  </span>
+                      }`}
+                  >
+                    <span className="text-sm font-bold text-white">
+                      {testimonial.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-foreground/70">
+                      {testimonial.role}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-foreground">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-sm text-foreground/70">
-                    {testimonial.role}
-                  </p>
-                </div>
-              </div>
 
-              <div className="rounded-lg bg-frutero-orange/10 p-3">
-                <p className="text-sm font-medium text-frutero-orange">
-                  {testimonial.achievement}
-                </p>
-              </div>
-            </div>
+                <div className="rounded-lg bg-background p-3 border-2 border-foreground">
+                  <p className="text-base font-medium text-primary">
+                    {testimonial.achievement}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
+        <div className="flex justify-center pt-6">
+          <Button variant="outline" size="lg">
+            Leer más testimonios
+          </Button>
+        </div>
       </div>
-    </section>
+    </section >
   )
 }

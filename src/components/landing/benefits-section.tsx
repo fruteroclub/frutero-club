@@ -43,7 +43,7 @@ export default function BenefitsSection() {
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Beneficios <span className="text-frutero-orange">exclusivos</span>{' '}
+            Beneficios <span className="text-primary">exclusivos</span>{' '}
             para miembros
           </h2>
           <p className="mx-auto max-w-2xl text-xl text-foreground/70">
@@ -59,10 +59,10 @@ export default function BenefitsSection() {
             >
               <div
                 className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full ${benefit.color === 'orange'
-                    ? 'bg-frutero-orange/20'
-                    : benefit.color === 'green'
-                      ? 'bg-frutero-green/20'
-                      : 'bg-frutero-pink/20'
+                  ? 'bg-primary/20'
+                  : benefit.color === 'green'
+                    ? 'bg-frutero-green/20'
+                    : 'bg-frutero-pink/20'
                   }`}
               >
                 <span className="text-3xl">{benefit.icon}</span>
@@ -70,10 +70,10 @@ export default function BenefitsSection() {
 
               <h3
                 className={`mb-3 text-xl font-bold ${benefit.color === 'orange'
-                    ? 'text-frutero-orange'
-                    : benefit.color === 'green'
-                      ? 'text-frutero-green'
-                      : 'text-frutero-pink'
+                  ? 'text-primary'
+                  : benefit.color === 'green'
+                    ? 'text-frutero-green'
+                    : 'text-frutero-pink'
                   }`}
               >
                 {benefit.title}
@@ -88,7 +88,7 @@ export default function BenefitsSection() {
 
         {/* CTA adicional */}
         <div className="mt-16 text-center">
-          <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-frutero-orange/10 to-frutero-pink/10 p-8">
+          <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-primary/10 to-frutero-pink/10 p-8">
             <h3 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">
               ¿Listo para acceder a todos estos beneficios?
             </h3>
@@ -96,10 +96,10 @@ export default function BenefitsSection() {
               Únete a la comunidad más exclusiva de builders y founders en LATAM
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <button className="transform rounded-full bg-frutero-orange px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-frutero-orange/90">
+              <button className="transform rounded-full bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-primary/90">
                 Aplicar ahora 🚀
               </button>
-              <button className="rounded-full border-2 border-frutero-orange px-8 py-4 font-bold text-frutero-orange transition-all duration-200 hover:bg-frutero-orange/10">
+              <button className="rounded-full border-2 border-primary px-8 py-4 font-bold text-primary transition-all duration-200 hover:bg-primary/10">
                 Ver más detalles 📋
               </button>
             </div>

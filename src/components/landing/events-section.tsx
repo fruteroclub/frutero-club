@@ -38,7 +38,7 @@ export default function EventsSection() {
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Eventos que <span className="text-frutero-orange">transforman</span>{' '}
+            Eventos que <span className="text-primary">transforman</span>{' '}
             carreras
           </h2>
           <p className="mx-auto max-w-2xl text-xl text-foreground/70">
@@ -83,7 +83,7 @@ export default function EventsSection() {
                 </h4>
                 <div className="flex items-center gap-2 rounded-2xl bg-white/30 px-6 py-3">
                   <span className="text-2xl">📅</span>
-                  <span className="text-lg font-bold text-frutero-orange">
+                  <span className="text-lg font-bold text-primary">
                     1-3 Febrero 2025
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function EventsSection() {
         {/* Upcoming Events */}
         <div>
           <h3 className="mb-8 text-center text-2xl font-bold text-foreground md:text-3xl">
-            Próximos <span className="text-frutero-orange">eventos</span>
+            Próximos <span className="text-primary">eventos</span>
           </h3>
 
           <div className="grid gap-6 md:grid-cols-3">
@@ -118,7 +118,7 @@ export default function EventsSection() {
                   <h4 className="mb-2 text-xl font-bold text-foreground">
                     {event.title}
                   </h4>
-                  <p className="mb-3 text-sm font-bold tracking-wide text-frutero-orange uppercase">
+                  <p className="mb-3 text-sm font-bold tracking-wide text-primary uppercase">
                     {event.subtitle}
                   </p>
                   <p className="mb-4 text-sm text-foreground/70">
@@ -128,7 +128,7 @@ export default function EventsSection() {
 
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-frutero-orange">📅</span>
+                    <span className="text-primary">📅</span>
                     <span className="text-sm font-medium text-foreground">
                       {event.date}
                     </span>
@@ -136,7 +136,7 @@ export default function EventsSection() {
 
                   {event.duration && (
                     <div className="flex items-center gap-2">
-                      <span className="text-frutero-orange">⏱️</span>
+                      <span className="text-primary">⏱️</span>
                       <span className="text-sm font-medium text-foreground">
                         {event.duration}
                       </span>
@@ -145,7 +145,7 @@ export default function EventsSection() {
 
                   {event.prize && (
                     <div className="flex items-center gap-2">
-                      <span className="text-frutero-orange">💰</span>
+                      <span className="text-primary">💰</span>
                       <span className="text-sm font-medium text-foreground">
                         {event.prize}
                       </span>
@@ -154,7 +154,7 @@ export default function EventsSection() {
 
                   {event.topic && (
                     <div className="flex items-center gap-2">
-                      <span className="text-frutero-orange">🎯</span>
+                      <span className="text-primary">🎯</span>
                       <span className="text-sm font-medium text-foreground">
                         {event.topic}
                       </span>
@@ -163,7 +163,7 @@ export default function EventsSection() {
 
                   <div
                     className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${event.availability === 'Cupo limitado'
-                      ? 'bg-frutero-orange/20 text-frutero-orange'
+                      ? 'bg-primary/20 text-primary'
                       : event.availability === 'Registro abierto'
                         ? 'bg-frutero-green/20 text-frutero-green'
                         : 'bg-frutero-pink/20 text-frutero-pink'
@@ -186,7 +186,7 @@ export default function EventsSection() {
             <p className="mb-6 text-foreground/70">
               Regístrate y no te pierdas las mejores oportunidades
             </p>
-            <button className="transform rounded-full bg-frutero-orange px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-frutero-orange/90">
+            <button className="transform rounded-full bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-primary/90">
               Ver todos los eventos 🎪
             </button>
           </div>

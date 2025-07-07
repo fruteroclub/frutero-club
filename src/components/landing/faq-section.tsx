@@ -52,7 +52,7 @@ export default function FAQSection() {
       <div className="section">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Preguntas <span className="text-frutero-orange">frecuentes</span>
+            Preguntas <span className="text-primary">frecuentes</span>
           </h2>
           <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Todo lo que necesitas saber antes de aplicar
@@ -74,10 +74,10 @@ export default function FAQSection() {
                     {faq.question}
                   </h3>
                   <div
-                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-frutero-orange/20 transition-transform duration-200 ${openIndex === index ? 'rotate-45' : ''
+                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/20 transition-transform duration-200 ${openIndex === index ? 'rotate-45' : ''
                       }`}
                   >
-                    <span className="text-xl font-bold text-frutero-orange">
+                    <span className="text-xl font-bold text-primary">
                       +
                     </span>
                   </div>
