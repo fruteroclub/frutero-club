@@ -9,7 +9,7 @@ export default function HeroSection() {
         <div className="mx-auto max-w-4xl">
           <h1 className="text-4xl leading-tight font-semibold text-foreground md:text-5xl">
             El club de{' '}
-            <span className="inline-block -rotate-2 transform rounded-lg bg-accent px-4 py-2 text-white">
+            <span className="inline-block -rotate-2 transform rounded-lg bg-accent px-4 py-2 text-foreground">
               Builders
             </span>
             <br />
