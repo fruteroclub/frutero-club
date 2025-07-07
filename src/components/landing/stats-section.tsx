@@ -28,7 +28,7 @@ export default function StatsSection() {
             />
           ))}
         </div>
-        <div className="flex justify-center w-full py-6 lg:py-4">
+        <div className="flex justify-center w-full pt-6 lg:pt-4">
           <Button variant='secondary' size='xl'
             className={cn(
               'lg:px-14 lg:py-6 text-2xl font-medium transition duration-300 ease-in-out hover:scale-105',
