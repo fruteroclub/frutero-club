@@ -13,7 +13,7 @@ export default function StatsSection() {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
             Nuestro <span className="text-primary">impacto</span> en números
           </h2>
-          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-xl text-muted max-w-2xl mx-auto">
             No son promesas, son <span className='text-foreground underline underline-offset-2 decoration-primary decoration-2 font-semibold'>resultados</span> de nuestra comunidad
           </p>
         </div>

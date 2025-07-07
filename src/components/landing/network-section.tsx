@@ -41,19 +41,19 @@ export default function NetworkSection() {
   ]
 
   const tabs = [
-    { id: 'builders', label: 'Builders destacados', color: 'bg-frutero-pink' },
-    { id: 'communities', label: 'Comunidades aliadas', color: 'bg-frutero-green' },
+    { id: 'builders', label: 'Builders destacados', color: 'bg-secondary' },
+    { id: 'communities', label: 'Comunidades aliadas', color: 'bg-accent' },
     { id: 'partnerships', label: 'Partnerships estratégicos', color: 'bg-primary' }
   ]
 
   return (
-    <section className="py-20 bg-background/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+    <section className="page py-12">
+      <div className="container gap-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
             Nuestra <span className="text-primary">red</span> te abre puertas
           </h2>
-          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-xl text-muted">
             Conectamos talento excepcional con oportunidades únicas
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function NetworkSection() {
         {/* Content */}
         <div className="max-w-6xl mx-auto">
           {activeTab === 'builders' && (
-            <div className="bg-frutero-dark rounded-3xl p-8 md:p-12">
+            <div className="bg-foreground rounded-3xl p-8 md:p-12">
               <div className="text-center mb-8">
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
                   Builders destacados
@@ -90,7 +90,7 @@ export default function NetworkSection() {
               <div className="grid md:grid-cols-3 gap-6">
                 {builders.map((builder, index) => (
                   <div key={index} className="bg-white rounded-2xl p-6 text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-primary to-frutero-pink rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full mx-auto mb-4 flex items-center justify-center">
                       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
                         <span className="text-2xl">👤</span>
                       </div>
@@ -98,7 +98,7 @@ export default function NetworkSection() {
                     <h4 className="text-xl font-bold text-foreground mb-1">
                       {builder.name}
                     </h4>
-                    <p className="text-foreground/70 text-sm mb-3">
+                    <p className="text-muted text-sm mb-3">
                       {builder.role}
                     </p>
                     <div className="bg-primary/10 rounded-lg p-2">
@@ -118,8 +118,8 @@ export default function NetworkSection() {
                 <div key={index} className="bg-white rounded-2xl p-8 flex items-center space-x-4">
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center ${community.color === 'orange' ? 'bg-primary' :
                     community.color === 'blue' ? 'bg-blue-500' :
-                      community.color === 'green' ? 'bg-frutero-green' :
-                        'bg-frutero-pink'
+                      community.color === 'green' ? 'bg-accent' :
+                        'bg-secondary'
                     }`}>
                     <span className="text-white font-bold text-xl">
                       {community.name[0]}
@@ -129,7 +129,7 @@ export default function NetworkSection() {
                     <h4 className="text-xl font-bold text-foreground">
                       {community.name}
                     </h4>
-                    <p className="text-foreground/70">
+                    <p className="text-muted">
                       {community.members} miembros conectados
                     </p>
                   </div>
@@ -149,7 +149,7 @@ export default function NetworkSection() {
                     <h4 className="text-xl font-bold text-foreground">
                       {partnership.name}
                     </h4>
-                    <p className="text-foreground/70">
+                    <p className="text-muted">
                       {partnership.type}
                     </p>
                   </div>

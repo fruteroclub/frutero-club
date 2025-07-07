@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
             Historias reales de{' '}
             <span className="text-secondary">transformación</span>
           </h2>
-          <p className="max-w-2xl text-xl text-foreground/70">
+          <p className="max-w-2xl text-xl text-muted">
             De hackers con potencial a profesionales exitosos
           </p>
         </div>
@@ -59,10 +59,10 @@ export default function TestimonialsSection() {
                 <div className="mb-4 flex items-center space-x-4">
                   <div
                     className={`flex h-12 w-12 items-center justify-center rounded-full ${testimonial.color === 'green'
-                      ? 'bg-frutero-green'
+                      ? 'bg-accent'
                       : testimonial.color === 'blue'
                         ? 'bg-blue-500'
-                        : 'bg-frutero-pink'
+                        : 'bg-secondary'
                       }`}
                   >
                     <span className="text-sm font-bold text-white">
@@ -76,7 +76,7 @@ export default function TestimonialsSection() {
                     <p className="font-bold text-foreground">
                       {testimonial.name}
                     </p>
-                    <p className="text-sm text-foreground/70">
+                    <p className="text-sm text-muted">
                       {testimonial.role}
                     </p>
                   </div>

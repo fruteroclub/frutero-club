@@ -58,7 +58,7 @@ export default function ApplicationSection() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             ¿Listo para <span className="text-primary">unirte</span> a la elite?
           </h2>
-          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-xl text-muted max-w-2xl mx-auto">
             El proceso de selección garantiza la calidad de nuestra comunidad
           </p>
         </div>
@@ -86,12 +86,12 @@ export default function ApplicationSection() {
                 ))}
               </div>
 
-              <div className="mt-8 p-6 bg-frutero-green/10 rounded-xl">
+              <div className="mt-8 p-6 bg-accent/10 rounded-xl">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">💡</span>
-                  <h4 className="font-bold text-frutero-green">Tip importante</h4>
+                  <h4 className="font-bold text-accent">Tip importante</h4>
                 </div>
-                <p className="text-sm text-foreground/70">
+                <p className="text-sm text-muted">
                   No necesitas ser un experto, pero sí tener ganas reales de aprender,
                   contribuir y hacer crecer la comunidad tech.
                 </p>
@@ -108,8 +108,8 @@ export default function ApplicationSection() {
                 {applicationSteps.map((step, index) => (
                   <div key={index} className="flex items-start gap-4">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${step.color === 'orange' ? 'bg-primary/20' :
-                      step.color === 'green' ? 'bg-frutero-green/20' :
-                        'bg-frutero-pink/20'
+                      step.color === 'green' ? 'bg-accent/20' :
+                        'bg-secondary/20'
                       }`}>
                       <span className="text-lg">{step.icon}</span>
                     </div>
@@ -132,7 +132,7 @@ export default function ApplicationSection() {
                   <span className="text-2xl">⚡</span>
                   <h4 className="font-bold text-primary">Proceso rápido</h4>
                 </div>
-                <p className="text-sm text-foreground/70">
+                <p className="text-sm text-muted">
                   Nuestro proceso está optimizado para ser eficiente.
                   La mayoría de aplicaciones se procesan en menos de una semana.
                 </p>
@@ -143,7 +143,7 @@ export default function ApplicationSection() {
 
         {/* CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-primary to-frutero-pink rounded-2xl p-8 md:p-12 max-w-4xl mx-auto text-white">
+          <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 md:p-12 max-w-4xl mx-auto text-white">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">
               ¿Cumples con el perfil? ¡Aplica ahora!
             </h3>
@@ -165,11 +165,11 @@ export default function ApplicationSection() {
         <div className="mt-16">
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="w-16 h-16 bg-frutero-green rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📊</span>
               </div>
-              <h4 className="text-2xl font-bold text-frutero-green mb-2">85%</h4>
-              <p className="text-sm text-foreground/70">Tasa de aceptación</p>
+              <h4 className="text-2xl font-bold text-accent mb-2">85%</h4>
+              <p className="text-sm text-muted">Tasa de aceptación</p>
             </div>
 
             <div className="text-center">
@@ -177,15 +177,15 @@ export default function ApplicationSection() {
                 <span className="text-2xl">⚡</span>
               </div>
               <h4 className="text-2xl font-bold text-primary mb-2">3 días</h4>
-              <p className="text-sm text-foreground/70">Tiempo promedio</p>
+              <p className="text-sm text-muted">Tiempo promedio</p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-frutero-pink rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">⭐</span>
               </div>
-              <h4 className="text-2xl font-bold text-frutero-pink mb-2">4.9/5</h4>
-              <p className="text-sm text-foreground/70">Satisfacción del proceso</p>
+              <h4 className="text-2xl font-bold text-secondary mb-2">4.9/5</h4>
+              <p className="text-sm text-muted">Satisfacción del proceso</p>
             </div>
           </div>
         </div>

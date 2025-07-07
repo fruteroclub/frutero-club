@@ -40,9 +40,9 @@ src/components/stats/
 La landing page utiliza una paleta de colores personalizada:
 
 ```css
---primary: oklch(0.75 0.18 45) /* Naranja vibrante */ --frutero-green: oklch(0.75 0.15 130)
-  /* Verde aguacate */ --frutero-pink: oklch(0.7 0.2 350) /* Rosa coral */
-  --frutero-dark: oklch(0.15 0.02 0) /* Negro/gris oscuro */ --background: oklch(0.98 0.005 85)
+--primary: oklch(0.75 0.18 45) /* Naranja vibrante */ --accent: oklch(0.75 0.15 130)
+  /* Verde aguacate */ --secondary: oklch(0.7 0.2 350) /* Rosa coral */
+  --foreground: oklch(0.15 0.02 0) /* Negro/gris oscuro */ --background: oklch(0.98 0.005 85)
   /* Crema/blanco */;
 ```
 
@@ -188,7 +188,7 @@ Modificar las variables CSS en `src/styles/globals.css`:
 ```css
 :root {
   --primary: tu-color-naranja;
-  --frutero-green: tu-color-verde;
+  --accent: tu-color-verde;
   /* ... */
 }
 ```

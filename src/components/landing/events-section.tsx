@@ -41,7 +41,7 @@ export default function EventsSection() {
             Eventos que <span className="text-primary">transforman</span>{' '}
             carreras
           </h2>
-          <p className="mx-auto max-w-2xl text-xl text-foreground/70">
+          <p className="mx-auto max-w-2xl text-xl text-muted">
             Donde nacen las ideas y se forjan las conexiones
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function EventsSection() {
                 <div className="mb-6 text-center">
                   <div
                     className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${event.color === 'dark'
-                      ? 'bg-frutero-dark'
+                      ? 'bg-foreground'
                       : event.color === 'blue'
                         ? 'bg-blue-500'
                         : 'bg-purple-500'
@@ -121,7 +121,7 @@ export default function EventsSection() {
                   <p className="mb-3 text-sm font-bold tracking-wide text-primary uppercase">
                     {event.subtitle}
                   </p>
-                  <p className="mb-4 text-sm text-foreground/70">
+                  <p className="mb-4 text-sm text-muted">
                     {event.description}
                   </p>
                 </div>
@@ -165,8 +165,8 @@ export default function EventsSection() {
                     className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${event.availability === 'Cupo limitado'
                       ? 'bg-primary/20 text-primary'
                       : event.availability === 'Registro abierto'
-                        ? 'bg-frutero-green/20 text-frutero-green'
-                        : 'bg-frutero-pink/20 text-frutero-pink'
+                        ? 'bg-accent/20 text-accent'
+                        : 'bg-secondary/20 text-secondary'
                       }`}
                   >
                     {event.availability}
@@ -183,7 +183,7 @@ export default function EventsSection() {
             <h3 className="mb-4 text-2xl font-bold text-foreground">
               ¿Listo para tu próximo evento?
             </h3>
-            <p className="mb-6 text-foreground/70">
+            <p className="mb-6 text-muted">
               Regístrate y no te pierdas las mejores oportunidades
             </p>
             <button className="transform rounded-full bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-primary/90">
