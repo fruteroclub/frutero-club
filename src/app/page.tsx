@@ -10,11 +10,13 @@ import PulpaSection from '@/components/landing/pulpa-section'
 import ApplicationSection from '@/components/landing/application-section'
 import FAQSection from '@/components/landing/faq-section'
 import FinalCTASection from '@/components/landing/final-cta-section'
+import ValueProposition from '@/components/landing/value-proposition'
 
 export default function Home() {
   return (
     <PageWrapper>
       <HeroSection />
+      <ValueProposition />
       <StatsSection />
       <JourneySection />
       <TestimonialsSection />

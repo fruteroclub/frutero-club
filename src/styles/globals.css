@@ -46,13 +46,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
-  /* Frutero Club Colors */
-  --color-frutero-orange: var(--frutero-orange);
-  --color-frutero-green: var(--frutero-green);
-  --color-frutero-pink: var(--frutero-pink);
-  --color-frutero-dark: var(--frutero-dark);
-  --color-frutero-light: var(--frutero-light);
 }
 
 :root {
@@ -88,13 +81,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.554 0.135 66.442);
-
-  /* Frutero Club Color Palette */
-  --frutero-orange: oklch(0.75 0.18 45); /* Naranja vibrante */
-  --frutero-green: oklch(0.75 0.15 130); /* Verde aguacate */
-  --frutero-pink: oklch(0.7 0.2 350); /* Rosa coral */
-  --frutero-dark: oklch(0.15 0.02 0); /* Negro/gris oscuro */
-  --frutero-light: oklch(0.98 0.005 85); /* Crema/blanco */
 }
 
 .dark {
@@ -173,54 +159,5 @@
 
   a {
     @apply text-primary;
-  }
-
-  /* Utilidades para Frutero Club */
-  .text-frutero-orange {
-    color: var(--frutero-orange);
-  }
-
-  .text-frutero-green {
-    color: var(--frutero-green);
-  }
-
-  .text-frutero-pink {
-    color: var(--frutero-pink);
-  }
-
-  .text-frutero-dark {
-    color: var(--frutero-dark);
-  }
-
-  .bg-frutero-orange {
-    background-color: var(--frutero-orange);
-  }
-
-  .bg-frutero-green {
-    background-color: var(--frutero-green);
-  }
-
-  .bg-frutero-pink {
-    background-color: var(--frutero-pink);
-  }
-
-  .bg-frutero-dark {
-    background-color: var(--frutero-dark);
-  }
-
-  .bg-frutero-light {
-    background-color: var(--frutero-light);
-  }
-
-  .border-frutero-orange {
-    border-color: var(--frutero-orange);
-  }
-
-  .border-frutero-green {
-    border-color: var(--frutero-green);
-  }
-
-  .border-frutero-pink {
-    border-color: var(--frutero-pink);
   }
 }
