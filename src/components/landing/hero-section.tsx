@@ -3,7 +3,7 @@ import { SparklesIcon } from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <div className="relative w-full py-28 lg:pt-20">
+    <div className="w-full py-28 lg:pt-20 h-[75svh]">
       <div className="container mx-auto space-y-16 lg:space-y-8 px-4 text-center">
         {/* Título Principal */}
         <div className="mx-auto max-w-4xl">
@@ -30,12 +30,12 @@ export default function HeroSection() {
             size="xl"
             className="lg:px-14 lg:py-6 text-2xl font-medium transition duration-300 ease-in-out hover:scale-105"
           >
-            Quiero unirme <SparklesIcon className="ml-2 h-6 w-6" />
+            Quiero unirme <SparklesIcon className="fill-background ml-2 h-5 w-5" />
           </Button>
         </div>
 
         {/* Subtítulo */}
-        <h3 className="mx-auto max-w-2xl text-muted-foreground leading-normal text-left md:text-2xl">
+        <h3 className="mx-auto max-w-2xl text-muted-foreground leading-normal text-left text-2xl">
           🌱 Sube de nivel<br />
           🛠️ Cambia las reglas<br />
           🏆 <span className="font-bold underline underline-offset-4 decoration-secondary decoration-4">Hackea</span> tu vida

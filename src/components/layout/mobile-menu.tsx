@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from '@/components/ui/sheet'
-import { MenuIcon } from 'lucide-react'
+import { MenuIcon, SparkleIcon } from 'lucide-react'
 import { type MenuItemType } from './navbar'
 import AuthButton from '../buttons/auth-button-dummy'
 import { cn } from '@/lib/utils'
@@ -30,7 +30,7 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
           <span className="sr-only">Toggle navigation menu</span>
         </button>
       </SheetTrigger>
-      <SheetContent side="right" className="bg-background">
+      <SheetContent side="right" className="bg-background pt-16 md:pt-12">
         <SheetTitle className="sr-only">Menu</SheetTitle>
         <SheetDescription className="sr-only">
           Navigation items
@@ -40,7 +40,7 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
             <Link
               key={`${menuItem.displayText}-menuItem-${index}`}
               className={cn(
-                'inline-flex items-center justify-center px-4 py-2 text-lg font-medium text-secondary-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none',
+                'inline-flex items-center justify-center px-4 py-2 text-lg font-medium text-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none',
                 pathname === menuItem.href &&
                 'pointer-events-none underline decoration-primary decoration-[1.5px] underline-offset-[6px] hover:!text-secondary-foreground'
               )}
@@ -50,7 +50,8 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
             </Link>
           ))}
           <div className="flex justify-center py-2">
-            <AuthButton setIsMenuOpen={setIsMenuOpen} />
+            <AuthButton size="lg" setIsMenuOpen={setIsMenuOpen}>
+              <SparkleIcon className="mr-2 -ml-2 h-4 w-4 fill-background" /> Únete</AuthButton>
           </div>
         </div>
       </SheetContent>
