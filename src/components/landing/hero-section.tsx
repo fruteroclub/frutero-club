@@ -3,8 +3,8 @@ import { SparklesIcon } from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <div className="w-full pt-12 py-8 md:py-28 lg:py-20 min-h-[75svh]">
-      <div className="container mx-auto space-y-4 md:space-y-16 lg:space-y-8 px-4 text-center">
+    <div className="w-full pt-12 pb-8 md:py-28 lg:py-20 min-h-[70svh]">
+      <div className="container mx-auto space-y-8 md:space-y-16 lg:space-y-8 px-4 text-center">
         {/* Título Principal */}
         <div className="mx-auto max-w-4xl">
           <h1 className="text-4xl leading-tight font-semibold text-foreground md:text-5xl">
