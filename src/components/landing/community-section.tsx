@@ -50,7 +50,7 @@ export default function CommunitySection() {
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             ¿Qué hace especial a{' '}
-            <span className="text-frutero-orange">Frutero Club</span>?
+            <span className="text-primary">Frutero Club</span>?
           </h2>
           <p className="mx-auto max-w-2xl text-xl text-foreground/70">
             Más que una comunidad, somos un ecosistema completo para tu
@@ -68,7 +68,7 @@ export default function CommunitySection() {
                 className={`mb-6 flex h-16 w-16 items-center justify-center rounded-full ${benefit.color === 'green'
                   ? 'bg-frutero-green/20'
                   : benefit.color === 'orange'
-                    ? 'bg-frutero-orange/20'
+                    ? 'bg-primary/20'
                     : 'bg-frutero-pink/20'
                   }`}
               >
@@ -90,7 +90,7 @@ export default function CommunitySection() {
         <div className="mt-20 text-center">
           <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-lg md:p-12">
             <div className="mb-6 flex justify-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-frutero-orange">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
                 <span className="text-2xl">🥑</span>
               </div>
             </div>
