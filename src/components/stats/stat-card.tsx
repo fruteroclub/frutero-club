@@ -11,11 +11,11 @@ interface StatCardProps {
 export default function StatCard({ icon, number, description }: StatCardProps) {
 
   return (
-    <Card className={`w-full rounded-2xl border-2 p-2 py-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}>
+    <Card className={`w-full rounded-2xl border-2 px-2 py-6 text-center`}>
       <CardHeader className="px-4">
-        <div className="bg-background p-2 w-12 h-12 rounded-full ring-2 ring-muted">{icon({ className: 'w-8 h-8' })}</div>
+        <div className="bg-background p-2 w-10 h-10 rounded-full ring-2 ring-muted">{icon({ className: 'w-6 h-6' })}</div>
       </CardHeader>
-      <div className={`font-funnel text-4xl text-primary md:text-6xl font-bold mb-2`}>
+      <div className={`font-funnel text-4xl text-primary md:text-5xl lg:text-6xl font-bold`}>
         {number}
       </div>
       <p className="text-foreground font-medium">

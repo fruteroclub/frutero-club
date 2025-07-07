@@ -16,7 +16,7 @@ export default function StatsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
+        <div className="md:max-w-xl grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 lg:max-w-screen-md mx-auto">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -48,13 +48,6 @@ const stats = [
   },
   {
     icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
-      <TrophyIcon {...props} />
-    ),
-    number: '25+',
-    description: 'Finalistas de Hackatones',
-  },
-  {
-    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
       <RocketIcon {...props} />
     ),
     number: '30+',
@@ -66,6 +59,13 @@ const stats = [
     ),
     number: '15+',
     description: 'Países alcanzados',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <TrophyIcon {...props} />
+    ),
+    number: '25+',
+    description: 'Finalistas de Hackatones',
   },
   {
     icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
