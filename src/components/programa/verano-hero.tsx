@@ -1,20 +1,21 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { JSX, SVGProps, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { ArrowRight, Play, Users } from 'lucide-react'
+import { ArrowRight, Play, Users, BitcoinIcon, BrainCircuitIcon, HandMetalIcon } from 'lucide-react'
+import { CardContent, CardHeader, CardFooter } from '@/components/ui/card'
+import IconCard from '@/components/stats/icon-card'
+import Image from 'next/image'
 
 interface StatsItem {
   value: number
-  label: string
+  description: string
   prefix?: string
   suffix?: string
 }
 
 interface VeranoHeroProps {
-  className?: string
   deadline: Date
   onCtaClick: () => void
   onVideoClick?: () => void
@@ -45,136 +46,185 @@ function CountdownTimer({ deadline }: { deadline: Date }) {
   }, [deadline])
 
   return (
-    <div className="flex items-center gap-4 text-center font-mono">
+    <div className="flex items-center gap-6 text-center font-mono">
       {Object.entries(timeLeft).map(([key, value]) => (
-        <div key={key} className="flex flex-col">
-          <span className="text-2xl font-bold">{value.toString().padStart(2, '0')}</span>
-          <span className="text-xs uppercase text-muted-foreground">{key}</span>
+        <div key={key} className="flex flex-col last:text-primary">
+          <span className="text-5xl font-medium">{value.toString().padStart(2, '0')}</span>
+          <span className="text-xs uppercase not-last:text-background/75">{key}</span>
         </div>
       ))}
     </div>
   )
 }
 
-function AnimatedStat({ item, delay = 0 }: { item: StatsItem; delay?: number }) {
-  const [count, setCount] = useState(0)
+// function AnimatedStat({ item, delay = 0 }: { item: StatsItem; delay?: number }) {
+//   const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    const duration = 2000 // 2 seconds
-    const steps = 60
-    const increment = item.value / steps
-    let current = 0
-    let step = 0
+//   useEffect(() => {
+//     const duration = 2000 // 2 seconds
+//     const steps = 60
+//     const increment = item.value / steps
+//     let current = 0
+//     let step = 0
 
-    const timer = setInterval(() => {
-      current += increment
-      step++
+//     const timer = setInterval(() => {
+//       current += increment
+//       step++
 
-      if (step === steps) {
-        setCount(item.value)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(current))
-      }
-    }, duration / steps)
+//       if (step === steps) {
+//         setCount(item.value)
+//         clearInterval(timer)
+//       } else {
+//         setCount(Math.floor(current))
+//       }
+//     }, duration / steps)
 
-    return () => clearInterval(timer)
-  }, [item.value])
+//     return () => clearInterval(timer)
+//   }, [item.value])
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-      className="flex flex-col items-center text-center"
-    >
-      <span className="text-3xl font-bold">
-        {item.prefix}
-        {count}
-        {item.suffix}
-      </span>
-      <span className="text-sm text-muted-foreground">{item.label}</span>
-    </motion.div>
-  )
-}
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, y: 20 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       transition={{ duration: 0.5, delay }}
+//       className="flex flex-col items-center text-center"
+//     >
+//       <span className="text-3xl font-bold">
+//         {item.prefix}
+//         {count}
+//         {item.suffix}
+//       </span>
+//       <span className="text-sm text-muted-foreground">{item.description}</span>
+//     </motion.div>
+//   )
+// }
 
-const stats: StatsItem[] = [
-  { value: 200, label: 'Developers Transformados', prefix: '+' },
-  { value: 2, label: 'Millones USD Levantados', prefix: '$', suffix: 'M+' },
-  { value: 15, label: 'Cupos Disponibles' },
+const stats = [
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <BrainCircuitIcon strokeWidth={1} {...props} />
+    ),
+    label: 'Inteligencia Artificial',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <BitcoinIcon strokeWidth={1} {...props} />
+    ),
+    label: 'Negocios Digitales',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <HandMetalIcon strokeWidth={1} {...props} />
+    ),
+    label: 'Cultura de Internet',
+  },
+]
+const statsSmallViewport = [
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <BrainCircuitIcon {...props} />
+    ),
+    label: 'Inteligencia Artificial',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <BitcoinIcon {...props} />
+    ),
+    label: 'Negocios Digitales',
+  },
+  {
+    icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
+      <HandMetalIcon strokeWidth={1} {...props} />
+    ),
+    label: 'Cultura de Internet',
+  },
 ]
 
-export function VeranoHero({ className, deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
+export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
   return (
-    <section className={cn('relative overflow-hidden', className)}>
-      {/* Animated gradient background */}
-      <div
-        className="absolute inset-0 -z-10 animate-gradient bg-[linear-gradient(45deg,var(--primary),var(--accent),var(--secondary))] opacity-5 blur-3xl"
-        style={{ backgroundSize: '400% 400%' }}
-        aria-hidden="true"
-      />
-
-      <div className="mx-auto max-w-4xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-4"
-        >
-          <h1 className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            De Developer a Founder Global en 21 Días
-          </h1>
-
-          <p className="text-xl text-muted-foreground">
-            Únete a los 200+ developers que ya transformaron sus carreras
-          </p>
-
-          {/* Stats */}
-          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            {stats.map((stat, i) => (
-              <AnimatedStat key={stat.label} item={stat} delay={i * 0.2} />
-            ))}
+    <div className="md:max-w-3/4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        data-slot="card"
+        className="bg-foreground text-background flex flex-col gap-4 rounded-xl border-2 pb-6 shadow-sm"
+      >
+        <Image src="/images/programa/verano-en-cadena.jpg" alt="Verano En Cadena" width={500} height={500} className="rounded-t-xl w-full" />
+        <CardHeader className="space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-center md:text-left text-primary font-medium my-0">
+              Verano En Cadena
+            </h1>
+            <h3 className="text-center md:text-left md:ml-8">
+              De Cero a Impacto <br />en solo <span className="subrayado">3 Semanas</span>
+            </h3>
           </div>
-
-          {/* CTAs */}
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className='w-full flex justify-center'>
             <Button
-              size="xl"
+              size="lg"
               onClick={onCtaClick}
-              className="group w-full sm:w-auto"
+              className="group text-foreground font-semibold"
             >
-              ASEGURAR CUPO - ÚLTIMOS DÍAS
+              Regístrate Ahora
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
 
+          {/* Stats */}
+          <div className="grid md:hidden grid-cols-1 gap-4 p-4">
+            {statsSmallViewport.map((stat) => (
+              <IconCard className="bg-transparent text-background py-0" key={stat.label} icon={stat.icon} label={stat.label} />
+            ))}
+          </div>
+          <div className="hidden md:grid grid-cols-3 gap-2">
+            {stats.map((stat) => (
+              <IconCard className="bg-transparent border-none text-background" key={stat.label} icon={stat.icon} label={stat.label} />
+            ))}
+          </div>
+          <div className="w-full flex justify-center">
             <Button
-              variant="outline"
-              size="xl"
+              variant="ghost"
               onClick={onVideoClick}
-              className="group w-full sm:w-auto"
+              className="group"
             >
               Ver Programa Completo
-              <Play className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+              <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
             </Button>
           </div>
+        </CardContent>
+        {/* CTAs */}
+        <CardFooter className="w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4">
+
+          <Button
+            size="lg"
+            onClick={onCtaClick}
+            className="hidden md:block group text-foreground font-semibold"
+          >
+            Regístrate Ahora
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={onVideoClick}
+            className="hidden md:block group"
+          >
+            Ver Programa Completo
+            <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
+          </Button>
 
           {/* Countdown */}
-          <div className="mt-8 flex flex-col items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">
+          <div className="flex flex-col items-center gap-1 md:py-8">
+            <span className="text-lg font-medium">
               Aplicaciones cierran en:
             </span>
             <CountdownTimer deadline={deadline} />
           </div>
+        </CardFooter>
 
-          {/* Social Proof */}
-          <div className="mt-8 flex items-center justify-center gap-2 text-muted-foreground">
-            <Users className="h-5 w-5" />
-            <span className="text-sm">
-              Se parte de una comunidad elite de founders técnicos en LATAM
-            </span>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+      </motion.div>
+    </div>
   )
-} 
+}
