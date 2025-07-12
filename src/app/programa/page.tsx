@@ -4,6 +4,7 @@ import { VeranoValueProposition } from '@/components/programa/verano-value-propo
 import { VeranoCurriculum } from '@/components/programa/verano-curriculum'
 import { VeranoTestimonials } from '@/components/programa/verano-testimonials'
 import { VeranoFeaturesFramework } from '@/components/programa/verano-features-framework'
+import { VeranoFinalCTA } from '@/components/programa/verano-final-cta'
 import PageWrapper from '@/components/layout/page-wrapper'
 
 export const metadata: Metadata = {
@@ -17,6 +18,10 @@ export default function ProgramaPage() {
   const deadline = new Date()
   deadline.setDate(deadline.getDate() + 21)
 
+  // Set application deadline to 5 days from now for urgency
+  const applicationDeadline = new Date()
+  applicationDeadline.setDate(applicationDeadline.getDate() + 5)
+
   return (
     <PageWrapper>
       <div className="page">
@@ -28,6 +33,7 @@ export default function ProgramaPage() {
           <VeranoFeaturesFramework />
         </div>
       </div>
+      <VeranoFinalCTA applicationDeadline={applicationDeadline} />
     </PageWrapper>
   )
 } 
