@@ -107,6 +107,13 @@ const stats: StatsItem[] = [
 export function VeranoHero({ className, deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
   return (
     <section className={cn('relative overflow-hidden', className)}>
+      {/* Animated gradient background */}
+      <div
+        className="absolute inset-0 -z-10 animate-gradient bg-[linear-gradient(45deg,var(--primary),var(--accent),var(--secondary))] opacity-5 blur-3xl"
+        style={{ backgroundSize: '400% 400%' }}
+        aria-hidden="true"
+      />
+
       <div className="mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

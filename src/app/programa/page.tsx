@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { VeranoHeroWrapper } from '@/components/programa/verano-hero-wrapper'
+import { VeranoValueProposition } from '@/components/programa/verano-value-proposition'
 import PageWrapper from '@/components/layout/page-wrapper'
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function ProgramaPage() {
       <div className="page">
         <div className="container">
           <VeranoHeroWrapper deadline={deadline} />
+          <VeranoValueProposition />
         </div>
       </div>
     </PageWrapper>
