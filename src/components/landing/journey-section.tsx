@@ -3,28 +3,28 @@ import { SparkleIcon } from 'lucide-react'
 
 const phases = [
   {
-    phase: 'Módulo 1',
+    phase: 'Aprende',
     title: 'Monetizando en Internet: IA y Cripto',
     duration: '2 Semanas',
     description: 'Aprende fundamentos, identifica un problema y desarrolla tu idea',
     mascot: '/images/fruits/avocado.svg',
   },
   {
-    phase: 'Módulo 2',
+    phase: 'Construye',
     title: 'Construyendo tu MVP con IA',
     duration: '4 Semanas',
     description: 'Construye tu producto, obtén tus primeros usuarios e itera',
     mascot: '/images/fruits/cherries.svg',
   },
   {
-    phase: 'Módulo 3',
+    phase: 'Crece',
     title: 'Lanza tu producto y monetiza',
     duration: '4 Semanas',
     description: 'Growth Hacking, Marketing y Ventas para ganar',
     mascot: '/images/fruits/platano.svg',
   },
   {
-    phase: 'Módulo 4',
+    phase: 'Impacta',
     title: 'Incubación de talento',
     duration: '6 Semanas',
     description: 'Acelera tu startup o inicia un internship',
