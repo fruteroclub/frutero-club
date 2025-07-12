@@ -7,7 +7,7 @@ import { fonts } from '@/lib/fonts'
 
 export const metadata: Metadata = {
   title: 'Frutero Club',
-  description: 'La comunidad de Builders que crea Founders',
+  description: 'Donde el talento se transforma en impacto',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 }
 
