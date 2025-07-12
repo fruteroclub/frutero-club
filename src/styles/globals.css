@@ -160,6 +160,10 @@
   a {
     @apply text-primary;
   }
+
+  .subrayado {
+    @apply underline decoration-primary decoration-2 underline-offset-[6px] hover:!text-foreground;
+  }
 }
 
 @keyframes gradient {
