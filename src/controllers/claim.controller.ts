@@ -18,7 +18,7 @@ export async function claimController(req: Request) {
     const stakingInfo = await checkStaking(address);
     if (stakingInfo.amount == BigInt(0)) {
       return Response.json({ error: 'Need to stake on PulpaStaking' }, { status: 400 });
-    } else if (stakingInfo.startTime > 0 || !stakingInfo.claimed) {
+    } else if (stakingInfo.startTime > 0 && !stakingInfo.claimed) {
       return Response.json({ error: 'Need to claim the staking first' }, { status: 400 });
     } 
 

@@ -1,13 +1,14 @@
 import { Hex } from "viem";
 import { VAULT_ABI, MEMBERSHIP_ABI } from "@/abis";
-import { initializeClients } from "@/api/config";
+import { initializeVaultChainClients, initializeNFTChainClients } from "@/api/config";
 
-const { publicClient } = initializeClients();
+const { publicClient: vaultClient } = initializeVaultChainClients();
+const { publicClient: nftClient } = initializeNFTChainClients();
 
 type StakingInfo = { user: Hex, amount: bigint, startTime: bigint, claimed: boolean };
 
 export async function checkStaking(address: Hex) {
-  const stakedAmount = await publicClient.readContract({
+  const stakedAmount = await vaultClient.readContract({
     address: process.env.VAULT_ADDRESS as Hex,
     abi: VAULT_ABI,
     functionName: "getStakingInfo",
@@ -17,7 +18,7 @@ export async function checkStaking(address: Hex) {
 }
 
 export async function hasNFT(address: Hex) {
-  return await publicClient.readContract({
+  return await nftClient.readContract({
     address: process.env.MEMBERSHIP_ADDRESS as Hex,
     abi: MEMBERSHIP_ABI,
     functionName: 'hasValidToken',

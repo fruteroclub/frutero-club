@@ -1,8 +1,8 @@
 import { Hex } from "viem";
 import { MEMBERSHIP_ABI } from "@/abis";
-import { initializeClients } from "@/app/api/config";
+import { initializeNFTChainClients } from "@/app/api/config";
 
-const { account, publicClient, walletClient } = initializeClients();
+const { account, publicClient, walletClient } = initializeNFTChainClients();
 
 export async function mintNFT(address: Hex) {
   const { request } = await publicClient.simulateContract({
