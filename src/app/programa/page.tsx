@@ -24,7 +24,7 @@ export default function ProgramaPage() {
 
   return (
     <PageWrapper>
-      <div className="page">
+      <div className="page pt-0">
         <div className="container">
           <VeranoHeroWrapper deadline={deadline} />
           <VeranoValueProposition />
