@@ -40,12 +40,29 @@ function CountdownTimer({ deadline }: { deadline: Date }) {
 
   return (
     <div className="flex items-center gap-6 text-center font-mono">
-      {Object.entries(timeLeft).map(([key, value]) => (
-        <div key={key} className="flex flex-col last:text-primary">
-          <span className="text-5xl font-medium">{value.toString().padStart(2, '0')}</span>
-          <span className="text-xs uppercase not-last:text-background/75">{key}</span>
+      {/* Days */}
+      <div className="flex flex-col">
+        <span className="text-5xl font-medium">{timeLeft.days.toString().padStart(2, '0')}</span>
+        <span className="text-xs uppercase text-background/75">days</span>
+      </div>
+
+      {/* Hours:Minutes:Seconds */}
+      <div className="flex flex-col text-primary">
+        <div className="flex items-center text-5xl font-medium">
+          <span>{timeLeft.hours.toString().padStart(2, '0')}</span>
+          <span className="mx-1 text-4xl">:</span>
+          <span>{timeLeft.minutes.toString().padStart(2, '0')}</span>
+          <span className="mx-1 text-4xl">:</span>
+          <span>{timeLeft.seconds.toString().padStart(2, '0')}</span>
         </div>
-      ))}
+        <div className="flex items-center justify-between text-xs uppercase">
+          <span>hours</span>
+          <span className="mx-1 opacity-0">:</span>
+          <span>minutes</span>
+          <span className="mx-1 opacity-0">:</span>
+          <span>seconds</span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -190,7 +207,7 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
           </div>
         </CardContent>
         {/* CTAs */}
-        <CardFooter className="w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
+        <CardFooter className="md:text-foreground w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
 
           {/* Countdown */}
           <div className="flex flex-col items-center gap-1 md:pb-8">
