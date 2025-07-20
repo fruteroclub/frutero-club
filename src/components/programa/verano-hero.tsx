@@ -3,17 +3,10 @@
 import { JSX, SVGProps, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Play, Users, BitcoinIcon, BrainCircuitIcon, HandMetalIcon } from 'lucide-react'
+import { ArrowRight, Play, BitcoinIcon, BrainCircuitIcon, HandMetalIcon } from 'lucide-react'
 import { CardContent, CardHeader, CardFooter } from '@/components/ui/card'
 import IconCard from '@/components/stats/icon-card'
 import Image from 'next/image'
-
-interface StatsItem {
-  value: number
-  description: string
-  prefix?: string
-  suffix?: string
-}
 
 interface VeranoHeroProps {
   deadline: Date
@@ -134,7 +127,7 @@ const statsSmallViewport = [
   },
   {
     icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
-      <HandMetalIcon strokeWidth={1} {...props} />
+      <HandMetalIcon {...props} />
     ),
     label: 'Cultura de Internet',
   },
@@ -142,21 +135,22 @@ const statsSmallViewport = [
 
 export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
   return (
-    <div className="md:max-w-3/4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="md:max-w-3/4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         data-slot="card"
-        className="bg-foreground text-background flex flex-col gap-4 rounded-xl border-2 pb-6 shadow-sm"
+        className="bg-foreground lg:bg-transparent text-background flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-x-0 rounded-xl pb-6"
       >
-        <Image src="/images/programa/verano-en-cadena.jpg" alt="Verano En Cadena" width={500} height={500} className="rounded-t-xl w-full" />
-        <CardHeader className="space-y-8">
-          <div className="space-y-4">
-            <h1 className="text-center md:text-left text-primary font-medium my-0">
+        <Image src="/images/programa/verano-en-cadena.jpg" alt="Verano En Cadena" width={500} height={500} className="rounded-t-xl w-full lg:rounded-l-xl lg:rounded-r-none lg:rounded-t-none" />
+
+        <CardHeader className="space-y-8 lg:bg-foreground lg:rounded-r-xl lg:flex lg:flex-col lg:justify-center lg:px-8">
+          <div className="flex flex-col gap-y-0">
+            <h1 className="text-center lg:text-left text-primary font-medium my-0">
               Verano En Cadena
             </h1>
-            <h3 className="text-center md:text-left md:ml-8">
+            <h3 className="text-center lg:text-left">
               De Cero a Impacto <br />en solo <span className="subrayado">3 Semanas</span>
             </h3>
           </div>
@@ -171,20 +165,20 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="w-full flex flex-col items-center lg:col-span-2">
 
           {/* Stats */}
-          <div className="grid md:hidden grid-cols-1 gap-4 p-4">
+          <div className="w-full grid md:hidden grid-cols-1 gap-4 p-4">
             {statsSmallViewport.map((stat) => (
               <IconCard className="bg-transparent text-background py-0" key={stat.label} icon={stat.icon} label={stat.label} />
             ))}
           </div>
-          <div className="hidden md:grid grid-cols-3 gap-2">
+          <div className="hidden md:grid md:w-full grid-cols-3 gap-2 md:py-2 lg:max-w-screen-sm">
             {stats.map((stat) => (
-              <IconCard className="bg-transparent border-none text-background" key={stat.label} icon={stat.icon} label={stat.label} />
+              <IconCard className="bg-transparent lg:text-primary border-none text-background md:py-0 lg:shadow-none" key={stat.label} icon={stat.icon} label={stat.label} />
             ))}
           </div>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center md:py-2">
             <Button
               variant="ghost"
               onClick={onVideoClick}
@@ -196,34 +190,16 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
           </div>
         </CardContent>
         {/* CTAs */}
-        <CardFooter className="w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4">
-
-          <Button
-            size="lg"
-            onClick={onCtaClick}
-            className="hidden md:block group text-foreground font-semibold"
-          >
-            Regístrate Ahora
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={onVideoClick}
-            className="hidden md:block group"
-          >
-            Ver Programa Completo
-            <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
-          </Button>
+        <CardFooter className="w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
 
           {/* Countdown */}
-          <div className="flex flex-col items-center gap-1 md:py-8">
+          <div className="flex flex-col items-center gap-1 md:pb-8">
             <span className="text-lg font-medium">
               Aplicaciones cierran en:
             </span>
             <CountdownTimer deadline={deadline} />
           </div>
         </CardFooter>
-
       </motion.div>
     </div>
   )
