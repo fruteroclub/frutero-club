@@ -15,10 +15,12 @@ export default function IconCard({ icon, className, label, description }: IconCa
 
 
   return (
-    <Card className={cn(`w-full rounded-2xl border-2 py-4 text-center`, className)}>
+    <Card className={cn(`rounded-2xl border-2 py-4 text-center`, className)}>
       <CardHeader className="px-4 flex md:flex-col items-center justify-center w-full">
-        <div className="bg-foreground border-none ring-none p-2 aspect-square w-1/2 md:w-3/4 h-full rounded-full flex items-center justify-center">{icon({ className: 'w-3/4 h-3/4 text-primary' })}</div>
-        <CardTitle className={`font-funnel text-2xl font-medium`}>
+        <div className="bg-foreground lg:bg-foreground border-none ring-none p-2 aspect-square w-1/2 md:w-3/4 lg:w-1/2 h-full rounded-full flex items-center justify-center">
+          {icon({ className: 'w-3/5 h-3/5 md:w-3/4 md:h-3/4 text-primary' })}
+        </div>
+        <CardTitle className={`font-funnel text-2xl font-medium lg:text-foreground`}>
           {label}
         </CardTitle>
       </CardHeader>
