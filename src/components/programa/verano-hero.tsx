@@ -182,7 +182,7 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
             <Button
               variant="ghost"
               onClick={onVideoClick}
-              className="group"
+              className="group text-background md:text-foreground"
             >
               Ver Programa Completo
               <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
