@@ -152,7 +152,7 @@ const statsSmallViewport = [
 
 export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
   return (
-    <div className="md:max-w-3/4">
+    <div className="w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -199,7 +199,7 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
             <Button
               variant="ghost"
               onClick={onVideoClick}
-              className="group text-background md:text-foreground"
+              className="group text-background lg:text-foreground"
             >
               Ver Programa Completo
               <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
@@ -207,7 +207,7 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
           </div>
         </CardContent>
         {/* CTAs */}
-        <CardFooter className="md:text-foreground w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
+        <CardFooter className="lg:text-foreground w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
 
           {/* Countdown */}
           <div className="flex flex-col items-center gap-1 md:pb-8">

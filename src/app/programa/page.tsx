@@ -26,11 +26,13 @@ export default function ProgramaPage() {
     <PageWrapper>
       <div className="page pt-0">
         <div className="container">
-          <VeranoHeroWrapper deadline={deadline} />
-          <VeranoValueProposition />
-          <VeranoCurriculum />
-          <VeranoTestimonials />
-          <VeranoFeaturesFramework />
+          <div className="w-full md:max-w-3/4">
+            <VeranoHeroWrapper deadline={deadline} />
+            <VeranoValueProposition />
+            <VeranoCurriculum />
+            <VeranoTestimonials />
+            <VeranoFeaturesFramework />
+          </div>
         </div>
       </div>
       <VeranoFinalCTA applicationDeadline={applicationDeadline} />

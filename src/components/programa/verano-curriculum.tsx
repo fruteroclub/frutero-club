@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
   ChevronDown,
@@ -479,7 +478,7 @@ function TechStackGrid() {
               <CardTitle className="text-lg">{category.category}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {category.technologies.map((tech, j) => (
+              {category.technologies.map((tech) => (
                 <div key={tech.name} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
                   <div className="text-primary">{tech.icon}</div>
                   <div>
@@ -511,7 +510,7 @@ export function VeranoCurriculum({ className }: VeranoCurriculumProps) {
   const currentWeek = weekData.find(w => w.week === activeWeek)!
 
   return (
-    <section className={cn('py-16 md:py-24', className)}>
+    <section className={cn('pt-16 md:pt-8 space-y-12', className)}>
       {/* Header */}
       <div className="text-center mb-16">
         <motion.div
@@ -520,7 +519,7 @@ export function VeranoCurriculum({ className }: VeranoCurriculumProps) {
           transition={{ duration: 0.5 }}
         >
           <h2 className="mb-4">
-            21 Días Para Dominar el Futuro
+            <span className="font-bold underline underline-offset-4 decoration-secondary decoration-4">21 Días</span> para dominar el Futuro
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             El curriculum más intensivo de Centroamérica. Transformación acelerada por IA

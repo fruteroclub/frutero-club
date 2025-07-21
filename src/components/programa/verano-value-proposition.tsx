@@ -79,9 +79,9 @@ function AnimatedCounter({ item, delay = 0 }: { item: MetricItem; delay?: number
 
 function BenefitCard({ benefit, index }: { benefit: BenefitItem; index: number }) {
   const colorClasses = {
-    primary: 'border-primary/20 hover:border-primary/40 hover:bg-primary/5',
-    secondary: 'border-secondary/20 hover:border-secondary/40 hover:bg-secondary/5',
-    accent: 'border-accent/20 hover:border-accent/40 hover:bg-accent/5'
+    primary: 'border-[2.5px] border-primary hover:border-primary/40 hover:bg-primary/5',
+    secondary: 'border-[2.5px] border-secondary hover:border-secondary/40 hover:bg-secondary/5',
+    accent: 'border-[2.5px] border-accent hover:border-accent/40 hover:bg-accent/5'
   }
 
   const iconColorClasses = {
@@ -164,15 +164,16 @@ const metrics: MetricItem[] = [
 
 export function VeranoValueProposition({ className }: VeranoValuePropositionProps) {
   return (
-    <section className={cn('py-16 md:py-24', className)}>
-      <div className="text-center mb-16">
+    <section className={cn('pt-16 md:pt-8 space-y-12', className)}>
+      <div className="text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="mb-4">
-            Acelera Tu Carrera 10x en Solo 21 Días
+          <h2 className="text-4xl font-bold mb-4">
+            Acelera Tu Carrera 10x en
+            <span className="ml-2 inline-block -rotate-5 transform rounded-lg bg-secondary px-4 py-2 text-secondary-foreground">21 Días</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Programa intensivo que convierte hackers en founders exitosos.
@@ -182,12 +183,12 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
       </div>
 
       {/* Success Metrics */}
-      <div className="mb-16">
+      <div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mb-8"
+          className="text-center mb-4"
         >
           <h3 className="text-2xl font-bold mb-2">Resultados Comprobados</h3>
           <p className="text-muted-foreground">
@@ -195,7 +196,7 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="lg:mx-auto grid grid-cols-2 md:grid-cols-3 gap-x-4 lg:gap-x-0 gap-y-2 lg:px-16">
           {metrics.map((metric, i) => (
             <AnimatedCounter key={metric.label} item={metric} delay={i * 0.1} />
           ))}
@@ -203,12 +204,12 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
       </div>
 
       {/* Benefits Grid */}
-      <div className="mb-16">
+      <div className="px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mb-12"
+          className="text-center mb-4"
         >
           <h3 className="text-2xl font-bold mb-2">6 Transformaciones Clave</h3>
           <p className="text-muted-foreground">
@@ -224,22 +225,26 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
       </div>
 
       {/* Before/After Comparison */}
-      <div className="mb-16">
+      <div className="mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <h3 className="text-2xl font-bold mb-2">Tu Transformación</h3>
+          <h2 className="font-bold mb-2">Tu
+            <span className="ml-2 inline-block rotate-2 transform rounded-lg bg-accent px-4 py-2 text-foreground">
+              Transformación
+            </span>
+          </h2>
           <p className="text-muted-foreground">
             De donde estás ahora a donde quieres llegar
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4">
           {/* Before */}
-          <Card className="border-muted/50">
+          <Card className="border-muted/50 border-[2.5px]">
             <CardHeader className="text-center">
               <CardTitle className="text-muted-foreground">Antes del Programa</CardTitle>
             </CardHeader>
@@ -264,7 +269,7 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
           </Card>
 
           {/* After */}
-          <Card className="border-primary/50 bg-primary/5">
+          <Card className="border-primary/50 bg-primary/5 border-[2.5px]">
             <CardHeader className="text-center">
               <CardTitle className="text-primary">Después del Programa</CardTitle>
             </CardHeader>
@@ -295,7 +300,7 @@ export function VeranoValueProposition({ className }: VeranoValuePropositionProp
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
-        className="text-center"
+        className="text-center px-4"
       >
         <Card className="max-w-4xl mx-auto border-accent/20 bg-accent/5">
           <CardContent className="pt-8">
