@@ -1,10 +1,8 @@
 import { Metadata } from 'next'
 import { VeranoHeroWrapper } from '@/components/programa/verano-hero-wrapper'
 import { VeranoValueProposition } from '@/components/programa/verano-value-proposition'
-import { VeranoCurriculum } from '@/components/programa/verano-curriculum'
-import { VeranoTestimonials } from '@/components/programa/verano-testimonials'
-import { VeranoFeaturesFramework } from '@/components/programa/verano-features-framework'
-import { VeranoFinalCTA } from '@/components/programa/verano-final-cta'
+import { VeranoOverview } from '@/components/programa/verano-overview'
+import { VeranoSimpleCTA } from '@/components/programa/verano-simple-cta'
 import PageWrapper from '@/components/layout/page-wrapper'
 
 export const metadata: Metadata = {
@@ -29,13 +27,11 @@ export default function ProgramaPage() {
           <div className="w-full md:max-w-3/4">
             <VeranoHeroWrapper deadline={deadline} />
             <VeranoValueProposition />
-            <VeranoCurriculum />
-            <VeranoTestimonials />
-            <VeranoFeaturesFramework />
+            <VeranoOverview />
+            <VeranoSimpleCTA applicationDeadline={applicationDeadline} />
           </div>
         </div>
       </div>
-      <VeranoFinalCTA applicationDeadline={applicationDeadline} />
     </PageWrapper>
   )
 } 
