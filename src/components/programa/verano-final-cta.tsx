@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
@@ -11,16 +11,13 @@ import {
   Star,
   Users,
   Trophy,
-  CheckCircle,
   Phone,
   Download,
   CreditCard,
   Calendar,
   ArrowRight,
   Sparkles,
-  Target,
   Globe,
-  Award,
   Zap,
   Heart,
   X,
@@ -187,7 +184,7 @@ function CountdownTimer({ deadline }: { deadline: Date }) {
       </div>
 
       <div className="grid grid-cols-4 gap-4 max-w-md mx-auto">
-        {timeUnits.map((unit, i) => (
+        {timeUnits.map((unit) => (
           <motion.div
             key={unit.label}
             initial={{ scale: 1 }}
