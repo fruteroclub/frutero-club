@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -20,7 +21,8 @@ import {
   Award,
   Target,
   Rocket,
-  Globe
+  Globe,
+  User
 } from 'lucide-react'
 
 interface Achievement {
@@ -41,7 +43,7 @@ interface Testimonial {
   achievements: Achievement[]
   transformation: string
   videoUrl?: string
-  profileImage: string
+  profileImage?: string
   featured: boolean
 }
 
@@ -73,7 +75,7 @@ const testimonials: Testimonial[] = [
       { icon: <Users className="h-4 w-4" />, label: "Team Size", value: "15", color: "secondary" },
       { icon: <TrendingUp className="h-4 w-4" />, label: "Growth", value: "8 meses", color: "accent" }
     ],
-    profileImage: "Professional headshot of Ana Rodríguez - Guatemalan developer/CTO with confident, approachable expression",
+    profileImage: undefined,
     featured: true,
     videoUrl: "https://example.com/ana-testimonial"
   },
@@ -91,7 +93,7 @@ const testimonials: Testimonial[] = [
       { icon: <Users className="h-4 w-4" />, label: "Employees", value: "40", color: "secondary" },
       { icon: <Trophy className="h-4 w-4" />, label: "Started", value: "Hackathon", color: "accent" }
     ],
-    profileImage: "Professional headshot of Carlos Mendoza - Salvadoran founder with entrepreneurial confidence",
+    profileImage: undefined,
     featured: true
   },
   {
@@ -108,7 +110,7 @@ const testimonials: Testimonial[] = [
       { icon: <Trophy className="h-4 w-4" />, label: "Hackathons", value: "Winner", color: "secondary" },
       { icon: <Globe className="h-4 w-4" />, label: "Location", value: "Silicon Valley", color: "accent" }
     ],
-    profileImage: "Professional headshot of María González - Costa Rican AI expert with technical confidence",
+    profileImage: undefined,
     featured: true,
     videoUrl: "https://example.com/maria-testimonial"
   },
@@ -126,7 +128,7 @@ const testimonials: Testimonial[] = [
       { icon: <Users className="h-4 w-4" />, label: "Mentees", value: "50+", color: "secondary" },
       { icon: <Award className="h-4 w-4" />, label: "First", value: "Hondureño", color: "accent" }
     ],
-    profileImage: "Professional headshot of Diego López - Honduran DAO leader with global perspective",
+    profileImage: undefined,
     featured: false
   },
   {
@@ -143,7 +145,7 @@ const testimonials: Testimonial[] = [
       { icon: <Users className="h-4 w-4" />, label: "Network", value: "Strong", color: "secondary" },
       { icon: <Target className="h-4 w-4" />, label: "Cofounders", value: "3", color: "accent" }
     ],
-    profileImage: "Professional headshot of Sofía Herrera - Nicaraguan founder with community-focused approach",
+    profileImage: undefined,
     featured: false
   },
   {
@@ -160,7 +162,7 @@ const testimonials: Testimonial[] = [
       { icon: <MapPin className="h-4 w-4" />, label: "Region", value: "LATAM", color: "secondary" },
       { icon: <Star className="h-4 w-4" />, label: "Time", value: "6 meses", color: "accent" }
     ],
-    profileImage: "Professional headshot of Luis Martínez - Panamanian tech lead with fintech expertise",
+    profileImage: undefined,
     featured: false
   }
 ]
@@ -237,8 +239,27 @@ function TestimonialCard({ testimonial, isActive = false }: { testimonial: Testi
         <CardHeader className="pb-4">
           <div className="flex items-start gap-4">
             <div className="relative">
-              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center text-xs text-center p-2">
-                {testimonial.profileImage}
+              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                {testimonial.profileImage ? (
+                  <Image
+                    src={testimonial.profileImage}
+                    alt={`${testimonial.name} profile`}
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to icon if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      target.nextElementSibling?.classList.remove('hidden');
+                    }}
+                  />
+                ) : (
+                  <User className="h-8 w-8 text-muted-foreground" />
+                )}
+                {testimonial.profileImage && (
+                  <User className="h-8 w-8 text-muted-foreground hidden" />
+                )}
               </div>
               {testimonial.videoUrl && (
                 <Button
@@ -435,7 +456,7 @@ function TestimonialCarousel() {
 
 export function VeranoTestimonials({ className }: VeranoTestimonialsProps) {
   return (
-    <section className={cn('py-16 md:py-24', className)}>
+    <section className={cn('pt-16 md:pt-8', className)}>
       {/* Header */}
       <div className="text-center mb-16">
         <motion.div
@@ -495,24 +516,129 @@ export function VeranoTestimonials({ className }: VeranoTestimonialsProps) {
 
         <Card className="max-w-4xl mx-auto">
           <CardContent className="p-8">
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-6">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-primary mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">
-                  Central America map with fruit character locations showing alumni
-                  distribution across Guatemala, El Salvador, Honduras, Nicaragua,
-                  Costa Rica, Panama, Belize
-                </p>
+            {/* Interactive Map Visualization */}
+            <div className="aspect-video bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-950/20 dark:to-green-950/20 rounded-lg relative overflow-hidden mb-6 border">
+              {/* Map Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <svg className="w-full h-full" viewBox="0 0 400 200" fill="none">
+                  <path d="M50 100 L100 80 L150 90 L200 85 L250 95 L300 90 L350 100" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" />
+                  <path d="M80 50 L80 150 M120 40 L120 160 M160 45 L160 155 M200 40 L200 160 M240 45 L240 155 M280 50 L280 150 M320 55 L320 145" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1,1" />
+                </svg>
+              </div>
+
+              {/* Central America Outline */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-80 h-40">
+                  {/* Guatemala */}
+                  <div className="absolute top-4 left-8 group cursor-pointer">
+                    <div className="w-3 h-3 bg-primary rounded-full shadow-lg animate-pulse"></div>
+                    <div className="absolute -top-8 -left-6 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Guatemala 🇬🇹
+                    </div>
+                  </div>
+
+                  {/* El Salvador */}
+                  <div className="absolute top-8 left-12 group cursor-pointer">
+                    <div className="w-3 h-3 bg-secondary rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                    <div className="absolute -top-8 -left-8 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      El Salvador 🇸🇻
+                    </div>
+                  </div>
+
+                  {/* Honduras */}
+                  <div className="absolute top-6 left-16 group cursor-pointer">
+                    <div className="w-3 h-3 bg-accent rounded-full shadow-lg animate-pulse" style={{ animationDelay: '1s' }}></div>
+                    <div className="absolute -top-8 -left-6 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Honduras 🇭🇳
+                    </div>
+                  </div>
+
+                  {/* Nicaragua */}
+                  <div className="absolute top-12 left-20 group cursor-pointer">
+                    <div className="w-3 h-3 bg-primary rounded-full shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+                    <div className="absolute -top-8 -left-6 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Nicaragua 🇳🇮
+                    </div>
+                  </div>
+
+                  {/* Costa Rica */}
+                  <div className="absolute top-16 left-24 group cursor-pointer">
+                    <div className="w-3 h-3 bg-secondary rounded-full shadow-lg animate-pulse" style={{ animationDelay: '2s' }}></div>
+                    <div className="absolute -top-8 -left-8 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Costa Rica 🇨🇷
+                    </div>
+                  </div>
+
+                  {/* Panama */}
+                  <div className="absolute top-20 left-28 group cursor-pointer">
+                    <div className="w-3 h-3 bg-accent rounded-full shadow-lg animate-pulse" style={{ animationDelay: '2.5s' }}></div>
+                    <div className="absolute -top-8 -left-6 bg-card border rounded px-2 py-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Panamá 🇵🇦
+                    </div>
+                  </div>
+
+                  {/* Connection Lines */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 320 160">
+                    <path d="M32 16 L48 32 L64 24 L80 48 L96 64 L112 80" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" opacity="0.3" fill="none" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Legend */}
+              <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur border rounded-lg p-3">
+                <div className="text-xs font-medium mb-2">Alumni Distribution</div>
+                <div className="flex gap-3 text-xs">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <span>High Impact</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                    <span>Growing</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 bg-accent rounded-full"></div>
+                    <span>Emerging</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {['Guatemala 🇬🇹', 'El Salvador 🇸🇻', 'Honduras 🇭🇳', 'Nicaragua 🇳🇮', 'Costa Rica 🇨🇷', 'Panamá 🇵🇦', 'Belize 🇧🇿', 'México 🇲🇽'].map((country, i) => (
-                <div key={country} className="text-center p-3 rounded-lg bg-muted/30">
-                  <div className="text-2xl mb-1">{country.split(' ')[1]}</div>
-                  <div className="text-sm font-medium">{country.split(' ')[0]}</div>
-                  <div className="text-xs text-muted-foreground">Alumni activos</div>
-                </div>
+            {/* Country Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                { name: 'Guatemala', flag: '🇬🇹', alumni: '25+', status: 'primary' },
+                { name: 'El Salvador', flag: '🇸🇻', alumni: '18+', status: 'secondary' },
+                { name: 'Honduras', flag: '🇭🇳', alumni: '12+', status: 'accent' },
+                { name: 'Nicaragua', flag: '🇳🇮', alumni: '15+', status: 'primary' },
+                { name: 'Costa Rica', flag: '🇨🇷', alumni: '22+', status: 'secondary' },
+                { name: 'Panamá', flag: '🇵🇦', alumni: '10+', status: 'accent' }
+              ].map((country, i) => (
+                <motion.div
+                  key={country.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className={cn(
+                    'text-center p-4 rounded-lg border-2 transition-all duration-300 hover:scale-105 cursor-pointer',
+                    {
+                      'border-primary/20 bg-primary/5 hover:border-primary/40': country.status === 'primary',
+                      'border-secondary/20 bg-secondary/5 hover:border-secondary/40': country.status === 'secondary',
+                      'border-accent/20 bg-accent/5 hover:border-accent/40': country.status === 'accent'
+                    }
+                  )}
+                >
+                  <div className="text-3xl mb-2">{country.flag}</div>
+                  <div className="text-sm font-bold mb-1">{country.name}</div>
+                  <div className={cn('text-lg font-bold mb-1', {
+                    'text-primary': country.status === 'primary',
+                    'text-secondary': country.status === 'secondary',
+                    'text-accent': country.status === 'accent'
+                  })}>
+                    {country.alumni}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Alumni Activos</div>
+                </motion.div>
               ))}
             </div>
           </CardContent>

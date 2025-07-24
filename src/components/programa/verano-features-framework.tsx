@@ -9,7 +9,6 @@ import {
   Check,
   X,
   Star,
-  Zap,
   Code,
   Users,
   Trophy,
@@ -21,12 +20,10 @@ import {
   Award,
   DollarSign,
   Clock,
-  BookOpen,
   Lightbulb,
-  TrendingUp,
   ChevronRight,
   CheckCircle,
-  AlertCircle
+  Smartphone
 } from 'lucide-react'
 
 interface Feature {
@@ -74,92 +71,92 @@ interface VeranoFeaturesFrameworkProps {
 
 const coreFeatures: Feature[] = [
   {
-    id: 'ai-accelerated',
-    title: 'AI-Accelerated Development',
-    description: 'Domina el desarrollo 10x más rápido con herramientas de IA de última generación',
+    id: 'ai-development',
+    title: 'AI-Enhanced Development',
+    description: 'Aprende a usar herramientas de IA para acelerar tu proceso de desarrollo',
     benefits: [
-      'Cursor IDE Mastery para coding acelerado',
-      'Prompt Engineering avanzado',
-      'Code Generation automatizado',
-      'Debugging con AI assistance',
-      'Documentación automática'
+      'Configuración y uso de Cursor IDE',
+      'Técnicas de prompt engineering',
+      'Automatización con Claude Code',
+      'Debugging asistido por IA',
+      'Generación de documentación'
     ],
-    differentiator: 'Única metodología que integra AI desde día 1',
+    differentiator: 'Enfoque hands-on con herramientas actuales',
     icon: <Brain className="h-8 w-8" />,
     color: 'primary'
   },
   {
-    id: 'real-world-apps',
-    title: 'Real-World Application Building',
-    description: 'Construye aplicaciones reales con usuarios reales y feedback inmediato',
+    id: 'practical-building',
+    title: 'Construcción Práctica',
+    description: 'Desarrolla aplicaciones funcionales con tecnologías Web3 y deployment real',
     benefits: [
-      'Farcaster Mini Apps con usuarios activos',
-      'Base Blockchain integration',
-      'Full-Stack con NextJS + PostgreSQL',
-      'Production deployment en Vercel',
-      'User acquisition y métricas reales'
+      'Apps en Farcaster con usuarios reales',
+      'Integración con Base blockchain',
+      'Stack completo: Next.js + Supabase',
+      'Deploy en producción',
+      'Métricas y feedback de usuarios'
     ],
-    differentiator: 'Proyectos reales, no demos académicos',
+    differentiator: 'Proyectos con impacto real y usuarios',
     icon: <Code className="h-8 w-8" />,
     color: 'secondary'
   },
   {
-    id: 'competition-ready',
-    title: 'Competition-Ready Launch',
-    description: 'Prepárate para competir y ganar en hackathons y concursos internacionales',
+    id: 'competition-participation',
+    title: 'Participación en Competencias',
+    description: 'Prepara y presenta tu proyecto en competencias como Onchain Summer',
     benefits: [
-      'Onchain Summer submission garantizada',
-      'Professional polish para jueces',
-      'Demo video production',
-      'Marketing strategy multi-canal',
-      'Press kit profesional'
+      'Submission a Onchain Summer',
+      'Mejora de calidad del proyecto',
+      'Creación de demo videos',
+      'Estrategia de presentación',
+      'Material de marketing'
     ],
-    differentiator: 'Única garantía de participación competitiva',
+    differentiator: 'Experiencia real en competencias tech',
     icon: <Trophy className="h-8 w-8" />,
     color: 'accent'
   },
   {
-    id: 'elite-community',
-    title: 'Elite Community Access',
-    description: 'Únete a una red exclusiva de 200+ builders exitosos en 15+ países',
+    id: 'builder-community',
+    title: 'Comunidad de Builders',
+    description: 'Conéctate con una red activa de desarrolladores en Centroamérica',
     benefits: [
-      '24/7 Discord support instant',
-      'Weekly office hours (12 PM & 8 PM CST)',
-      'Peer learning groups',
-      'Alumni network de 200+ builders',
-      'Regional representation LATAM'
+      'Soporte en Discord activo',
+      'Office hours semanales',
+      'Grupos de peer learning',
+      'Red de alumni en la región',
+      'Representación centroamericana'
     ],
-    differentiator: 'La red más valiosa de builders en LATAM',
+    differentiator: 'Red regional específica y activa',
     icon: <Users className="h-8 w-8" />,
     color: 'primary'
   },
   {
-    id: 'career-acceleration',
-    title: 'Career Acceleration',
-    description: 'Acelera tu carrera con portfolio profesional y conexiones estratégicas',
+    id: 'portfolio-development',
+    title: 'Desarrollo de Portfolio',
+    description: 'Construye un portfolio sólido con proyectos reales y documentación completa',
     benefits: [
-      'Portfolio con 3 proyectos profesionales',
-      'GitHub showcase optimizado',
-      'LinkedIn optimization completa',
-      'Job placement support',
-      'Startup guidance y mentorship'
+      'Portfolio con proyectos funcionales',
+      'Optimización de GitHub profile',
+      'Perfil profesional de LinkedIn',
+      'Guía para búsqueda de trabajo',
+      'Mentorship para emprendimiento'
     ],
-    differentiator: 'Resultados de carrera comprobados',
+    differentiator: 'Portfolio basado en proyectos reales',
     icon: <Rocket className="h-8 w-8" />,
     color: 'secondary'
   },
   {
-    id: 'certification',
-    title: 'Certification & Credentials',
-    description: 'Obtén certificaciones reconocidas que validan tu expertise técnico',
+    id: 'skills-validation',
+    title: 'Validación de Skills',
+    description: 'Obtén certificación que documenta las habilidades desarrolladas',
     benefits: [
-      'Impact Player Certification',
-      'Blockchain Competency verified',
-      'AI Development skills',
-      'Full-Stack proficiency',
-      'Launch Excellence credential'
+      'Certificación Impact Player',
+      'Competencias blockchain verificadas',
+      'Skills de desarrollo con IA',
+      'Experiencia full-stack',
+      'Capacidad de lanzamiento'
     ],
-    differentiator: 'Certificaciones exclusivas de Frutero Club',
+    differentiator: 'Certificación basada en proyectos completados',
     icon: <Award className="h-8 w-8" />,
     color: 'accent'
   }
@@ -167,21 +164,22 @@ const coreFeatures: Feature[] = [
 
 const toolStack: Tool[] = [
   // AI Tools
-  { name: 'Cursor IDE Pro', description: 'AI-powered code editor', value: 240, category: 'ai', icon: <Brain className="h-6 w-6" />, features: ['AI autocomplete', 'Code generation', 'Smart refactoring'] },
-  { name: 'ChatGPT Plus', description: 'Advanced AI assistant', value: 240, category: 'ai', icon: <Brain className="h-6 w-6" />, features: ['GPT-4 access', 'Code debugging', 'Architecture planning'] },
-  { name: 'Claude Pro', description: 'Complex reasoning AI', value: 240, category: 'ai', icon: <Brain className="h-6 w-6" />, features: ['Long context', 'Code analysis', 'Documentation'] },
-  { name: 'GitHub Copilot', description: 'AI pair programmer', value: 120, category: 'ai', icon: <Code className="h-6 w-6" />, features: ['Code suggestions', 'Test generation', 'Comments'] },
+  { name: 'Cursor IDE', description: 'AI-powered code editor', value: 240, category: 'ai', icon: <Brain className="h-6 w-6" />, features: ['AI autocomplete', 'Code generation', 'Smart refactoring'] },
+  { name: 'Claude Pro', description: 'Advanced AI reasoning', value: 240, category: 'ai', icon: <Brain className="h-6 w-6" />, features: ['Long context', 'Code analysis', 'Architecture planning'] },
+  { name: 'Claude Code', description: 'AI development assistant', value: 0, category: 'ai', icon: <Code className="h-6 w-6" />, features: ['Code debugging', 'Project guidance', 'Best practices'] },
 
   // Development Tools
-  { name: 'Vercel Pro', description: 'Premium deployment', value: 240, category: 'development', icon: <Globe className="h-6 w-6" />, features: ['Edge functions', 'Analytics', 'Team collaboration'] },
-  { name: 'Supabase Pro', description: 'Backend as a service', value: 300, category: 'development', icon: <Code className="h-6 w-6" />, features: ['PostgreSQL', 'Auth', 'Real-time'] },
-  { name: 'Figma Pro', description: 'Design collaboration', value: 180, category: 'development', icon: <Target className="h-6 w-6" />, features: ['Advanced prototyping', 'Dev handoff', 'Design systems'] },
-  { name: 'Mixpanel Pro', description: 'Product analytics', value: 360, category: 'development', icon: <TrendingUp className="h-6 w-6" />, features: ['User tracking', 'Funnel analysis', 'Cohort reports'] },
+  { name: 'Vercel', description: 'Modern deployment platform', value: 240, category: 'development', icon: <Globe className="h-6 w-6" />, features: ['Edge functions', 'Analytics', 'Zero-config deploy'] },
+  { name: 'Supabase', description: 'Open source backend', value: 0, category: 'development', icon: <Code className="h-6 w-6" />, features: ['PostgreSQL', 'Auth', 'Real-time', 'Free tier available'] },
+  { name: 'Google Stitch', description: 'Data integration platform', value: 300, category: 'development', icon: <Target className="h-6 w-6" />, features: ['Data pipelines', 'ETL processes', 'Cloud native'] },
 
-  // Blockchain Tools
-  { name: 'Base Network Credits', description: 'Layer 2 blockchain', value: 400, category: 'blockchain', icon: <Globe className="h-6 w-6" />, features: ['Low fees', 'Fast transactions', 'Ethereum compatible'] },
-  { name: 'Farcaster Frame Tools', description: 'Social blockchain apps', value: 300, category: 'blockchain', icon: <Users className="h-6 w-6" />, features: ['Mini apps', 'Social features', 'Decentralized'] },
-  { name: 'Web3 Development Kit', description: 'Blockchain integration', value: 500, category: 'blockchain', icon: <Shield className="h-6 w-6" />, features: ['Wallet integration', 'Smart contracts', 'DeFi protocols'] }
+  // Blockchain & Web3 Tools
+  { name: 'Base Network', description: 'Ethereum L2 blockchain', value: 0, category: 'blockchain', icon: <Globe className="h-6 w-6" />, features: ['Low fees', 'Fast transactions', 'Ethereum compatible'] },
+  { name: 'Base MiniKit', description: 'Mobile-first Web3 toolkit', value: 0, category: 'blockchain', icon: <Smartphone className="h-6 w-6" />, features: ['Wallet integration', 'Mobile optimized', 'React Native'] },
+  { name: 'OnchainKit', description: 'Base development toolkit', value: 0, category: 'blockchain', icon: <Shield className="h-6 w-6" />, features: ['Smart contracts', 'UI components', 'Dev tools'] },
+  { name: 'Coinbase Dev Platform', description: 'Enterprise crypto tools', value: 500, category: 'blockchain', icon: <DollarSign className="h-6 w-6" />, features: ['API access', 'Custody solutions', 'Trading tools'] },
+  { name: 'Neynar', description: 'Farcaster API platform', value: 200, category: 'blockchain', icon: <Users className="h-6 w-6" />, features: ['Social graphs', 'Cast management', 'Analytics'] },
+  { name: 'Farcaster', description: 'Decentralized social network', value: 0, category: 'blockchain', icon: <Users className="h-6 w-6" />, features: ['Social protocol', 'Frame apps', 'Decentralized identity'] }
 ]
 
 const comparisonData: ComparisonItem[] = [
@@ -569,7 +567,7 @@ function MethodologyVisualization() {
 
 export function VeranoFeaturesFramework({ className }: VeranoFeaturesFrameworkProps) {
   return (
-    <section className={cn('py-16 md:py-24', className)}>
+    <section className={cn('pt-16 md:pt-8', className)}>
       {/* Header */}
       <div className="text-center mb-16">
         <motion.div
@@ -578,11 +576,10 @@ export function VeranoFeaturesFramework({ className }: VeranoFeaturesFrameworkPr
           transition={{ duration: 0.5 }}
         >
           <h2 className="mb-4">
-            Por Qué Verano En Cadena Es Diferente
+            Qué Hace Especial al Programa
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Descubre las ventajas únicas que nos posicionan como líderes.
-            Metodología probada + Herramientas premium + Garantía de éxito.
+            Enfoque práctico con herramientas actuales, proyectos reales y una comunidad activa que te apoya durante y después del programa.
           </p>
         </motion.div>
       </div>
@@ -595,9 +592,9 @@ export function VeranoFeaturesFramework({ className }: VeranoFeaturesFrameworkPr
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center mb-12"
         >
-          <h3 className="text-2xl font-bold mb-2">6 Ventajas Competitivas Únicas</h3>
+          <h3 className="text-2xl font-bold mb-2">Áreas de Enfoque del Programa</h3>
           <p className="text-muted-foreground">
-            Características que nos diferencian de cualquier otra opción
+            Los componentes clave que hacen efectivo este programa
           </p>
         </motion.div>
 
@@ -657,71 +654,6 @@ export function VeranoFeaturesFramework({ className }: VeranoFeaturesFrameworkPr
         </Card>
       </div>
 
-      {/* Success Guarantee */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.0 }}
-        className="text-center"
-      >
-        <Card className="max-w-4xl mx-auto border-primary/20 bg-primary/5">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Shield className="h-12 w-12 text-primary" />
-              <div>
-                <h3 className="text-2xl font-bold">Garantía &quot;Success or Retry Free&quot;</h3>
-                <p className="text-muted-foreground">Tu éxito está garantizado</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="space-y-3">
-                <h4 className="font-semibold">Garantías Incluidas:</h4>
-                <div className="space-y-2">
-                  {[
-                    'Completa assignments → Certificación garantizada',
-                    'Sigue metodología → Desarrollo de skills garantizado',
-                    'Participa activamente → Crecimiento de network garantizado',
-                    'Submit a Onchain Summer → Portfolio piece garantizado'
-                  ].map((guarantee, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm">
-                      <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span>{guarantee}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-semibold">Respaldo Total:</h4>
-                <div className="space-y-2">
-                  {[
-                    'Refund completo dentro de 30 días',
-                    'Retry gratuito si no cumples objetivos',
-                    'Acceso de por vida a la comunidad',
-                    'Mentorship continuo post-programa'
-                  ].map((backup, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm">
-                      <Shield className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span>{backup}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <Button size="lg" className="gap-2">
-                <Rocket className="h-5 w-5" />
-                Comenzar Con Garantía Total
-              </Button>
-              <p className="text-xs text-muted-foreground mt-2">
-                Sin riesgo. Sin excusas. Solo resultados.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
     </section>
   )
 } 
