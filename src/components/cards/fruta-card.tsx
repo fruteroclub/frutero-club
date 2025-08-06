@@ -38,7 +38,7 @@ export default function FrutaCard({
         className={`h-full w-full rounded-2xl border-2 px-2 py-6 text-center`}
       >
         <CardHeader className="flex flex-row items-center gap-4 px-4">
-          <div className="relative h-20 w-20 flex-shrink-0">
+          <div className="relative h-20 w-20 flex-shrink-0 lg:h-16 lg:w-16">
             <Image
               src={avatar}
               alt={`${name}'s avatar`}
@@ -48,7 +48,9 @@ export default function FrutaCard({
             />
           </div>
           <div className="min-w-0 flex-1 text-left">
-            <h3 className="truncate font-bold text-primary">{name}</h3>
+            <h3 className="truncate font-bold text-primary lg:text-2xl">
+              {name}
+            </h3>
             <p className="text-lg text-secondary">@{username}</p>
           </div>
         </CardHeader>
@@ -99,7 +101,7 @@ export default function FrutaCard({
                 rel="noopener noreferrer"
               >
                 <Button variant="secondary">
-                  Programar Mentoría
+                  Mentoría
                   {calendarUrl ? (
                     <ExternalLink size={16} className="ml-2" />
                   ) : (
