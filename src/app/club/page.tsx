@@ -201,7 +201,7 @@ export default function FrutasPage() {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-center text-4xl font-bold"
+          className="mb-2 text-center text-4xl font-bold"
         >
           Miembros del Club
         </motion.h1>
@@ -234,7 +234,7 @@ export default function FrutasPage() {
 
         <motion.div
           layout
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-8 px-6 md:grid-cols-2 md:px-0 lg:grid-cols-3"
         >
           {filteredUsers.map((user) => (
             <FrutaCard key={user.username} {...user} />
