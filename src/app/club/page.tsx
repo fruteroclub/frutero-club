@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import FrutaCard from '@/components/cards/FrutaCard'
+import FrutaCard from '@/components/cards/fruta-card'
 import { Section } from '@/components/layout/section'
 import PageWrapper from '@/components/layout/page-wrapper'
+import { Users, Rocket, GraduationCap, Grape } from 'lucide-react'
 
 const users = [
   {
@@ -18,6 +20,7 @@ const users = [
     avatar: '/images/mentores/robinhodl69.jpg',
     calendarUrl: 'https://calendly.com/robinhodl',
     email: 'jaramillo.jesusj@gmail.com',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Julio Cruz',
@@ -32,6 +35,7 @@ const users = [
     avatar: '/images/mentores/JulioMCruz.png',
     calendarUrl: 'https://calendly.com/juliomcruz/30min',
     email: 'Julio.cruz@eb-ms.net',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Germán',
@@ -41,6 +45,7 @@ const users = [
     avatar: '/images/mentores/ariutokintumi.jpg',
     calendarUrl: '',
     email: 'german@zonalibre.com.uy',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Sury Bonfil',
@@ -51,6 +56,7 @@ const users = [
     avatar: '/images/mentores/SuryBonfil.jpg',
     calendarUrl: 'https://calendly.com/surybonfil',
     email: 'surybonfilmarketing@gmail.com',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Víctor',
@@ -61,6 +67,7 @@ const users = [
     avatar: '/images/mentores/victorxva.jpg',
     calendarUrl: 'https://calendly.com/victorxva/1-1-meeting',
     email: 'victordelval16@gmail.com',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Michael',
@@ -71,6 +78,7 @@ const users = [
     avatar: '/images/mentores/michsoftster.jpg',
     calendarUrl: 'https://calendly.com/michsoftster/mentor-hours',
     email: 'michsoftster@gmail.com',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Rafa',
@@ -81,6 +89,7 @@ const users = [
     avatar: '/images/mentores/0xrafacc.jpg',
     calendarUrl: 'https://calendly.com/rafa-canseco/30min',
     email: 'rafa@odisea.xyz',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Diana Castillo',
@@ -91,6 +100,7 @@ const users = [
     avatar: '/images/mentores/dianalaucst.jpg',
     calendarUrl: 'https://calendly.com/hola-goblintax/30min',
     email: 'hola@goblintax.com',
+    roles: ['hacker', 'mentor', 'founder'],
   },
   {
     name: 'Emmi',
@@ -101,6 +111,7 @@ const users = [
     avatar: '/images/mentores/emmi.jpg',
     calendarUrl: '',
     email: 'emmilili.04@gmail.com',
+    roles: ['hacker', 'mentor'],
   },
   {
     name: 'Carlos',
@@ -110,6 +121,7 @@ const users = [
     avatar: '/images/mentores/haycarlitos.jpg',
     calendarUrl: 'https://calendly.com/chipipay/1-1',
     email: 'carlos@diosplan.com',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Robert',
@@ -119,6 +131,7 @@ const users = [
     avatar: '/images/mentores/RobertoYamanaka.jpg',
     calendarUrl: '',
     email: 'calendly.com/roberto-yamanaka/30min',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Tony',
@@ -129,6 +142,7 @@ const users = [
     avatar: '/images/mentores/toony1908.jpg',
     calendarUrl: 'https://calendly.com/tony-starkfit/30min',
     email: 'tony@starkfit.club',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Alex Soto',
@@ -139,6 +153,7 @@ const users = [
     avatar: '/images/mentores/alexsotodigital.png',
     calendarUrl: 'https://calendly.com/alexsotodigital/llamada',
     email: 'alex.soto.digital@gmail.com',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Artur',
@@ -148,6 +163,7 @@ const users = [
     avatar: '/images/mentores/lil_code.jpg',
     calendarUrl: '',
     email: '',
+    roles: ['hacker', 'founder', 'mentor'],
   },
   {
     name: 'Carlos',
@@ -158,10 +174,25 @@ const users = [
     avatar: '/images/mentores/juminstock.jpg',
     calendarUrl: '',
     email: 'juminstock@gmail.com',
+    roles: ['hacker', 'mentor'],
   },
 ]
 
+const roleConfig = [
+  { id: 'all', label: 'Todos', icon: Users },
+  { id: 'hacker', label: 'Frutas', icon: Grape },
+  { id: 'founder', label: 'Founders', icon: Rocket },
+  { id: 'mentor', label: 'Mentores', icon: GraduationCap },
+]
+
 export default function FrutasPage() {
+  const [selectedRole, setSelectedRole] = useState('all')
+
+  const filteredUsers =
+    selectedRole === 'all'
+      ? users
+      : users.filter((user) => user.roles.includes(selectedRole))
+
   return (
     <PageWrapper>
       <Section>
@@ -169,15 +200,45 @@ export default function FrutasPage() {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8 text-center text-4xl font-bold"
+          className="mb-8 text-center text-4xl font-bold lg:mb-6 xl:mb-4"
         >
-          Nuestros Mentores
+          Miembros del Club
         </motion.h1>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {users.map((user) => (
+
+        <div className="mb-8 flex justify-center">
+          <div className="inline-flex gap-2 rounded-lg bg-gray-100 p-1">
+            {roleConfig.map((role) => {
+              const Icon = role.icon
+              return (
+                <button
+                  key={role.id}
+                  onClick={() => setSelectedRole(role.id)}
+                  className={`flex flex-col items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-all ${
+                    selectedRole === role.id
+                      ? 'bg-white text-primary shadow-sm'
+                      : 'text-gray-600 hover:cursor-pointer hover:text-primary'
+                  } `}
+                >
+                  <Icon size={24} />
+                  <span
+                    className={`${selectedRole === role.id ? 'text-primary' : ''}`}
+                  >
+                    {role.label}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <motion.div
+          layout
+          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {filteredUsers.map((user) => (
             <FrutaCard key={user.username} {...user} />
           ))}
-        </div>
+        </motion.div>
       </Section>
     </PageWrapper>
   )
