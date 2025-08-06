@@ -13,7 +13,7 @@ export function Section({ children, className }: SectionProps) {
     <section
       className={cn(
         'flex w-full flex-col items-center',
-        'px-4 py-8 md:px-8 md:py-12 lg:px-16 lg:py-16 xl:px-24',
+        'px-4 py-8 md:px-8 lg:px-16 xl:px-24',
         className,
       )}
     >
