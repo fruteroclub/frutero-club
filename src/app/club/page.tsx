@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import FrutaCard from '@/components/cards/fruta-card'
 import { Section } from '@/components/layout/section'
 import PageWrapper from '@/components/layout/page-wrapper'
-import { Users, Rocket, GraduationCap, Grape } from 'lucide-react'
+import { Rocket, GraduationCap, Grape } from 'lucide-react'
 
 const users = [
   {
@@ -179,19 +179,20 @@ const users = [
 ]
 
 const roleConfig = [
-  { id: 'all', label: 'Todos', icon: Users },
   { id: 'hacker', label: 'Frutas', icon: Grape },
   { id: 'founder', label: 'Founders', icon: Rocket },
   { id: 'mentor', label: 'Mentores', icon: GraduationCap },
 ]
 
 export default function FrutasPage() {
-  const [selectedRole, setSelectedRole] = useState('all')
+  const [selectedRole, setSelectedRole] = useState('hacker')
 
   const filteredUsers =
-    selectedRole === 'all'
-      ? users
-      : users.filter((user) => user.roles.includes(selectedRole))
+    selectedRole === 'hacker'
+      ? [...users].sort(() => Math.random() - 0.5)
+      : [...users]
+          .sort(() => Math.random() - 0.5)
+          .filter((user) => user.roles.includes(selectedRole))
 
   return (
     <PageWrapper>
@@ -200,22 +201,22 @@ export default function FrutasPage() {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8 text-center text-4xl font-bold lg:mb-6 xl:mb-4"
+          className="mb-4 text-center text-4xl font-bold"
         >
           Miembros del Club
         </motion.h1>
 
-        <div className="mb-8 flex justify-center">
-          <div className="inline-flex gap-2 rounded-lg bg-gray-100 p-1">
+        <div className="mb-4 flex justify-center">
+          <div className="inline-flex gap-2 rounded-lg">
             {roleConfig.map((role) => {
               const Icon = role.icon
               return (
                 <button
                   key={role.id}
                   onClick={() => setSelectedRole(role.id)}
-                  className={`flex flex-col items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-all ${
+                  className={`flex w-1/3 flex-col items-center gap-1 rounded-md p-2 text-sm font-medium ${
                     selectedRole === role.id
-                      ? 'bg-white text-primary shadow-sm'
+                      ? 'text-primary'
                       : 'text-gray-600 hover:cursor-pointer hover:text-primary'
                   } `}
                 >
