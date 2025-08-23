@@ -27,7 +27,7 @@ const MENU_ITEMS: MenuItemType[] = [
     isMobileOnly: false,
   },
   {
-    displayText: 'programa',
+    displayText: 'mobil3',
     href: '/programa',
     isMobileOnly: false,
   },
