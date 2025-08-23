@@ -3,13 +3,52 @@
 import { useState, useEffect } from 'react';
 import { ProcessedWordFrequency } from '@/lib/omi/memory-types';
 
+interface MemoryStructured {
+  title?: string;
+  overview?: string;
+  emoji?: string;
+  category?: string;
+  action_items?: Array<{ description: string; completed: boolean }>;
+}
+
+interface MemoryData {
+  structured?: MemoryStructured;
+  transcript_segments?: Array<{
+    id?: string;
+    text?: string;
+    speaker?: string;
+    speaker_id?: number;
+    is_user?: boolean;
+    start?: number;
+    end?: number;
+    translations?: Array<{ lang: string; text: string }>;
+  }>;
+}
+
+interface ProcessedData {
+  uid?: string;
+  speaker_stats?: Array<{
+    speaker: string;
+    wordCount: number;
+    duration: number;
+    topWords: ProcessedWordFrequency[];
+  }>;
+}
+
+interface AnalyticsData {
+  duration_seconds?: number;
+  total_words?: number;
+  speakers?: number;
+  top_words?: ProcessedWordFrequency[];
+}
+
 interface OmiLog {
   timestamp: string;
   webhook_received_at?: string;
-  body?: any;
-  memory?: any;
-  analytics?: any;
-  processed?: any;
+  body?: Record<string, unknown>;
+  memory?: MemoryData;
+  analytics?: AnalyticsData;
+  processed?: ProcessedData;
   headers?: Record<string, string>;
   wordFrequency?: ProcessedWordFrequency[];
   textLength?: number;
@@ -25,8 +64,8 @@ export default function OmiTestPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [testResponse, setTestResponse] = useState<any>(null);
-  const [memoryTestResponse, setMemoryTestResponse] = useState<any>(null);
+  const [testResponse, setTestResponse] = useState<Record<string, unknown> | null>(null);
+  const [memoryTestResponse, setMemoryTestResponse] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
     fetchLogs();
@@ -172,7 +211,7 @@ export default function OmiTestPage() {
     );
   };
 
-  const renderChatTranscript = (segments: any[]) => {
+  const renderChatTranscript = (segments: MemoryData['transcript_segments']) => {
     if (!segments || segments.length === 0) return null;
 
     // Get unique speakers and assign colors
@@ -292,7 +331,7 @@ export default function OmiTestPage() {
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-semibold text-green-900">Action Items:</h4>
             <ul className="space-y-1">
-              {memory.structured.action_items.map((item: any, i: number) => (
+              {memory.structured.action_items?.map((item, i: number) => (
                 <li key={i} className="text-sm text-green-800">
                   • {item.description}
                 </li>
@@ -312,7 +351,7 @@ export default function OmiTestPage() {
           <div className="mb-4">
             <h4 className="mb-3 text-sm font-semibold text-green-900">Speaker Stats:</h4>
             <div className="space-y-2">
-              {log.processed.speaker_stats.map((speaker: any, i: number) => (
+              {log.processed?.speaker_stats?.map((speaker, i: number) => (
                 <div key={i} className="rounded bg-green-100 p-2 text-sm">
                   <div className="font-medium">{speaker.speaker}</div>
                   <div className="text-green-700">

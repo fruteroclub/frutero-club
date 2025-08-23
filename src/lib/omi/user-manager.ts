@@ -56,7 +56,7 @@ export class UserManager {
   static async saveMemory(
     uid: string,
     memoryId: string,
-    data: any
+    data: Record<string, unknown>
   ): Promise<{ userPath: string; allPath: string }> {
     const sanitizedId = this.sanitizeUserId(uid);
     const userDir = await this.ensureUserDir(uid);
@@ -99,7 +99,7 @@ export class UserManager {
           await fs.unlink(path.join(userDir, file));
         }
       }
-    } catch (error) {
+    } catch {
       // Directory might not exist yet, ignore
     }
   }
@@ -107,9 +107,9 @@ export class UserManager {
   /**
    * Get all memories for a user
    */
-  static async getUserMemories(uid: string, limit: number = 20): Promise<any[]> {
+  static async getUserMemories(uid: string, limit: number = 20): Promise<Array<Record<string, unknown>>> {
     const userDir = this.getUserDir(uid);
-    const memories: any[] = [];
+    const memories: Array<Record<string, unknown>> = [];
 
     try {
       const files = await fs.readdir(userDir);
@@ -124,11 +124,11 @@ export class UserManager {
           const content = await fs.readFile(path.join(userDir, file), 'utf-8');
           const data = JSON.parse(content);
           memories.push(data);
-        } catch (error) {
-          console.error(`Error reading memory file ${file}:`, error);
+        } catch {
+          console.error(`Error reading memory file ${file}`);
         }
       }
-    } catch (error) {
+    } catch {
       // User directory might not exist yet
       console.log(`No memories found for user ${uid}`);
     }
@@ -156,7 +156,7 @@ export class UserManager {
       }
       
       return users;
-    } catch (error) {
+    } catch {
       return [];
     }
   }
@@ -181,21 +181,27 @@ export class UserManager {
     let lastMemory: string | undefined;
 
     memories.forEach((memory, index) => {
-      if (memory.analytics) {
-        totalWords += memory.analytics.total_words || 0;
-        totalDuration += memory.analytics.duration_seconds || 0;
+      const memoryData = memory as Record<string, unknown>;
+      if (memoryData.analytics) {
+        const analytics = memoryData.analytics as Record<string, unknown>;
+        totalWords += (analytics.total_words as number) || 0;
+        totalDuration += (analytics.duration_seconds as number) || 0;
       }
 
-      if (memory.memory?.structured?.category) {
-        const category = memory.memory.structured.category;
-        categories[category] = (categories[category] || 0) + 1;
+      const memoryInfo = memoryData.memory as Record<string, unknown>;
+      if (memoryInfo?.structured) {
+        const structured = memoryInfo.structured as Record<string, unknown>;
+        if (structured.category) {
+          const category = structured.category as string;
+          categories[category] = (categories[category] || 0) + 1;
+        }
       }
 
-      if (index === 0 && memory.memory?.created_at) {
-        lastMemory = memory.memory.created_at;
+      if (index === 0 && memoryInfo?.created_at) {
+        lastMemory = memoryInfo.created_at as string;
       }
-      if (index === memories.length - 1 && memory.memory?.created_at) {
-        firstMemory = memory.memory.created_at;
+      if (index === memories.length - 1 && memoryInfo?.created_at) {
+        firstMemory = memoryInfo.created_at as string;
       }
     });
 

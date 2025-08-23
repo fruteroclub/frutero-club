@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { MemoryCreation } from '@/lib/omi/memory-types';
 
 // Generate sample Memory Creation data for testing
-function generateSampleMemory(uid: string = 'test_user', language: 'en' | 'es' = 'en'): MemoryCreation {
+function generateSampleMemory(language: 'en' | 'es' = 'en'): MemoryCreation {
   const now = new Date();
   const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
   const memoryId = `test_mem_${Date.now()}`;
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
     console.log('Language:', language);
 
     // Generate sample memory
-    const sampleMemory = generateSampleMemory(uid, language);
+    const sampleMemory = generateSampleMemory(language);
 
     // Send to main webhook endpoint
     const webhookUrl = new URL('/api/omi/memory', request.url);
@@ -218,6 +218,6 @@ export async function GET(request: NextRequest) {
       '@frutero_hacker'
     ],
     supported_languages: ['en', 'es'],
-    example_memory_structure: generateSampleMemory(uid, language as 'en' | 'es')
+    example_memory_structure: generateSampleMemory(language as 'en' | 'es')
   });
 }

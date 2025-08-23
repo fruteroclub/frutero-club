@@ -53,7 +53,7 @@ function processWordFrequency(text: string): ProcessedWordFrequency[] {
 }
 
 // Helper function to save logs
-async function saveLog(headers: Record<string, string>, body: any) {
+async function saveLog(headers: Record<string, string>, body: Record<string, unknown>) {
   try {
     const logDir = path.join(process.cwd(), 'omi-logs');
     await fs.mkdir(logDir, { recursive: true });

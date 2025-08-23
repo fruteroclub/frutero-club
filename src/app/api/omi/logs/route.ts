@@ -32,9 +32,9 @@ function getTopWords(text: string): ProcessedWordFrequency[] {
     .map(([word, count]) => ({ word, count }));
 }
 
-async function readMemoryLogs(limit: number = 20): Promise<any[]> {
+async function readMemoryLogs(limit: number = 20): Promise<Array<Record<string, unknown>>> {
   const memoryDir = path.join(process.cwd(), 'omi-logs', 'memory', 'all');
-  const logs: any[] = [];
+  const logs: Array<Record<string, unknown>> = [];
   
   try {
     await fs.access(memoryDir);
@@ -55,8 +55,8 @@ async function readMemoryLogs(limit: number = 20): Promise<any[]> {
         data.filename = file;
         
         logs.push(data);
-      } catch (error) {
-        console.error(`Error reading memory file ${file}:`, error);
+      } catch {
+        console.error(`Error reading memory file ${file}`);
       }
     }
   } catch {
@@ -134,8 +134,10 @@ export async function GET() {
     // Combine and sort by timestamp
     const allLogs = [...transcriptLogs, ...memoryLogs];
     allLogs.sort((a, b) => {
-      const timeA = new Date(a.timestamp || a.webhook_received_at || 0).getTime();
-      const timeB = new Date(b.timestamp || b.webhook_received_at || 0).getTime();
+      const aTyped = a as Record<string, unknown>;
+      const bTyped = b as Record<string, unknown>;
+      const timeA = new Date((aTyped.timestamp as string) || (aTyped.webhook_received_at as string) || 0).getTime();
+      const timeB = new Date((bTyped.timestamp as string) || (bTyped.webhook_received_at as string) || 0).getTime();
       return timeB - timeA; // Most recent first
     });
     
@@ -186,7 +188,7 @@ export async function DELETE() {
         message: 'No logs to clear'
       });
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { 
         success: false,
