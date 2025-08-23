@@ -68,7 +68,6 @@ export default function Mobil3Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [testResponse, setTestResponse] = useState<Record<string, unknown> | null>(null);
   const [memoryTestResponse, setMemoryTestResponse] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
@@ -459,7 +458,7 @@ export default function Mobil3Page() {
                             </code>
                           </div>
                           <div>
-                            <p className="text-xs font-semibold mb-1">3. Activa "Memory Creation Trigger"</p>
+                            <p className="text-xs font-semibold mb-1">3. Activa &quot;Memory Creation Trigger&quot;</p>
                             <p className="text-xs text-muted-foreground">Tus mentorías se registrarán automáticamente después de cada conversación</p>
                           </div>
                         </div>
