@@ -32,6 +32,40 @@ function getTopWords(text: string): ProcessedWordFrequency[] {
     .map(([word, count]) => ({ word, count }));
 }
 
+async function readMemoryLogs(limit: number = 20): Promise<any[]> {
+  const memoryDir = path.join(process.cwd(), 'omi-logs', 'memory', 'all');
+  const logs: any[] = [];
+  
+  try {
+    await fs.access(memoryDir);
+    const files = await fs.readdir(memoryDir);
+    const jsonFiles = files
+      .filter(file => file.endsWith('.json'))
+      .sort()
+      .reverse()
+      .slice(0, limit);
+
+    for (const file of jsonFiles) {
+      try {
+        const content = await fs.readFile(path.join(memoryDir, file), 'utf-8');
+        const data = JSON.parse(content);
+        
+        // Mark as memory type and add metadata
+        data.type = 'memory';
+        data.filename = file;
+        
+        logs.push(data);
+      } catch (error) {
+        console.error(`Error reading memory file ${file}:`, error);
+      }
+    }
+  } catch {
+    // Memory directory doesn't exist yet
+  }
+  
+  return logs;
+}
+
 export async function GET() {
   try {
     const logDir = path.join(process.cwd(), 'omi-logs');
@@ -48,17 +82,16 @@ export async function GET() {
       });
     }
     
-    // Read all log files
+    // Read transcript logs (existing)
+    const transcriptLogs: OmiLogEntry[] = [];
     const files = await fs.readdir(logDir);
     const jsonFiles = files
       .filter(file => file.endsWith('.json'))
       .sort()
       .reverse(); // Most recent first
     
-    const logs: OmiLogEntry[] = [];
-    
-    // Process last 20 logs
-    for (const file of jsonFiles.slice(0, 20)) {
+    // Process last 10 transcript logs
+    for (const file of jsonFiles.slice(0, 10)) {
       try {
         const content = await fs.readFile(path.join(logDir, file), 'utf-8');
         const data = JSON.parse(content);
@@ -85,20 +118,34 @@ export async function GET() {
           data.textLength = text.length;
         }
         
-        // Add file info
+        // Mark as transcript type
+        data.type = 'transcript';
         data.filename = file;
         
-        logs.push(data as OmiLogEntry);
+        transcriptLogs.push(data as OmiLogEntry);
       } catch (error) {
         console.error(`Error reading log file ${file}:`, error);
       }
     }
     
+    // Read memory logs (new)
+    const memoryLogs = await readMemoryLogs(10);
+    
+    // Combine and sort by timestamp
+    const allLogs = [...transcriptLogs, ...memoryLogs];
+    allLogs.sort((a, b) => {
+      const timeA = new Date(a.timestamp || a.webhook_received_at || 0).getTime();
+      const timeB = new Date(b.timestamp || b.webhook_received_at || 0).getTime();
+      return timeB - timeA; // Most recent first
+    });
+    
     return NextResponse.json({ 
       success: true,
-      logs,
-      total: logs.length,
-      message: `Found ${logs.length} log entries`
+      logs: allLogs.slice(0, 20), // Combined logs
+      transcript_logs: transcriptLogs,
+      memory_logs: memoryLogs,
+      total: allLogs.length,
+      message: `Found ${transcriptLogs.length} transcript logs and ${memoryLogs.length} memory logs`
     });
     
   } catch (error) {
