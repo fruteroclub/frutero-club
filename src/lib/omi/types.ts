@@ -60,6 +60,6 @@ export interface OmiSession {
 export interface OmiLogEntry {
   timestamp: string;
   headers: Record<string, string>;
-  body: any;
+  body: Record<string, unknown>;
   wordFrequency?: ProcessedWordFrequency[];
 }
