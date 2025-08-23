@@ -1,9 +1,15 @@
-"use client"
+'use client'
 
 import { JSX, SVGProps, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Play, BitcoinIcon, BrainCircuitIcon, HandMetalIcon } from 'lucide-react'
+import {
+  ArrowRight,
+  Play,
+  BitcoinIcon,
+  BrainCircuitIcon,
+  HandMetalIcon,
+} from 'lucide-react'
 import { CardContent, CardHeader, CardFooter } from '@/components/ui/card'
 import IconCard from '@/components/stats/icon-card'
 import Image from 'next/image'
@@ -29,7 +35,9 @@ function CountdownTimer({ deadline }: { deadline: Date }) {
 
       setTimeLeft({
         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        hours: Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        ),
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((distance % (1000 * 60)) / 1000),
       })
@@ -42,8 +50,12 @@ function CountdownTimer({ deadline }: { deadline: Date }) {
     <div className="flex items-center gap-6 text-center font-mono">
       {/* Days */}
       <div className="flex flex-col">
-        <span className="text-5xl font-medium">{timeLeft.days.toString().padStart(2, '0')}</span>
-        <span className="text-xs uppercase text-background/75">days</span>
+        <span className="text-5xl font-medium">
+          {timeLeft.days.toString().padStart(2, '0')}
+        </span>
+        <span className="text-xs text-background/75 uppercase lg:text-foreground">
+          days
+        </span>
       </div>
 
       {/* Hours:Minutes:Seconds */}
@@ -150,7 +162,11 @@ const statsSmallViewport = [
   },
 ]
 
-export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroProps) {
+export function VeranoHero({
+  deadline,
+  onCtaClick,
+  onVideoClick,
+}: VeranoHeroProps) {
   return (
     <div className="w-full">
       <motion.div
@@ -158,57 +174,72 @@ export function VeranoHero({ deadline, onCtaClick, onVideoClick }: VeranoHeroPro
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         data-slot="card"
-        className="bg-foreground lg:bg-transparent text-background flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-x-0 rounded-xl pb-6"
+        className="flex flex-col gap-4 rounded-xl bg-foreground pb-6 text-background lg:grid lg:grid-cols-2 lg:gap-x-0 lg:bg-transparent"
       >
-        <Image src="/images/programa/verano-en-cadena.jpg" alt="Verano En Cadena" width={500} height={500} className="rounded-t-xl w-full lg:rounded-l-xl lg:rounded-r-none lg:rounded-t-none" />
+        <Image
+          src="/images/programa/verano-en-cadena.jpg"
+          alt="Verano En Cadena"
+          width={500}
+          height={500}
+          className="w-full rounded-t-xl lg:rounded-t-none lg:rounded-l-xl lg:rounded-r-none"
+        />
 
-        <CardHeader className="space-y-8 lg:bg-foreground lg:rounded-r-xl lg:flex lg:flex-col lg:justify-center lg:px-8">
+        <CardHeader className="space-y-8 lg:flex lg:flex-col lg:justify-center lg:rounded-r-xl lg:bg-foreground lg:px-8">
           <div className="flex flex-col gap-y-0">
-            <h1 className="text-center lg:text-left text-primary font-medium my-0">
+            <h1 className="my-0 text-center font-medium text-primary lg:text-left">
               Verano En Cadena
             </h1>
             <h3 className="text-center lg:text-left">
-              De Cero a Impacto <br />en solo <span className="subrayado">3 Semanas</span>
+              De Cero a Impacto <br />
+              en solo <span className="subrayado">3 Semanas</span>
             </h3>
           </div>
-          <div className='w-full flex justify-center'>
+          <div className="flex w-full justify-center">
             <Button
               size="lg"
               onClick={onCtaClick}
-              className="group text-foreground font-semibold"
+              className="group font-semibold text-foreground"
             >
               Regístrate Ahora
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="w-full flex flex-col items-center lg:col-span-2">
-
+        <CardContent className="flex w-full flex-col items-center lg:col-span-2">
           {/* Stats */}
-          <div className="w-full grid md:hidden grid-cols-1 gap-4 p-4">
+          <div className="grid w-full grid-cols-1 gap-4 p-4 md:hidden">
             {statsSmallViewport.map((stat) => (
-              <IconCard className="bg-transparent text-background py-0" key={stat.label} icon={stat.icon} label={stat.label} />
+              <IconCard
+                className="bg-transparent py-0 text-background"
+                key={stat.label}
+                icon={stat.icon}
+                label={stat.label}
+              />
             ))}
           </div>
-          <div className="hidden md:grid md:w-full grid-cols-3 gap-2 md:py-2 lg:max-w-screen-sm">
+          <div className="hidden grid-cols-3 gap-2 md:grid md:w-full md:py-2 lg:max-w-screen-sm">
             {stats.map((stat) => (
-              <IconCard className="bg-transparent lg:text-primary border-none text-background md:py-0 lg:shadow-none" key={stat.label} icon={stat.icon} label={stat.label} />
+              <IconCard
+                className="border-none bg-transparent text-background md:py-0 lg:text-primary lg:shadow-none"
+                key={stat.label}
+                icon={stat.icon}
+                label={stat.label}
+              />
             ))}
           </div>
-          <div className="w-full flex justify-center md:py-2">
+          <div className="flex w-full justify-center md:py-2">
             <Button
               variant="ghost"
               onClick={onVideoClick}
               className="group text-background lg:text-foreground"
             >
               Ver Programa Completo
-              <Play className="ml-2 h-5 w-5 text-primary fill-primary transition-transform group-hover:scale-110" />
+              <Play className="ml-2 h-5 w-5 fill-primary text-primary transition-transform group-hover:scale-110" />
             </Button>
           </div>
         </CardContent>
         {/* CTAs */}
-        <CardFooter className="lg:text-foreground w-full flex flex-col items-center gap-6 sm:flex-row sm:justify-center py-4 lg:col-span-2">
-
+        <CardFooter className="flex w-full flex-col items-center gap-6 py-4 sm:flex-row sm:justify-center lg:col-span-2 lg:text-foreground">
           {/* Countdown */}
           <div className="flex flex-col items-center gap-1 md:pb-8">
             <span className="text-lg font-medium">
