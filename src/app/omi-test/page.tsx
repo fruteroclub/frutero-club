@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ProcessedWordFrequency } from '@/lib/omi/types';
+import { ProcessedWordFrequency } from '@/lib/omi/memory-types';
 
 interface OmiLog {
   timestamp: string;
@@ -23,6 +23,7 @@ export default function OmiTestPage() {
   const [transcriptLogs, setTranscriptLogs] = useState<OmiLog[]>([]);
   const [memoryLogs, setMemoryLogs] = useState<OmiLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [testResponse, setTestResponse] = useState<any>(null);
   const [memoryTestResponse, setMemoryTestResponse] = useState<any>(null);
@@ -39,13 +40,28 @@ export default function OmiTestPage() {
 
   const fetchLogs = async () => {
     try {
+      console.log('Fetching logs...');
+      setError(null);
+      
       const response = await fetch('/api/omi/logs');
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log('API Response:', data);
+      console.log('Logs count:', data.logs?.length || 0);
+      console.log('Memory logs count:', data.memory_logs?.length || 0);
+      console.log('Transcript logs count:', data.transcript_logs?.length || 0);
+      
       setLogs(data.logs || []);
       setTranscriptLogs(data.transcript_logs || []);
       setMemoryLogs(data.memory_logs || []);
     } catch (error) {
       console.error('Failed to fetch logs:', error);
+      setError(error instanceof Error ? error.message : 'Failed to fetch logs');
     } finally {
       setLoading(false);
     }
@@ -111,42 +127,109 @@ export default function OmiTestPage() {
     }
   };
 
-  const webhookUrl = typeof window !== 'undefined' 
-    ? `${window.location.origin}/api/omi/webhook`
-    : '';
-  
-  const testUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/api/omi/test`
-    : '';
+  const [urls, setUrls] = useState({
+    webhookUrl: '',
+    testUrl: '',
+    memoryUrl: '',
+    memoryTestUrl: ''
+  });
 
-  const memoryUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/api/omi/memory?uid=YOUR_USER_ID`
-    : '';
-
-  const memoryTestUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/api/omi/memory/test`
-    : '';
+  useEffect(() => {
+    // Set URLs only on client side after component mounts
+    if (typeof window !== 'undefined') {
+      setUrls({
+        webhookUrl: `${window.location.origin}/api/omi/webhook`,
+        testUrl: `${window.location.origin}/api/omi/test`,
+        memoryUrl: `${window.location.origin}/api/omi/memory?uid=YOUR_USER_ID`,
+        memoryTestUrl: `${window.location.origin}/api/omi/memory/test`
+      });
+    }
+  }, []);
 
   const renderWordFrequency = (words: ProcessedWordFrequency[], maxWords: number = 10) => {
+    if (!words || words.length === 0) return null;
+    
     return (
       <div className="flex flex-wrap gap-2">
-        {words.slice(0, maxWords).map(({ word, count }, i) => (
-          <span
-            key={word}
-            className="rounded-full bg-blue-100 px-3 py-1 text-sm"
-            style={{
-              fontSize: `${Math.max(14 - i * 0.5, 12)}px`,
-              opacity: Math.max(1 - i * 0.08, 0.5)
-            }}
-          >
-            {word} ({count})
-          </span>
-        ))}
+        {words.slice(0, maxWords).map((wordData, i) => {
+          const word = wordData.word;
+          const count = wordData.count;
+          
+          return (
+            <span
+              key={`${word}-${i}`}
+              className="rounded-full bg-blue-100 px-3 py-1 text-sm"
+              style={{
+                fontSize: `${Math.max(14 - i * 0.5, 12)}px`,
+                opacity: Math.max(1 - i * 0.08, 0.5)
+              }}
+            >
+              {word} ({count})
+            </span>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderChatTranscript = (segments: any[]) => {
+    if (!segments || segments.length === 0) return null;
+
+    // Get unique speakers and assign colors
+    const speakers = [...new Set(segments.map(s => s.speaker || s.speaker_id?.toString() || 'Unknown'))];
+    const speakerColors = [
+      'bg-blue-100 text-blue-900',
+      'bg-purple-100 text-purple-900',
+      'bg-orange-100 text-orange-900',
+      'bg-pink-100 text-pink-900',
+      'bg-indigo-100 text-indigo-900',
+      'bg-teal-100 text-teal-900'
+    ];
+
+    return (
+      <div className="space-y-3 max-h-96 overflow-y-auto border rounded-lg p-3 bg-gray-50">
+        {segments.map((segment, i) => {
+          const speakerIndex = speakers.indexOf(segment.speaker || segment.speaker_id?.toString() || 'Unknown');
+          const colorClass = speakerColors[speakerIndex % speakerColors.length];
+          const isUser = segment.is_user;
+          
+          return (
+            <div
+              key={segment.id || i}
+              className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
+            >
+              <div className={`max-w-xs lg:max-w-md px-3 py-2 rounded-lg ${
+                isUser 
+                  ? 'bg-green-600 text-white ml-4' 
+                  : `${colorClass} mr-4`
+              }`}>
+                <div className="text-xs opacity-75 mb-1">
+                  {segment.speaker || `Speaker ${segment.speaker_id || 'Unknown'}`}
+                  {segment.start && segment.end && (
+                    <span className="ml-2">
+                      {Math.round(segment.start)}s - {Math.round(segment.end)}s
+                    </span>
+                  )}
+                </div>
+                <div className="text-sm">
+                  {segment.text}
+                </div>
+                {segment.translations && segment.translations.length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-opacity-20">
+                    <div className="text-xs opacity-75">Translation ({segment.translations[0].lang}):</div>
+                    <div className="text-sm italic">{segment.translations[0].text}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   };
 
   const renderMemoryLog = (log: OmiLog, index: number) => {
+    console.log('Rendering memory log:', index, log);
     const memory = log.memory;
     const analytics = log.analytics;
     
@@ -194,6 +277,14 @@ export default function OmiTestPage() {
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-semibold text-green-900">Overview:</h4>
             <p className="text-sm text-green-800">{memory.structured.overview}</p>
+          </div>
+        )}
+
+        {/* Chat-style Transcript */}
+        {memory?.transcript_segments && memory.transcript_segments.length > 0 && (
+          <div className="mb-4">
+            <h4 className="mb-3 text-sm font-semibold text-green-900">Conversation:</h4>
+            {renderChatTranscript(memory.transcript_segments)}
           </div>
         )}
 
@@ -253,6 +344,7 @@ export default function OmiTestPage() {
   };
 
   const renderTranscriptLog = (log: OmiLog, index: number) => {
+    console.log('Rendering transcript log:', index, log);
     return (
       <div key={index} className="rounded-lg border bg-blue-50 p-6">
         <div className="mb-4 flex items-start justify-between">
@@ -327,7 +419,7 @@ export default function OmiTestPage() {
                   Real-time Transcript Webhook:
                 </label>
                 <code className="block rounded bg-muted p-3 text-sm">
-                  {webhookUrl}
+                  {urls.webhookUrl || 'Loading...'}
                 </code>
               </div>
               
@@ -336,7 +428,7 @@ export default function OmiTestPage() {
                   Memory Creation Webhook:
                 </label>
                 <code className="block rounded bg-green-100 p-3 text-sm">
-                  {memoryUrl}
+                  {urls.memoryUrl || 'Loading...'}
                 </code>
                 <div className="mt-2 text-xs text-muted-foreground">
                   Replace YOUR_USER_ID with your custom identifier (e.g., @melguachun, mel_twitter)
@@ -348,7 +440,7 @@ export default function OmiTestPage() {
                   Test Endpoint (flexible):
                 </label>
                 <code className="block rounded bg-muted p-3 text-sm">
-                  {testUrl}
+                  {urls.testUrl || 'Loading...'}
                 </code>
               </div>
             </div>
@@ -356,7 +448,7 @@ export default function OmiTestPage() {
             <div className="mt-4 rounded-lg bg-blue-50 p-4 text-sm">
               <p className="font-medium text-blue-900">Quick Test with cURL:</p>
               <pre className="mt-2 overflow-x-auto rounded bg-blue-100 p-2 text-xs">
-{`curl -X POST ${memoryUrl.replace('YOUR_USER_ID', 'mel_test')} \\
+{`curl -X POST ${urls.memoryUrl.replace('YOUR_USER_ID', 'mel_test') || 'Loading...'} \\
   -H "Content-Type: application/json" \\
   -d '{"transcript": "Test conversation about AI and technology"}'`}
               </pre>
@@ -456,6 +548,20 @@ export default function OmiTestPage() {
           {loading ? (
             <div className="rounded-lg border bg-card p-8 text-center">
               <div className="text-muted-foreground">Loading logs...</div>
+              <div className="mt-2">
+                <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="rounded-lg border border-red-300 bg-red-50 p-8 text-center">
+              <div className="text-red-600 font-medium">Error loading logs</div>
+              <div className="text-red-500 text-sm mt-2">{error}</div>
+              <button
+                onClick={fetchLogs}
+                className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
+              >
+                Retry
+              </button>
             </div>
           ) : logs.length === 0 ? (
             <div className="rounded-lg border bg-card p-8 text-center">
@@ -465,11 +571,12 @@ export default function OmiTestPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {logs.map((log, index) => (
-                log.type === 'memory' ? 
+              {logs.map((log, index) => {
+                console.log(`Rendering log ${index}:`, { type: log.type, hasMemory: !!log.memory, hasBody: !!log.body });
+                return log.type === 'memory' ? 
                   renderMemoryLog(log, index) : 
-                  renderTranscriptLog(log, index)
-              ))}
+                  renderTranscriptLog(log, index);
+              })}
             </div>
           )}
         </div>
