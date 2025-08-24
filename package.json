@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:r2": "bun run scripts/test-r2-integration.ts",
+    "migrate:r2": "bun run scripts/migrate-to-r2.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.873.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",

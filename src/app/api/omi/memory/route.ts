@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MemoryCreation, MemoryWebhookResponse, ProcessedMemory } from '@/lib/omi/memory-types';
 import { MemoryProcessor } from '@/lib/omi/memory-processor';
+import { R2UserManager } from '@/lib/omi/r2-user-manager';
 import { UserManager } from '@/lib/omi/user-manager';
 
 export async function POST(request: NextRequest) {
@@ -84,31 +85,88 @@ export async function POST(request: NextRequest) {
       file_path: '' // Will be set after saving
     };
 
-    // Save to user-organized storage
-    console.log('Saving memory to storage...');
-    const storage = await UserManager.saveMemory(
-      sanitizedUid,
-      body.id,
-      {
-        memory: body,
-        processed: processedMemory,
-        analytics: {
-          total_words: processed.total_words,
-          unique_words: processed.unique_words,
-          top_words: processed.word_frequency.slice(0, 10),
-          duration_seconds: durationSeconds,
-          speakers: processed.speaker_stats.length,
-          topics
-        },
-        webhook_received_at: new Date().toISOString(),
-        processing_time_ms: Date.now() - startTime
+    // Save to R2 storage (with fallback to file system if R2 fails)
+    console.log('Saving memory to R2 storage...');
+    let storage: { r2Key: string; allKey: string; publicUrl?: string } | { userPath: string; allPath: string };
+    let storageType = 'r2';
+
+    try {
+      const r2UserManager = new R2UserManager();
+      
+      // Test R2 connection first
+      const r2Available = await r2UserManager.testConnection();
+      
+      if (r2Available) {
+        storage = await r2UserManager.saveMemory(
+          sanitizedUid,
+          body.id,
+          {
+            memory: body,
+            processed: processedMemory,
+            analytics: {
+              total_words: processed.total_words,
+              unique_words: processed.unique_words,
+              top_words: processed.word_frequency.slice(0, 10),
+              duration_seconds: durationSeconds,
+              speakers: processed.speaker_stats.length,
+              topics
+            },
+            webhook_received_at: new Date().toISOString(),
+            processing_time_ms: Date.now() - startTime
+          }
+        );
+        console.log('Successfully saved to R2:', storage);
+      } else {
+        throw new Error('R2 connection test failed');
       }
-    );
+    } catch (r2Error) {
+      console.warn('R2 storage failed, falling back to file system:', r2Error);
+      storageType = 'filesystem';
+      
+      storage = await UserManager.saveMemory(
+        sanitizedUid,
+        body.id,
+        {
+          memory: body,
+          processed: processedMemory,
+          analytics: {
+            total_words: processed.total_words,
+            unique_words: processed.unique_words,
+            top_words: processed.word_frequency.slice(0, 10),
+            duration_seconds: durationSeconds,
+            speakers: processed.speaker_stats.length,
+            topics
+          },
+          webhook_received_at: new Date().toISOString(),
+          processing_time_ms: Date.now() - startTime
+        }
+      );
+    }
 
     console.log('Saved to paths:', storage);
 
-    // Get user statistics
-    const userStats = await UserManager.getUserStats(sanitizedUid);
+    // Get user statistics (try R2 first, fallback to file system)
+    let userStats;
+    try {
+      if (storageType === 'r2') {
+        const r2UserManager = new R2UserManager();
+        userStats = await r2UserManager.getUserStats(sanitizedUid);
+      } else {
+        userStats = await UserManager.getUserStats(sanitizedUid);
+      }
+    } catch (statsError) {
+      console.warn('Failed to get user stats, using defaults:', statsError);
+      userStats = {
+        total_memories: 1,
+        total_duration_minutes: 0,
+        avg_duration_minutes: 0,
+        languages_detected: [],
+        most_active_day: '',
+        transcript_word_count: 0,
+        action_items_count: 0,
+        insights_count: 0
+      };
+    }
     console.log('User stats:', userStats);
 
     // Prepare response
@@ -124,8 +182,12 @@ export async function POST(request: NextRequest) {
         speakers: processed.speaker_stats.length
       },
       storage: {
-        file: storage.userPath,
-        user_total_memories: userStats.total_memories + 1
+        type: storageType,
+        ...(storageType === 'r2' && 'r2Key' in storage 
+          ? { r2Key: storage.r2Key, publicUrl: storage.publicUrl } 
+          : { file: (storage as { userPath: string }).userPath }
+        ),
+        user_total_memories: userStats.total_memories
       }
     };
 
@@ -159,15 +221,37 @@ export async function GET(request: NextRequest) {
   const uid = searchParams.get('uid');
 
   if (uid) {
-    // Return user-specific info
+    // Return user-specific info (try R2 first, fallback to file system)
     const sanitizedUid = UserManager.sanitizeUserId(uid);
-    const stats = await UserManager.getUserStats(sanitizedUid);
+    let stats;
+    let storageType = 'filesystem';
+    
+    try {
+      const r2UserManager = new R2UserManager();
+      const r2Available = await r2UserManager.testConnection();
+      
+      if (r2Available) {
+        stats = await r2UserManager.getUserStats(sanitizedUid);
+        storageType = 'r2';
+      } else {
+        stats = await UserManager.getUserStats(sanitizedUid);
+      }
+    } catch (error) {
+      console.warn('Error getting stats, trying fallback:', error);
+      try {
+        stats = await UserManager.getUserStats(sanitizedUid);
+      } catch (fallbackError) {
+        console.error('Both R2 and file system failed:', fallbackError);
+        stats = { total_memories: 0, error: 'Unable to retrieve stats' };
+      }
+    }
     
     return NextResponse.json({
       success: true,
       message: 'Omi Memory Creation endpoint is active',
       endpoint: '/api/omi/memory',
       user_id: sanitizedUid,
+      storage_type: storageType,
       user_stats: stats,
       timestamp: new Date().toISOString(),
       usage: 'POST with JSON body containing Memory Creation data'
