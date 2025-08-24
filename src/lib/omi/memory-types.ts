@@ -90,7 +90,10 @@ export interface MemoryWebhookResponse {
     speakers: number;
   };
   storage: {
-    file: string;
+    type?: string;
+    file?: string;
+    r2Key?: string;
+    publicUrl?: string;
     user_total_memories: number;
   };
 }
