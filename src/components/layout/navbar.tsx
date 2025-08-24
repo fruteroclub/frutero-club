@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import MobileMenu from './mobile-menu'
-import AuthButton from '../buttons/auth-button-dummy'
+import AuthButton from '../buttons/auth-button-para'
 import { SparkleIcon } from 'lucide-react'
 
 export type MenuItemType = {

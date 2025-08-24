@@ -42,6 +42,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --card-background-color: var(--card-background-color);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -54,6 +55,7 @@
   --foreground: oklch(0.0969 0 0);
   --card: oklch(0.9851 0 0);
   --card-foreground: oklch(0.0969 0 0);
+  --card-background-color: #fcf2e9;
   --popover: oklch(0.9851 0 0);
   --popover-foreground: oklch(0.0969 0 0);
   --primary: oklch(0.7652 0.1752 62.57);
@@ -88,6 +90,7 @@
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
+  --card-background-color: #2a2a2a;
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.795 0.184 86.047);
@@ -188,5 +191,24 @@
   }
   100% {
     transform: translateX(200%) skewX(-12deg);
+  }
+}
+
+/* Para SDK Modal Fixes */
+@layer components {
+  /* Backdrop styling for better visibility */
+  div[style*="position: fixed"][style*="inset: 0"] {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+
+  /* Fallback styling if theme doesn't work */
+  div[role="dialog"],
+  div[aria-modal="true"] {
+    background-color: #fcf2e9 !important;
+    color: #1f2937 !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
   }
 }

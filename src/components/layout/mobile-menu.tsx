@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import { MenuIcon, SparkleIcon } from 'lucide-react'
 import { type MenuItemType } from './navbar'
-import AuthButton from '../buttons/auth-button-dummy'
+import AuthButton from '../buttons/auth-button-para'
 import { cn } from '@/lib/utils'
 
 type MobileMenuProps = {
