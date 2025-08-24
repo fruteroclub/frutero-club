@@ -1,45 +1,71 @@
-# Para Guest Mode Integration Guide - Monad Testnet
+# Para Wallet Integration - Implementation Guide
 
 ## Overview
-This guide demonstrates how to integrate Para's wallet infrastructure with Guest Mode into a Next.js application, enabling frictionless Web3 onboarding on Monad testnet. Users can instantly generate wallets without sign-up, perfect for interacting with $PULPA tokens and on-chain assets.
-
-## Reference Implementation
-Example code is provided in: `/docs/integrations/para-wallet-auth-integration/example-code/`
+This guide shows how to integrate Para's Guest Mode wallet functionality into a Next.js application, enabling frictionless Web3 onboarding on Monad testnet.
 
 ## Implementation Steps
 
-### Step 1: Add Para API Key Configuration ✅
-Add the following to your `.env.local` file:
+### Step 1: Install Dependencies
+
 ```bash
-# Para Wallet Configuration
+bun add @getpara/react-sdk @tanstack/react-query wagmi viem
+```
+
+**Additional dependencies for Para SDK:**
+```bash
+bun add @farcaster/miniapp-sdk @farcaster/miniapp-wagmi-connector @farcaster/mini-app-solana pino-pretty
+```
+
+### Step 2: Add Post-Install Script
+
+Add to your `package.json`:
+```json
+{
+  "scripts": {
+    "postinstall": "npx setup-para"
+  }
+}
+```
+
+### Step 3: Environment Configuration
+
+Add to your `.env.local`:
+```bash
 NEXT_PUBLIC_PARA_API_KEY=your_para_api_key_here
-
-# Optional: Monad Testnet Configuration
-NEXT_PUBLIC_MONAD_RPC_URL=https://testnet-rpc.monad.xyz
-NEXT_PUBLIC_MONAD_CHAIN_ID=10143
 ```
 
-### Step 2: Install Dependencies
-```bash
-bun add @getpara/react-sdk@alpha @tanstack/react-query wagmi viem
-```
+### Step 4: Create OnchainProvider
 
-### Step 3: Create OnchainProvider with Para Integration
+**File**: `src/providers/onchain-provider.tsx`
 
-**File**: `/src/providers/onchain-provider.tsx`
+Key implementation details:
+- Import Para SDK styles: `import "@getpara/react-sdk/styles.css"`
+- Configure theme in `paraModalConfig` to avoid transparent modal
+- Include mock authentication context for better UX
+- Suppress React DOM warnings from Para SDK
 
-**Reference**: See example at `/docs/integrations/para-wallet-auth-integration/example-code/providers/onchain-provider.tsx`
-
-**Key Implementation Points**:
 ```typescript
 'use client'
 
 import { Suspense, type ReactNode } from 'react'
+import "@getpara/react-sdk/styles.css"  // Required CSS import
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ParaProvider } from '@getpara/react-sdk@alpha'  // Para SDK import
+import { AuthProvider } from '@/contexts/auth-context'
+import { ParaProvider, Environment } from '@getpara/react-sdk'
 import { createConfig, WagmiProvider } from 'wagmi'
 import { http } from 'wagmi'
 import { defineChain } from 'viem'
+
+// Suppress React DOM warnings for Para SDK
+if (typeof window !== 'undefined') {
+  const originalError = console.error
+  console.error = (...args) => {
+    if (args[0]?.includes?.('isVisible') || args[0]?.includes?.('React does not recognize')) {
+      return // Suppress Para SDK prop warnings
+    }
+    originalError.apply(console, args)
+  }
+}
 
 // Define Monad testnet chain
 const monadTestnet = defineChain({
@@ -47,19 +73,20 @@ const monadTestnet = defineChain({
   name: 'Monad Testnet',
   nativeCurrency: { name: 'Monad', symbol: 'MON', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://testnet-rpc.monad.xyz'] }
+    default: { http: ['https://testnet-rpc.monad.xyz'] },
+    public: { http: ['https://testnet-rpc.monad.xyz'] }
   },
   blockExplorers: {
     default: { name: 'Monad Explorer', url: 'https://testnet.monadexplorer.com' }
-  }
+  },
+  testnet: true
 })
 
-// Para API Key from environment
 const PARA_API_KEY = process.env.NEXT_PUBLIC_PARA_API_KEY ?? ''
 
-// Wagmi configuration for Web3 interactions
 const wagmiConfig = createConfig({
   chains: [monadTestnet],
+  multiInjectedProviderDiscovery: false,
   transports: {
     [monadTestnet.id]: http('https://testnet-rpc.monad.xyz'),
   },
@@ -69,76 +96,152 @@ function OnchainProviderComponent({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient()
 
   return (
-    <ParaProvider
-      apiKey={PARA_API_KEY}
-      config={{
-        // Enable Guest Mode - Key Para SDK Feature
-        guestMode: {
-          enabled: true,
-          autoConnect: true,  // Automatically create wallet on first visit
-        },
-        // Configure default chain
-        defaultChain: monadTestnet,
-        supportedChains: [monadTestnet],
-        // Guest wallet configuration
-        walletConfig: {
-          type: 'guest',
-          persistSession: true,  // Persist guest wallet across sessions
-        }
-      }}
-      // Callback when guest wallet is created
-      onGuestWalletCreated={(wallet) => {
-        console.log('Guest wallet created:', wallet.address)
-      }}
-    >
+    <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>
+        <ParaProvider
+          config={{
+            appName: 'Frutero Club',
+          }}
+          paraClientConfig={{
+            env: Environment.PROD,
+            apiKey: PARA_API_KEY
+          }}
+          paraModalConfig={{
+            isGuestModeEnabled: true,
+            theme: {
+              backgroundColor: "#fcf2e9", // Fix transparent modal
+              accentColor: "#d97706",     
+              font: "Raleway",            
+              borderRadius: "md"
+            }
+          }}
+          callbacks={{
+            onGuestWalletsCreated: (event) => {
+              console.log('Guest wallets created!', event.detail)
+            }
+          }}
+        >
+          <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>
+        </ParaProvider>
       </QueryClientProvider>
-    </ParaProvider>
+    </AuthProvider>
   )
 }
 
 export default function OnchainProvider({ children }: { children: ReactNode }) {
   return (
-    <Suspense fallback={<div>Loading wallet...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex h-screen w-full items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+            <p>Loading wallet...</p>
+          </div>
+        </div>
+      }
+    >
       <OnchainProviderComponent>{children}</OnchainProviderComponent>
     </Suspense>
   )
 }
 ```
 
-**Key Para SDK Features Highlighted**:
-- `guestMode.enabled`: Enables instant wallet generation
-- `autoConnect`: Automatically creates wallet on first visit
-- `persistSession`: Maintains wallet across browser sessions
-- `onGuestWalletCreated`: Callback for wallet creation events
+### Step 5: Add Required CSS Variables
 
-### Step 4: Create Auth Button Component with Para SDK Hooks
+Add to your `globals.css`:
+```css
+:root {
+  --card-background-color: #fcf2e9;
+  /* ... other variables */
+}
 
-**File**: `/src/components/buttons/auth-button-para.tsx`
+.dark {
+  --card-background-color: #2a2a2a;
+  /* ... other variables */
+}
 
-**Reference**: Adapt from `/docs/integrations/para-wallet-auth-integration/example-code/buttons/auth-button-privy.tsx`
+@theme inline {
+  --color-card-background-color: var(--card-background-color);
+  /* ... other theme variables */
+}
+```
 
-**Key Para SDK Hooks Used**:
-- `useModal` - Modal control for wallet management
-- `useSignUpOrLogIn` - Authentication flow handling
-- `useWallet` - Current wallet information
-- `useAccount` - Connection status and account details
+### Step 6: Create Mock Authentication Context
 
-**Implementation with Para SDK Hooks**:
+**File**: `src/contexts/auth-context.tsx`
+
 ```typescript
 'use client'
 
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+
+type AuthContextType = {
+  isAppAuthenticated: boolean
+  login: () => void
+  logout: () => void
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export function useAppAuth() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error('useAppAuth must be used within an AuthProvider')
+  }
+  return context
+}
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [isAppAuthenticated, setIsAppAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const savedAuthState = localStorage.getItem('frutero-app-auth')
+    if (savedAuthState === 'true') {
+      setIsAppAuthenticated(true)
+    }
+  }, [])
+
+  const login = () => {
+    setIsAppAuthenticated(true)
+    localStorage.setItem('frutero-app-auth', 'true')
+  }
+
+  const logout = () => {
+    setIsAppAuthenticated(false)
+    localStorage.removeItem('frutero-app-auth')
+  }
+
+  return (
+    <AuthContext.Provider value={{ isAppAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+```
+
+### Step 7: Create Auth Button Component
+
+**File**: `src/components/buttons/auth-button-para.tsx`
+
+Key Para SDK hooks:
+- `useModal()` - Control Para's wallet modal
+- `useWallet()` - Access wallet information  
+- `useAccount()` - Check connection status
+- `useLogout()` - App logout functionality
+
+```typescript
+'use client'
+
+import { type Dispatch, type SetStateAction } from 'react'
 import { 
-  useModal,           // Modal control hook
-  useSignUpOrLogIn,   // Auth flow hook
-  useWallet,          // Wallet info hook
-  useAccount          // Account connection hook
-} from '@getpara/react-sdk@alpha'
+  useModal,
+  useWallet,
+  useAccount,
+  useCreateGuestWalletsState
+} from '@getpara/react-sdk'
+import { useAppAuth } from '@/contexts/auth-context'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
-import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 type AuthButtonProps = {
@@ -154,175 +257,126 @@ export default function AuthButtonPara({
   size = 'default',
   setIsMenuOpen,
 }: AuthButtonProps) {
-  const router = useRouter()
+  // App-level auth state
+  const { isAppAuthenticated, login: appLogin, logout: appLogout } = useAppAuth()
   
   // Para SDK Hooks
-  const { isOpen, openModal, closeModal } = useModal()  // Modal management
-  const { signUpOrLogInAsync, isPending } = useSignUpOrLogIn()  // Auth flow
-  const { data: wallet, isLoading: walletLoading } = useWallet()  // Wallet info
-  const { isConnected, connectionType, embedded } = useAccount()  // Connection status
+  const { openModal } = useModal()
+  const { data: wallet, isLoading: walletLoading } = useWallet()
+  const { isConnected, connectionType, embedded } = useAccount()
+  const { isPending: isCreatingGuestWallets, error: guestWalletError } = useCreateGuestWalletsState()
 
-  // Handle Guest Mode authentication
-  async function handleGuestLogin() {
-    try {
-      // Use signUpOrLogInAsync with guest mode
-      const result = await signUpOrLogInAsync({
-        isGuestMode: true  // Enable guest mode
-      })
-      
-      if (result) {
-        console.log('Guest wallet created')
-        toast.success('Billetera de invitado creada')
-        setIsMenuOpen?.(false)
-      }
-    } catch (error) {
-      console.error('Failed to create guest wallet:', error)
-      toast.error('Error al crear billetera')
+  // Handle opening Para modal and app login
+  function handleAuth() {
+    if (!isAppAuthenticated) {
+      // App login using existing Para wallet
+      appLogin()
+      setIsMenuOpen?.(false)
+      toast.success('¡Bienvenido de vuelta!')
+    } else {
+      // Open Para modal for wallet management
+      openModal()
+      setIsMenuOpen?.(false)
     }
   }
 
-  // Handle modal-based authentication
-  function handleModalAuth() {
-    openModal()  // Opens Para's built-in modal
-  }
-
-  // Handle logout
-  async function handleLogout() {
-    // Para SDK handles logout through modal
-    openModal()  // User can disconnect from modal
+  // Handle app logout (keeps Para wallet connected)
+  function handleLogout() {
+    appLogout()
     setIsMenuOpen?.(false)
+    toast.success('Sesión cerrada correctamente')
   }
 
-  // Display wallet info when connected
-  if (isConnected && wallet) {
+  // Show guest wallet creation error if any
+  if (guestWalletError) {
+    console.error('Error creating guest wallets:', guestWalletError)
+    toast.error('Error al crear billetera de invitado')
+  }
+
+  // Display wallet info when app-authenticated and Para connected
+  if (isAppAuthenticated && isConnected && wallet) {
     const isGuest = connectionType === 'embedded' && !embedded?.email
     
     return (
       <div className="flex items-center gap-2">
         <span className="text-sm">
-          {/* Use Para's display address method */}
           {wallet.id ? `${wallet.id.slice(0, 6)}...${wallet.id.slice(-4)}` : ''}
-          {isGuest && <span className="ml-1 text-xs">(Invitado)</span>}
+          {isGuest && <span className="ml-1 text-xs text-muted-foreground">(Invitado)</span>}
         </span>
         <Button
-          onClick={handleModalAuth}  // Open modal for wallet management
-          size={size}
+          onClick={handleAuth}
+          size="sm"
           variant="outline"
-          className={cn('font-funnel font-medium', className)}
+          className="font-funnel font-medium"
         >
           Gestionar
+        </Button>
+        <Button
+          onClick={handleLogout}
+          size="sm"
+          variant="ghost"
+          className="font-funnel font-medium text-muted-foreground hover:text-foreground"
+        >
+          Salir
         </Button>
       </div>
     )
   }
 
   // Loading state
-  if (walletLoading || isPending) {
+  if (walletLoading || isCreatingGuestWallets) {
     return (
       <Button disabled size={size} className={className}>
-        Cargando...
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+        {isCreatingGuestWallets ? 'Creando billetera...' : 'Cargando...'}
       </Button>
     )
   }
 
-  // Not connected - show login options
+  // Show appropriate button based on Para connection and app auth state
+  if (!isConnected || !wallet) {
+    // Para not connected - create/connect wallet first
+    return (
+      <Button
+        onClick={() => {
+          openModal()
+          setIsMenuOpen?.(false)
+        }}
+        size={size}
+        className={cn('font-funnel font-medium', className)}
+      >
+        {children || 'Únete'}
+      </Button>
+    )
+  }
+
+  // Para connected but not app-authenticated - show login button
   return (
-    <div className="flex gap-2">
-      <Button
-        onClick={handleGuestLogin}
-        size={size}
-        className={cn('font-funnel font-medium', className)}
-        disabled={isPending}
-      >
-        {children || 'Entrar como Invitado'}
-      </Button>
-      <Button
-        onClick={handleModalAuth}
-        size={size}
-        variant="outline"
-        className={cn('font-funnel font-medium', className)}
-      >
-        Conectar Billetera
-      </Button>
-    </div>
+    <Button
+      onClick={handleAuth}
+      size={size}
+      className={cn('font-funnel font-medium', className)}
+    >
+      {children || 'Entrar'}
+    </Button>
   )
 }
 ```
 
-**Key Para SDK Hooks Integration**:
+### Step 8: Update App Layout
 
-#### 1. useModal Hook
+**File**: `src/app/layout.tsx`
+
 ```typescript
-const { isOpen, openModal, closeModal } = useModal()
-```
-**Purpose**: Controls Para's built-in wallet management modal
-- `openModal()` - Opens Para's wallet management modal
-- `isOpen` - Boolean to check if modal is open
-- `closeModal()` - Programmatically close the modal
-
-#### 2. useSignUpOrLogIn Hook
-```typescript
-const { signUpOrLogInAsync, isPending } = useSignUpOrLogIn()
-```
-**Purpose**: Handles authentication flow including guest mode
-- `signUpOrLogInAsync({ isGuestMode: true })` - Create guest wallet
-- `isPending` - Loading state during authentication
-
-#### 3. useWallet Hook
-```typescript
-const { data: wallet, isLoading } = useWallet()
-```
-**Purpose**: Provides current wallet information
-- `wallet.id` - Wallet identifier
-- `wallet.type` - Wallet type (embedded/external)
-- `isLoading` - Wallet loading state
-
-#### 4. useAccount Hook
-```typescript
-const { isConnected, connectionType, embedded } = useAccount()
-```
-**Purpose**: Manages connection status and account details
-- `isConnected` - Boolean connection status
-- `connectionType` - 'embedded', 'external', 'both', or 'none'
-- `embedded.email` - User email if not guest
-
-### Step 5: Update App Layout
-
-**File**: `/src/app/layout.tsx`
-
-**Reference**: See example at `/docs/integrations/para-wallet-auth-integration/example-code/app/layout.tsx`
-
-**Key Changes**:
-```typescript
-import type { Metadata } from 'next'
-import { cn } from '@/lib/utils'
-import '@/styles/globals.css'
-
-import OnchainProvider from '@/providers/onchain-provider'  // Add this import
-import { Toaster } from '@/components/ui/sonner'
-import { fonts } from '@/lib/fonts'
-
-export const metadata: Metadata = {
-  title: 'Frutero Club',
-  description: 'Donde el talento se transforma en impacto',
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
-}
+import OnchainProvider from '@/providers/onchain-provider'
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fonts.funnelDisplay.variable,
-          fonts.ledger.variable,
-          fonts.raleway.variable,
-          fonts.spaceGrotesk.variable,
-        )}
-      >
-        <OnchainProvider>{children}</OnchainProvider>  {/* Wrap with provider */}
+      <body>
+        <OnchainProvider>{children}</OnchainProvider>
         <Toaster richColors />
       </body>
     </html>
@@ -330,252 +384,31 @@ export default function RootLayout({
 }
 ```
 
-### Step 6: Test Implementation
+## Key Implementation Notes
 
-**Testing Checklist**:
+### Essential Requirements
+1. **CSS Import**: `import "@getpara/react-sdk/styles.css"` in OnchainProvider
+2. **Theme Configuration**: Prevents transparent modal background
+3. **Additional Dependencies**: Farcaster packages required by Para SDK
+4. **Post-install Script**: `npx setup-para` for proper SDK setup
 
-#### Guest Wallet Generation
-1. Click "Entrar como Invitado"
-2. Verify wallet is created using `useAccount().isConnected`
-3. Check `useWallet()` returns wallet data
-4. Confirm guest status in UI
+### Mock Authentication Flow
+- **First Visit**: "Únete" → Para modal → Guest wallet → "Entrar" → Authenticated
+- **Return Visits**: "Entrar" → Instant app login (Para wallet persists)
+- **Logout**: "Salir" → App logout only (Para wallet preserved)
 
-#### Modal Integration
-1. Click "Conectar Billetera" to open Para modal
-2. Test wallet management features
-3. Verify `useModal().isOpen` state
-4. Test modal close functionality
+### Benefits
+- **Fast re-authentication**: No Para SDK calls on return visits
+- **Preserved wallet data**: Pregenerated wallets maintained
+- **Clear UX**: Users understand app vs wallet state
+- **True logout feeling**: Clean state reset with preserved technical benefits
 
-#### Connection Status
-1. Use `useAccount()` to verify connection
-2. Check `connectionType` for 'embedded' (guest)
-3. Verify wallet persistence on refresh
-4. Test logout through modal
+## Testing
+1. Click "Únete" → Para modal opens
+2. Select "Continue as Guest" → Guest wallet created
+3. Button shows "Entrar" → Click to log into app
+4. See authenticated state with "Gestionar" and "Salir" buttons
+5. Click "Salir" → Returns to "Entrar" state
+6. Refresh page → Still shows "Entrar" (wallet data persisted)
 
-#### Monad Testnet Integration
-1. Verify chain ID is 10143
-2. Get test MON from faucet: https://faucet.monad.xyz
-3. Test transactions on Monad testnet
-4. Check balance updates
-
-## Para SDK Hooks Reference
-
-### Essential Hooks for Integration
-
-| Hook | Purpose | Key Methods | Documentation |
-|------|---------|-------------|---------------|
-| `useModal` | Control Para's built-in modal | `openModal()`, `closeModal()`, `isOpen` | [Docs](https://docs.getpara.com/v2/react/guides/hooks/use-modal) |
-| `useSignUpOrLogIn` | Handle authentication flow | `signUpOrLogInAsync()`, `isPending` | [Docs](https://docs.getpara.com/v2/react/guides/hooks/use-sign-up-or-login) |
-| `useWallet` | Access current wallet info | `data: wallet`, `isLoading` | [Docs](https://docs.getpara.com/v2/react/guides/hooks/use-wallet) |
-| `useAccount` | Check connection status | `isConnected`, `connectionType`, `embedded` | [Docs](https://docs.getpara.com/v2/react/guides/hooks/use-account) |
-
-### Additional Useful Hooks
-- `useCreateWallet` - Programmatically create wallets
-- `useClient` - Access Para client instance
-- `useTransaction` - Handle blockchain transactions
-- `useBalance` - Get wallet balances
-
-### Hook Usage Examples
-
-#### Modal Control
-```typescript
-function ModalExample() {
-  const { isOpen, openModal, closeModal } = useModal()
-  
-  return (
-    <div>
-      <button onClick={openModal}>
-        {isConnected ? "Manage Wallet" : "Connect Wallet"}
-      </button>
-      {isOpen && <p>Modal is open</p>}
-    </div>
-  )
-}
-```
-
-#### Authentication Flow
-```typescript
-function AuthExample() {
-  const { signUpOrLogInAsync, isPending } = useSignUpOrLogIn()
-  
-  const handleAuth = async () => {
-    const result = await signUpOrLogInAsync({
-      isGuestMode: true  // Create guest wallet
-    })
-  }
-  
-  return (
-    <button onClick={handleAuth} disabled={isPending}>
-      {isPending ? "Creating..." : "Enter as Guest"}
-    </button>
-  )
-}
-```
-
-#### Wallet Information
-```typescript
-function WalletInfo() {
-  const { data: wallet, isLoading } = useWallet()
-  const { isConnected, connectionType } = useAccount()
-  
-  if (isLoading) return <div>Loading wallet...</div>
-  if (!isConnected) return <div>Not connected</div>
-  
-  return (
-    <div>
-      <p>Wallet ID: {wallet?.id}</p>
-      <p>Connection Type: {connectionType}</p>
-    </div>
-  )
-}
-```
-
-## Monad Testnet Configuration
-
-### Chain Details
-```typescript
-const monadTestnet = {
-  id: 10143,
-  name: 'Monad Testnet',
-  network: 'monad-testnet',
-  nativeCurrency: {
-    name: 'Monad',
-    symbol: 'MON',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: 'https://testnet-rpc.monad.xyz',
-    public: 'https://testnet-rpc.monad.xyz',
-  },
-  blockExplorers: {
-    default: {
-      name: 'Monad Explorer',
-      url: 'https://testnet.monadexplorer.com',
-    },
-  },
-  testnet: true,
-}
-```
-
-### Getting Test Tokens
-1. Visit the Monad faucet: https://faucet.monad.xyz
-2. Connect your guest wallet
-3. Request MON test tokens
-4. Verify receipt on explorer: https://testnet.monadexplorer.com
-
-## Guest Mode Benefits
-
-### User Experience
-- **Zero Friction**: No sign-up, email, or social login required
-- **Instant Access**: Wallet generated in <1 second
-- **Persistent Sessions**: Wallet survives page refreshes
-- **Upgrade Path**: Convert to full account when ready
-
-### Technical Advantages
-- **Session Management**: Automatic wallet persistence
-- **Security**: MPC-based key management
-- **Cross-Platform**: Works across devices with session transfer
-- **Upgradeability**: Seamless conversion to full accounts
-
-## Developer Resources
-
-### Para Documentation
-- **Main Docs**: https://docs.getpara.com
-- **React SDK**: https://docs.getpara.com/v2/react/quickstart
-- **Guest Mode**: https://docs.getpara.com/v2/react/guides/customization/guest-mode
-
-### Hook Documentation
-- **Modal Hook**: https://docs.getpara.com/v2/react/guides/hooks/use-modal
-- **Auth Hook**: https://docs.getpara.com/v2/react/guides/hooks/use-sign-up-or-login
-- **Wallet Hook**: https://docs.getpara.com/v2/react/guides/hooks/use-wallet
-- **Account Hook**: https://docs.getpara.com/v2/react/guides/hooks/use-account
-
-### Monad Resources
-- **Network Info**: https://docs.monad.xyz/developer-essentials/network-information
-- **Faucet**: https://faucet.monad.xyz
-- **Explorer**: https://testnet.monadexplorer.com
-
-## Troubleshooting
-
-### Common Issues
-
-#### Hook-Related Issues
-1. **Hooks Not Working**: 
-   - Ensure you're using `@getpara/react-sdk@alpha`
-   - Check ParaProvider is at the root of your app
-   
-2. **Modal Not Opening**: 
-   - Verify `useModal()` is called within ParaProvider
-   - Check API key is properly configured
-
-3. **Guest Wallet Not Created**: 
-   - Confirm `isGuestMode: true` in `signUpOrLogInAsync()`
-   - Check browser console for errors
-
-#### Connection Issues
-1. **Connection Status Wrong**: 
-   - Use `useAccount().isConnected` instead of custom state
-   - Verify ParaProvider configuration
-
-2. **Wallet Data Missing**: 
-   - Check `useWallet().data` for wallet information
-   - Ensure wallet is fully loaded before accessing properties
-
-3. **Chain Connection Failed**: 
-   - Verify Monad RPC URL is accessible
-   - Check network configuration in wagmi config
-
-#### Environment Issues
-1. **API Key Issues**: 
-   - Ensure key has `NEXT_PUBLIC_` prefix
-   - Verify key is from Para dashboard
-
-2. **TypeScript Errors**: 
-   - Install `@types/node` for environment variables
-   - Add proper type imports for Para SDK
-
-### Debug Tools
-```typescript
-// Add debug logging to track hook states
-function DebugInfo() {
-  const account = useAccount()
-  const wallet = useWallet()
-  const modal = useModal()
-  
-  return (
-    <div className="p-4 bg-gray-100 text-xs">
-      <p>Connected: {account.isConnected ? 'Yes' : 'No'}</p>
-      <p>Connection Type: {account.connectionType}</p>
-      <p>Wallet Loading: {wallet.isLoading ? 'Yes' : 'No'}</p>
-      <p>Modal Open: {modal.isOpen ? 'Yes' : 'No'}</p>
-    </div>
-  )
-}
-```
-
-## Next Steps
-
-After completing this integration:
-
-1. **Test $PULPA Token Integration**
-   - Deploy test token on Monad testnet
-   - Test token transfers with guest wallets
-   - Implement token balance display
-
-2. **Add Advanced Features**
-   - Multi-chain support
-   - NFT integration
-   - DeFi protocol interactions
-
-3. **Production Deployment**
-   - Switch to production Para environment
-   - Implement proper error handling
-   - Add analytics and monitoring
-
-This implementation provides a robust foundation for Web3 integration using Para's Guest Mode, enabling immediate user onboarding while maintaining the option to upgrade to full accounts when users are ready to engage more deeply with the platform.
-
----
-
-*Last Updated: December 2024*  
-*Version: 1.0.0*  
-*Status: Ready for Implementation*
+This implementation provides the optimal balance between user experience and technical functionality for Para wallet integration.
