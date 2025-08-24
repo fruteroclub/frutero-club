@@ -237,3 +237,23 @@ Consider these factors when building:
 - **Web3/Blockchain**: Base L2, Farcaster, smart contracts  
 - **Development**: Modern full-stack, mobile-first approach
 - **Community Tools**: Discord, Telegram, build-in-public platforms
+
+## Git Commit Guidelines
+
+### Commit Message Rules
+- **Max 50 characters** 
+- **Descriptive yet concise**
+- **No co-authoring/signing/attributions**
+- **Lowercase preferred** 
+- **No periods at end**
+- **Simple imperative form** (add, implement, fix, create)
+- **Type already in branch name** (feat/) - don't repeat
+- **Focus on changes, not type**
+
+### Examples
+```
+add r2 storage to real-time transcript webhook
+implement cloudflare r2 storage for mentorship logs
+fix build errors
+create para integration docs
+```
