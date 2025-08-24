@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { OmiWebhookPayload, ProcessedWordFrequency } from '@/lib/omi/types';
+import { R2UserManager } from '@/lib/omi/r2-user-manager';
+import { UserManager } from '@/lib/omi/user-manager';
 
 // Helper function to process word frequency
 function processWordFrequency(text: string): ProcessedWordFrequency[] {
@@ -96,12 +98,22 @@ async function saveLog(headers: Record<string, string>, body: Record<string, unk
 }
 
 export async function POST(request: NextRequest) {
-  console.log('=== OMI WEBHOOK RECEIVED ===');
+  const startTime = Date.now();
+
+  console.log('=== OMI REAL-TIME TRANSCRIPT WEBHOOK RECEIVED ===');
   console.log('Timestamp:', new Date().toISOString());
   console.log('Method:', request.method);
   console.log('URL:', request.url);
 
   try {
+    // Extract user ID from query parameter
+    const searchParams = request.nextUrl.searchParams;
+    const uid = searchParams.get('uid');
+    const sanitizedUid = UserManager.sanitizeUserId(uid);
+
+    console.log('Raw UID:', uid);
+    console.log('Sanitized UID:', sanitizedUid);
+
     // Parse request body
     const body = await request.json() as Partial<OmiWebhookPayload>;
     
@@ -114,10 +126,6 @@ export async function POST(request: NextRequest) {
     // Log to console
     console.log('Headers:', JSON.stringify(headers, null, 2));
     console.log('Body:', JSON.stringify(body, null, 2));
-
-    // Save to log file
-    const logFile = await saveLog(headers, body);
-    console.log('Log saved to:', logFile);
 
     // Extract text from various possible fields
     const text = body.transcript?.raw_text || 
@@ -132,33 +140,93 @@ export async function POST(request: NextRequest) {
       console.log(`Processed ${wordFrequency.length} unique words`);
     }
 
+    // Create transcript data object
+    const transcriptData = {
+      ...body,
+      uid: sanitizedUid,
+      headers,
+      text,
+      text_length: text.length,
+      word_frequency: wordFrequency,
+      unique_words: wordFrequency.length,
+      top_words: wordFrequency.slice(0, 10),
+      type: 'real-time-transcript',
+      processed_at: new Date().toISOString(),
+      processing_time_ms: Date.now() - startTime
+    };
+
+    // Save to R2 storage (with fallback to file system if R2 fails)
+    console.log('Saving transcript to R2 storage...');
+    let storage: { r2Key: string; allKey: string; publicUrl?: string } | { userPath: string; allPath: string };
+    let storageType = 'r2';
+    let logFile: string | null = null;
+
+    try {
+      if (sanitizedUid) {
+        const r2UserManager = new R2UserManager();
+        
+        // Test R2 connection first
+        const r2Available = await r2UserManager.testConnection();
+        
+        if (r2Available) {
+          const memoryId = body.memory_id || `transcript-${Date.now()}`;
+          storage = await r2UserManager.saveMemory(
+            sanitizedUid,
+            memoryId,
+            transcriptData
+          );
+          console.log('Successfully saved transcript to R2:', storage);
+        } else {
+          throw new Error('R2 connection test failed');
+        }
+      } else {
+        throw new Error('No valid user ID provided');
+      }
+    } catch (r2Error) {
+      console.warn('R2 storage failed, falling back to file system:', r2Error);
+      storageType = 'filesystem';
+      
+      // Fallback to file system
+      logFile = await saveLog(headers, transcriptData);
+      storage = { userPath: logFile || 'unknown', allPath: logFile || 'unknown' };
+    }
+
     // Prepare response
     const response = {
       success: true,
-      message: 'Webhook received and processed',
+      message: 'Real-time transcript webhook received and processed',
       received_at: new Date().toISOString(),
       memory_id: body.memory_id || 'unknown',
+      user_id: sanitizedUid,
       text_length: text.length,
       unique_words: wordFrequency.length,
       top_words: wordFrequency.slice(0, 10),
-      log_file: logFile
+      storage: {
+        type: storageType,
+        ...(storageType === 'r2' && 'r2Key' in storage 
+          ? { r2Key: storage.r2Key, publicUrl: storage.publicUrl } 
+          : { file: logFile }
+        )
+      },
+      processing_time_ms: Date.now() - startTime
     };
 
     console.log('Sending response:', JSON.stringify(response, null, 2));
-    console.log('=== WEBHOOK PROCESSING COMPLETE ===\n');
+    console.log('=== REAL-TIME TRANSCRIPT WEBHOOK PROCESSING COMPLETE ===\n');
 
     return NextResponse.json(response, { status: 200 });
 
   } catch (error) {
-    console.error('=== WEBHOOK ERROR ===');
+    console.error('=== REAL-TIME TRANSCRIPT WEBHOOK ERROR ===');
     console.error('Error processing webhook:', error);
     console.error('Stack:', error instanceof Error ? error.stack : 'No stack trace');
     
     return NextResponse.json(
       { 
         success: false,
-        error: 'Failed to process webhook',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        error: 'Failed to process real-time transcript webhook',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        processing_time_ms: Date.now() - startTime
       },
       { status: 500 }
     );
@@ -166,14 +234,59 @@ export async function POST(request: NextRequest) {
 }
 
 // Handle other methods
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const uid = searchParams.get('uid');
+
+  if (uid) {
+    // Return user-specific info (try R2 first, fallback to file system)
+    const sanitizedUid = UserManager.sanitizeUserId(uid);
+    let stats;
+    let storageType = 'filesystem';
+    
+    try {
+      const r2UserManager = new R2UserManager();
+      const r2Available = await r2UserManager.testConnection();
+      
+      if (r2Available) {
+        stats = await r2UserManager.getUserStats(sanitizedUid);
+        storageType = 'r2';
+      } else {
+        stats = { total_memories: 0, note: 'R2 unavailable, filesystem logs not counted' };
+      }
+    } catch (error) {
+      console.warn('Error getting stats:', error);
+      stats = { total_memories: 0, error: 'Unable to retrieve stats' };
+    }
+    
+    return NextResponse.json({
+      success: true,
+      message: 'Omi real-time transcript webhook endpoint is active',
+      endpoint: '/api/omi/webhook',
+      user_id: sanitizedUid,
+      storage_type: storageType,
+      user_stats: stats,
+      timestamp: new Date().toISOString(),
+      usage: 'POST with JSON body containing real-time transcript data'
+    });
+  }
+
   return NextResponse.json(
     { 
       success: true,
-      message: 'Omi webhook endpoint is active',
-      timestamp: new Date().toISOString(),
+      message: 'Omi real-time transcript webhook endpoint is active',
       endpoint: '/api/omi/webhook',
-      method: 'POST'
+      timestamp: new Date().toISOString(),
+      method: 'POST',
+      usage: 'POST /api/omi/webhook?uid=YOUR_USER_ID',
+      description: 'Processes real-time transcript data with R2 storage and filesystem fallback',
+      features: [
+        'Real-time transcript processing',
+        'Word frequency analysis',
+        'R2 cloud storage with fallback',
+        'User-organized storage',
+        'Circuit breaker protection'
+      ]
     },
     { status: 200 }
   );
